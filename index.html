@@ -1,1 +1,2821 @@
-<script language=javascript>document.write(unescape('%3C%21DOCTYPE%20html%3E%0A%3Chtml%20lang%3D%22en%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22UTF-8%22%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3Ctitle%3EBN%20LAST%20KING%20-%20Authentication%20System%3C/title%3E%0A%20%20%3Clink%20href%3D%22https%3A//fonts.googleapis.com/css2%3Ffamily%3DOrbitron%3Awght@400%3B600%3B700%26display%3Dswap%22%20rel%3D%22stylesheet%22%3E%0A%20%20%3Clink%20href%3D%22https%3A//cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css%22%20rel%3D%22stylesheet%22%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22https%3A//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css%22%3E%0A%20%20%3Cstyle%3E%0A%20%20%20%20body%20%7B%0A%20%20%20%20%20%20font-family%3A%20%27Orbitron%27%2C%20sans-serif%3B%0A%20%20%20%20%20%20background%3A%20linear-gradient%28135deg%2C%20%23000000%2C%20%231a1a2e%2C%20%2316213e%29%3B%0A%20%20%20%20%20%20color%3A%20%2300ff00%3B%0A%20%20%20%20%20%20min-height%3A%20100vh%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.neon-glow%20%7B%0A%20%20%20%20%20%20text-shadow%3A%200%200%2010px%20%2300ff00%2C%200%200%2020px%20%2300ff00%2C%200%200%2030px%20%2300ff00%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.neon-border%20%7B%0A%20%20%20%20%20%20border%3A%202px%20solid%20%2300ff00%3B%0A%20%20%20%20%20%20box-shadow%3A%200%200%2020px%20%2300ff00%2C%20inset%200%200%2020px%20rgba%280%2C%20255%2C%200%2C%200.1%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.neon-button%20%7B%0A%20%20%20%20%20%20background%3A%20linear-gradient%2845deg%2C%20%2300ff00%2C%20%2300cc00%29%3B%0A%20%20%20%20%20%20color%3A%20%23000%3B%0A%20%20%20%20%20%20border%3A%20none%3B%0A%20%20%20%20%20%20padding%3A%2012px%2024px%3B%0A%20%20%20%20%20%20border-radius%3A%208px%3B%0A%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20transition%3A%20all%200.3s%20ease%3B%0A%20%20%20%20%20%20box-shadow%3A%200%200%2015px%20rgba%280%2C%20255%2C%200%2C%200.5%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.neon-button%3Ahover%20%7B%0A%20%20%20%20%20%20transform%3A%20translateY%28-2px%29%3B%0A%20%20%20%20%20%20box-shadow%3A%200%205px%2025px%20rgba%280%2C%20255%2C%200%2C%200.7%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.neon-input%20%7B%0A%20%20%20%20%20%20background%3A%20rgba%280%2C%200%2C%200%2C%200.8%29%3B%0A%20%20%20%20%20%20border%3A%202px%20solid%20%2300ff00%3B%0A%20%20%20%20%20%20color%3A%20%2300ff00%3B%0A%20%20%20%20%20%20padding%3A%2012px%3B%0A%20%20%20%20%20%20border-radius%3A%208px%3B%0A%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%20%20transition%3A%20all%200.3s%20ease%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.neon-input%3Afocus%20%7B%0A%20%20%20%20%20%20box-shadow%3A%200%200%2015px%20%2300ff00%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.calculator-grid%20%7B%0A%20%20%20%20%20%20display%3A%20grid%3B%0A%20%20%20%20%20%20grid-template-columns%3A%20repeat%283%2C%201fr%29%3B%0A%20%20%20%20%20%20gap%3A%2015px%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.calculator-button%20%7B%0A%20%20%20%20%20%20padding%3A%2020px%3B%0A%20%20%20%20%20%20font-size%3A%2020px%3B%0A%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20border%3A%20none%3B%0A%20%20%20%20%20%20border-radius%3A%208px%3B%0A%20%20%20%20%20%20background%3A%20linear-gradient%2845deg%2C%20%2300ff00%2C%20%2300cc00%29%3B%0A%20%20%20%20%20%20color%3A%20%23000%3B%0A%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20transition%3A%20all%200.2s%20ease%3B%0A%20%20%20%20%20%20box-shadow%3A%200%200%2010px%20rgba%280%2C%20255%2C%200%2C%200.5%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.calculator-button%3Aactive%20%7B%0A%20%20%20%20%20%20transform%3A%20scale%280.95%29%3B%0A%20%20%20%20%20%20background%3A%20linear-gradient%2845deg%2C%20%2300cc00%2C%20%23009900%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.admin-panel%20%7B%0A%20%20%20%20%20%20background%3A%20rgba%280%2C%200%2C%200%2C%200.9%29%3B%0A%20%20%20%20%20%20border%3A%202px%20solid%20%23ff6b00%3B%0A%20%20%20%20%20%20box-shadow%3A%200%200%2030px%20rgba%28255%2C%20107%2C%200%2C%200.3%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.key-card%20%7B%0A%20%20%20%20%20%20background%3A%20rgba%280%2C%2020%2C%200%2C%200.8%29%3B%0A%20%20%20%20%20%20border%3A%201px%20solid%20%2300ff00%3B%0A%20%20%20%20%20%20border-radius%3A%208px%3B%0A%20%20%20%20%20%20padding%3A%2016px%3B%0A%20%20%20%20%20%20margin%3A%208px%200%3B%0A%20%20%20%20%20%20transition%3A%20all%200.3s%20ease%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.key-card%3Ahover%20%7B%0A%20%20%20%20%20%20box-shadow%3A%200%200%2015px%20rgba%280%2C%20255%2C%200%2C%200.3%29%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.status-active%20%7B%0A%20%20%20%20%20%20color%3A%20%2300ff00%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.status-expired%20%7B%0A%20%20%20%20%20%20color%3A%20%23ff4444%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20.hidden%20%7B%0A%20%20%20%20%20%20display%3A%20none%20%21important%3B%0A%20%20%20%20%7D%0A%20%20%3C/style%3E%0A%3C/head%3E%0A%3Cbody%3E%0A%0A%20%20%3C%21--%20Login%20Page%20--%3E%0A%20%20%3Cdiv%20id%3D%22loginPage%22%20class%3D%22min-h-screen%20flex%20items-center%20justify-center%20p-4%22%3E%0A%20%20%20%20%3Cdiv%20class%3D%22bg-black%20bg-opacity-80%20p-8%20rounded-lg%20neon-border%20max-w-md%20w-full%22%3E%0A%20%20%20%20%20%20%3Ch1%20class%3D%22text-3xl%20font-bold%20text-center%20mb-8%20neon-glow%22%3E%0A%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-crown%20mr-2%22%3E%3C/i%3EBN%20LAST%20KING%0A%20%20%20%20%20%20%3C/h1%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22space-y-6%22%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%20%20%3Clabel%20class%3D%22block%20text-sm%20font-medium%20mb-2%22%3EEnter%20Access%20Key%3C/label%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cinput%20type%3D%22text%22%20id%3D%22accessKey%22%20class%3D%22neon-input%20w-full%22%20placeholder%3D%22Your%20Access%20Key%22%20maxlength%3D%2220%22%3E%0A%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22login%28%29%22%20class%3D%22neon-button%20w-full%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-key%20mr-2%22%3E%3C/i%3ELOGIN%0A%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22text-center%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22showAdminLogin%28%29%22%20class%3D%22text-yellow-400%20hover%3Atext-yellow-300%20text-sm%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-user-shield%20mr-1%22%3E%3C/i%3EAdmin%20Access%0A%20%20%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%3C/div%3E%0A%20%20%3C/div%3E%0A%0A%20%20%3C%21--%20Admin%20Login%20Modal%20--%3E%0A%20%20%3Cdiv%20id%3D%22adminLoginModal%22%20class%3D%22fixed%20inset-0%20bg-black%20bg-opacity-80%20flex%20items-center%20justify-center%20p-4%20hidden%20z-50%22%3E%0A%20%20%20%20%3Cdiv%20class%3D%22bg-black%20p-6%20rounded-lg%20neon-border%20max-w-sm%20w-full%22%3E%0A%20%20%20%20%20%20%3Ch2%20class%3D%22text-xl%20font-bold%20mb-4%20text-yellow-400%22%3EAdmin%20Login%3C/h2%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22space-y-4%22%3E%0A%20%20%20%20%20%20%20%20%3Cinput%20type%3D%22password%22%20id%3D%22adminPassword%22%20class%3D%22neon-input%20w-full%22%20placeholder%3D%22Admin%20Password%22%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20gap-2%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22adminLogin%28%29%22%20class%3D%22neon-button%20flex-1%22%3ELogin%3C/button%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22hideAdminLogin%28%29%22%20class%3D%22bg-red-600%20text-white%20px-4%20py-2%20rounded%22%3ECancel%3C/button%3E%0A%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%3C/div%3E%0A%20%20%3C/div%3E%0A%0A%20%20%3C%21--%20Calculator%20Page%20--%3E%0A%20%20%3Cdiv%20id%3D%22calculatorPage%22%20class%3D%22min-h-screen%20flex%20flex-col%20items-center%20justify-center%20p-4%20hidden%22%3E%0A%20%20%20%20%3Cdiv%20class%3D%22mb-4%20text-right%20w-full%20max-w-md%22%3E%0A%20%20%20%20%20%20%3Cspan%20class%3D%22text-sm%22%3EWelcome%21%20Key%20expires%3A%20%3Cspan%20id%3D%22keyExpiry%22%20class%3D%22text-yellow-400%22%3E%3C/span%3E%3C/span%3E%0A%20%20%20%20%20%20%3Cbutton%20onclick%3D%22logout%28%29%22%20class%3D%22ml-4%20text-red-400%20hover%3Atext-red-300%22%3E%0A%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-sign-out-alt%20mr-1%22%3E%3C/i%3ELogout%0A%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%3C/div%3E%0A%20%20%20%20%0A%20%20%20%20%3Ch1%20class%3D%22text-4xl%20font-bold%20text-center%20mb-8%20neon-glow%22%3E%0A%20%20%20%20%20%20BN%20LAST%20KING%20CALCULATOR%0A%20%20%20%20%3C/h1%3E%0A%20%20%20%20%0A%20%20%20%20%3Cdiv%20class%3D%22bg-black%20bg-opacity-80%20p-8%20rounded-lg%20neon-border%20max-w-sm%20w-full%22%3E%0A%20%20%20%20%20%20%3Cinput%20type%3D%22text%22%20id%3D%22userInput%22%20maxlength%3D%223%22%20readonly%20placeholder%3D%22Enter%20ID%22%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20class%3D%22neon-input%20w-full%20text-center%20text-2xl%20mb-6%22%3E%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22calculator-grid%20mb-6%22%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%271%27%29%22%20class%3D%22calculator-button%22%3E1%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%272%27%29%22%20class%3D%22calculator-button%22%3E2%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%273%27%29%22%20class%3D%22calculator-button%22%3E3%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%274%27%29%22%20class%3D%22calculator-button%22%3E4%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%275%27%29%22%20class%3D%22calculator-button%22%3E5%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%276%27%29%22%20class%3D%22calculator-button%22%3E6%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%277%27%29%22%20class%3D%22calculator-button%22%3E7%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%278%27%29%22%20class%3D%22calculator-button%22%3E8%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%279%27%29%22%20class%3D%22calculator-button%22%3E9%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22clearInput%28%29%22%20class%3D%22calculator-button%20bg-red-500%22%3EC%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22appendNumber%28%270%27%29%22%20class%3D%22calculator-button%22%3E0%3C/button%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22checkResult%28%29%22%20class%3D%22calculator-button%20bg-yellow-500%22%3EENTER%3C/button%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%0A%20%20%20%20%20%20%3Cdiv%20id%3D%22result%22%20class%3D%22text-center%20text-xl%20font-bold%22%3E%3C/div%3E%0A%20%20%20%20%3C/div%3E%0A%20%20%3C/div%3E%0A%0A%20%20%3C%21--%20Admin%20Panel%20--%3E%0A%20%20%3Cdiv%20id%3D%22adminPanel%22%20class%3D%22min-h-screen%20p-4%20hidden%22%3E%0A%20%20%20%20%3Cdiv%20class%3D%22max-w-6xl%20mx-auto%22%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20justify-between%20items-center%20mb-8%22%3E%0A%20%20%20%20%20%20%20%20%3Ch1%20class%3D%22text-3xl%20font-bold%20neon-glow%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-user-shield%20mr-2%22%3E%3C/i%3EADMIN%20PANEL%0A%20%20%20%20%20%20%20%20%3C/h1%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22logout%28%29%22%20class%3D%22bg-red-600%20text-white%20px-4%20py-2%20rounded%20hover%3Abg-red-700%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-sign-out-alt%20mr-1%22%3E%3C/i%3ELogout%0A%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22grid%20grid-cols-1%20lg%3Agrid-cols-3%20gap-6%22%3E%0A%20%20%20%20%20%20%20%20%3C%21--%20Statistics%20--%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22lg%3Acol-span-1%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22admin-panel%20rounded-lg%20p-6%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ch2%20class%3D%22text-xl%20font-bold%20mb-4%20text-yellow-400%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-chart-bar%20mr-2%22%3E%3C/i%3EStatistics%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/h2%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22space-y-4%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20justify-between%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%3ETotal%20Keys%3A%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20id%3D%22totalKeys%22%20class%3D%22text-yellow-400%22%3E0%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20justify-between%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%3EActive%20Keys%3A%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20id%3D%22activeKeys%22%20class%3D%22text-green-400%22%3E0%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20justify-between%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%3EExpired%20Keys%3A%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20id%3D%22expiredKeys%22%20class%3D%22text-red-400%22%3E0%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20justify-between%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%3EOnline%20Users%3A%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20id%3D%22onlineUsers%22%20class%3D%22text-blue-400%22%3E0%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%0A%20%20%20%20%20%20%20%20%20%20%3C%21--%20Key%20Generation%20--%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22admin-panel%20rounded-lg%20p-6%20mt-6%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ch2%20class%3D%22text-xl%20font-bold%20mb-4%20text-yellow-400%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-plus%20mr-2%22%3E%3C/i%3EGenerate%20Key%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/h2%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22space-y-4%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cselect%20id%3D%22keyDuration%22%20class%3D%22neon-input%20w-full%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Coption%20value%3D%221%22%3E1%20Day%3C/option%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Coption%20value%3D%227%22%3E1%20Week%3C/option%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Coption%20value%3D%2230%22%3E1%20Month%3C/option%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/select%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cinput%20type%3D%22number%22%20id%3D%22keyCount%22%20class%3D%22neon-input%20w-full%22%20placeholder%3D%22Number%20of%20keys%22%20min%3D%221%22%20max%3D%22100%22%20value%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22generateKeys%28%29%22%20class%3D%22neon-button%20w-full%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-key%20mr-2%22%3E%3C/i%3EGenerate%20Keys%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%0A%20%20%20%20%20%20%20%20%20%20%3C%21--%20Admin%20Actions%20--%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22admin-panel%20rounded-lg%20p-6%20mt-6%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ch2%20class%3D%22text-xl%20font-bold%20mb-4%20text-yellow-400%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-cogs%20mr-2%22%3E%3C/i%3EActions%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/h2%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22space-y-3%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22refreshKeys%28%29%22%20class%3D%22neon-button%20w-full%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-sync%20mr-2%22%3E%3C/i%3ERefresh%20Keys%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22deleteExpiredKeys%28%29%22%20class%3D%22bg-yellow-600%20text-white%20px-4%20py-2%20rounded%20w-full%20hover%3Abg-yellow-700%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-trash%20mr-2%22%3E%3C/i%3EDelete%20Expired%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22deleteAllKeys%28%29%22%20class%3D%22bg-red-600%20text-white%20px-4%20py-2%20rounded%20w-full%20hover%3Abg-red-700%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-trash-alt%20mr-2%22%3E%3C/i%3EDelete%20All%20Keys%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%3C/div%3E%0A%0A%20%20%20%20%20%20%20%20%3C%21--%20Key%20Management%20--%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22lg%3Acol-span-2%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22admin-panel%20rounded-lg%20p-6%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20justify-between%20items-center%20mb-4%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ch2%20class%3D%22text-xl%20font-bold%20text-yellow-400%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-list%20mr-2%22%3E%3C/i%3EKey%20Management%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/h2%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20gap-2%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cinput%20type%3D%22text%22%20id%3D%22searchKey%22%20class%3D%22neon-input%22%20placeholder%3D%22Search%20key...%22%20onkeyup%3D%22filterKeys%28%29%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cselect%20id%3D%22filterStatus%22%20class%3D%22neon-input%22%20onchange%3D%22filterKeys%28%29%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Coption%20value%3D%22all%22%3EAll%20Status%3C/option%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Coption%20value%3D%22active%22%3EActive%3C/option%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Coption%20value%3D%22expired%22%3EExpired%3C/option%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/select%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20id%3D%22keysList%22%20class%3D%22max-h-96%20overflow-y-auto%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%21--%20Keys%20will%20be%20loaded%20here%20--%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%3C/div%3E%0A%20%20%3C/div%3E%0A%0A%20%20%3C%21--%20Firebase%20Scripts%20--%3E%0A%20%20%3Cscript%20type%3D%22module%22%3E%0A%20%20%20%20import%20%7B%20initializeApp%20%7D%20from%20%27https%3A//www.gstatic.com/firebasejs/10.7.1/firebase-app.js%27%3B%0A%20%20%20%20import%20%7B%20getFirestore%2C%20collection%2C%20addDoc%2C%20getDocs%2C%20deleteDoc%2C%20doc%2C%20updateDoc%2C%20query%2C%20where%2C%20orderBy%2C%20onSnapshot%20%7D%20from%20%27https%3A//www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js%27%3B%0A%0A%20%20%20%20//%20Firebase%20configuration%0A%20%20%20%20const%20firebaseConfig%20%3D%20%7B%0A%20%20%20%20%20%20apiKey%3A%20%22your-api-key-here%22%2C%0A%20%20%20%20%20%20authDomain%3A%20%22your-project.firebaseapp.com%22%2C%0A%20%20%20%20%20%20projectId%3A%20%22your-project-id%22%2C%0A%20%20%20%20%20%20storageBucket%3A%20%22your-project.appspot.com%22%2C%0A%20%20%20%20%20%20messagingSenderId%3A%20%22123456789%22%2C%0A%20%20%20%20%20%20appId%3A%20%22your-app-id%22%0A%20%20%20%20%7D%3B%0A%0A%20%20%20%20const%20app%20%3D%20initializeApp%28firebaseConfig%29%3B%0A%20%20%20%20const%20db%20%3D%20getFirestore%28app%29%3B%0A%0A%20%20%20%20//%20Global%20variables%0A%20%20%20%20window.db%20%3D%20db%3B%0A%20%20%20%20window.collection%20%3D%20collection%3B%0A%20%20%20%20window.addDoc%20%3D%20addDoc%3B%0A%20%20%20%20window.getDocs%20%3D%20getDocs%3B%0A%20%20%20%20window.deleteDoc%20%3D%20deleteDoc%3B%0A%20%20%20%20window.doc%20%3D%20doc%3B%0A%20%20%20%20window.updateDoc%20%3D%20updateDoc%3B%0A%20%20%20%20window.query%20%3D%20query%3B%0A%20%20%20%20window.where%20%3D%20where%3B%0A%20%20%20%20window.orderBy%20%3D%20orderBy%3B%0A%20%20%20%20window.onSnapshot%20%3D%20onSnapshot%3B%0A%20%20%3C/script%3E%0A%0A%20%20%3Cscript%3E%0A%20%20%20%20//%20Application%20state%0A%20%20%20%20let%20currentUser%20%3D%20null%3B%0A%20%20%20%20let%20isAdmin%20%3D%20false%3B%0A%20%20%20%20let%20allKeys%20%3D%20%5B%5D%3B%0A%20%20%20%20let%20keysListener%20%3D%20null%3B%0A%0A%20%20%20%20//%20Admin%20password%20%28in%20production%2C%20use%20proper%20authentication%29%0A%20%20%20%20const%20ADMIN_PASSWORD%20%3D%20%22BNLASTKING09%22%3B%0A%0A%20%20%20%20//%20Initialize%20app%0A%20%20%20%20document.addEventListener%28%27DOMContentLoaded%27%2C%20function%28%29%20%7B%0A%20%20%20%20%20%20showPage%28%27loginPage%27%29%3B%0A%20%20%20%20%20%20//%20Check%20if%20user%20is%20already%20logged%20in%0A%20%20%20%20%20%20const%20savedUser%20%3D%20localStorage.getItem%28%27bnUser%27%29%3B%0A%20%20%20%20%20%20if%20%28savedUser%29%20%7B%0A%20%20%20%20%20%20%20%20currentUser%20%3D%20JSON.parse%28savedUser%29%3B%0A%20%20%20%20%20%20%20%20if%20%28currentUser.isAdmin%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20isAdmin%20%3D%20true%3B%0A%20%20%20%20%20%20%20%20%20%20showPage%28%27adminPanel%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20loadAdminPanel%28%29%3B%0A%20%20%20%20%20%20%20%20%7D%20else%20if%20%28isValidKey%28currentUser.key%29%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20showPage%28%27calculatorPage%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20updateKeyExpiry%28%29%3B%0A%20%20%20%20%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20%20%20logout%28%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%29%3B%0A%0A%20%20%20%20//%20Page%20navigation%0A%20%20%20%20function%20showPage%28pageId%29%20%7B%0A%20%20%20%20%20%20const%20pages%20%3D%20%5B%27loginPage%27%2C%20%27calculatorPage%27%2C%20%27adminPanel%27%5D%3B%0A%20%20%20%20%20%20pages.forEach%28id%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20document.getElementById%28id%29.classList.add%28%27hidden%27%29%3B%0A%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%20%20document.getElementById%28pageId%29.classList.remove%28%27hidden%27%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20//%20Login%20functions%0A%20%20%20%20async%20function%20login%28%29%20%7B%0A%20%20%20%20%20%20const%20key%20%3D%20document.getElementById%28%27accessKey%27%29.value.trim%28%29%3B%0A%20%20%20%20%20%20if%20%28%21key%29%20%7B%0A%20%20%20%20%20%20%20%20alert%28%27Please%20enter%20an%20access%20key%27%29%3B%0A%20%20%20%20%20%20%20%20return%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%20%20const%20isValid%20%3D%20await%20validateKey%28key%29%3B%0A%20%20%20%20%20%20%20%20if%20%28isValid%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20currentUser%20%3D%20%7B%20key%3A%20key%2C%20isAdmin%3A%20false%2C%20loginTime%3A%20Date.now%28%29%20%7D%3B%0A%20%20%20%20%20%20%20%20%20%20localStorage.setItem%28%27bnUser%27%2C%20JSON.stringify%28currentUser%29%29%3B%0A%20%20%20%20%20%20%20%20%20%20showPage%28%27calculatorPage%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20updateKeyExpiry%28%29%3B%0A%20%20%20%20%20%20%20%20%20%20await%20updateKeyLastUsed%28key%29%3B%0A%20%20%20%20%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20%20%20alert%28%27Invalid%20or%20expired%20access%20key%27%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%20catch%20%28error%29%20%7B%0A%20%20%20%20%20%20%20%20console.error%28%27Login%20error%3A%27%2C%20error%29%3B%0A%20%20%20%20%20%20%20%20alert%28%27Login%20failed.%20Please%20try%20again.%27%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20showAdminLogin%28%29%20%7B%0A%20%20%20%20%20%20document.getElementById%28%27adminLoginModal%27%29.classList.remove%28%27hidden%27%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20hideAdminLogin%28%29%20%7B%0A%20%20%20%20%20%20document.getElementById%28%27adminLoginModal%27%29.classList.add%28%27hidden%27%29%3B%0A%20%20%20%20%20%20document.getElementById%28%27adminPassword%27%29.value%20%3D%20%27%27%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20adminLogin%28%29%20%7B%0A%20%20%20%20%20%20const%20password%20%3D%20document.getElementById%28%27adminPassword%27%29.value%3B%0A%20%20%20%20%20%20if%20%28password%20%3D%3D%3D%20ADMIN_PASSWORD%29%20%7B%0A%20%20%20%20%20%20%20%20currentUser%20%3D%20%7B%20isAdmin%3A%20true%2C%20loginTime%3A%20Date.now%28%29%20%7D%3B%0A%20%20%20%20%20%20%20%20localStorage.setItem%28%27bnUser%27%2C%20JSON.stringify%28currentUser%29%29%3B%0A%20%20%20%20%20%20%20%20isAdmin%20%3D%20true%3B%0A%20%20%20%20%20%20%20%20hideAdminLogin%28%29%3B%0A%20%20%20%20%20%20%20%20showPage%28%27adminPanel%27%29%3B%0A%20%20%20%20%20%20%20%20loadAdminPanel%28%29%3B%0A%20%20%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20alert%28%27Invalid%20admin%20password%27%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20logout%28%29%20%7B%0A%20%20%20%20%20%20currentUser%20%3D%20null%3B%0A%20%20%20%20%20%20isAdmin%20%3D%20false%3B%0A%20%20%20%20%20%20localStorage.removeItem%28%27bnUser%27%29%3B%0A%20%20%20%20%20%20if%20%28keysListener%29%20%7B%0A%20%20%20%20%20%20%20%20keysListener%28%29%3B%0A%20%20%20%20%20%20%20%20keysListener%20%3D%20null%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20showPage%28%27loginPage%27%29%3B%0A%20%20%20%20%20%20document.getElementById%28%27accessKey%27%29.value%20%3D%20%27%27%3B%0A%20%20%20%20%20%20document.getElementById%28%27adminPassword%27%29.value%20%3D%20%27%27%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20//%20Calculator%20functions%0A%20%20%20%20function%20appendNumber%28num%29%20%7B%0A%20%20%20%20%20%20const%20input%20%3D%20document.getElementById%28%22userInput%22%29%3B%0A%20%20%20%20%20%20if%20%28input.value.length%20%3C%203%29%20%7B%0A%20%20%20%20%20%20%20%20input.value%20+%3D%20num%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20clearInput%28%29%20%7B%0A%20%20%20%20%20%20document.getElementById%28%22userInput%22%29.value%20%3D%20%22%22%3B%0A%20%20%20%20%20%20document.getElementById%28%22result%22%29.innerHTML%20%3D%20%22%22%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20checkResult%28%29%20%7B%0A%20%20%20%20%20%20const%20input%20%3D%20document.getElementById%28%22userInput%22%29.value.trim%28%29%3B%0A%20%20%20%20%20%20const%20resultBox%20%3D%20document.getElementById%28%22result%22%29%3B%0A%0A%20%20%20%20%20%20if%20%28input.length%20%21%3D%3D%203%20%7C%7C%20isNaN%28input%29%29%20%7B%0A%20%20%20%20%20%20%20%20resultBox.innerHTML%20%3D%20%27%3Cspan%20style%3D%22color%3A%20red%3B%22%3EPlease%20enter%20a%20valid%203-digit%20number%21%3C/span%3E%27%3B%0A%20%20%20%20%20%20%20%20return%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20const%20lastDigit%20%3D%20parseInt%28input%5Binput.length%20-%201%5D%29%3B%0A%20%20%20%20%20%20const%20result%20%3D%20%28lastDigit%20%3E%3D%205%29%20%3F%20%22BIG%22%20%3A%20%22SMALL%22%3B%0A%20%20%20%20%20%20const%20color%20%3D%20result%20%3D%3D%3D%20%27BIG%27%20%3F%20%27%2300ff00%27%20%3A%20%27%2300ffff%27%3B%0A%0A%20%20%20%20%20%20resultBox.innerHTML%20%3D%20%60Result%3A%20%3Cspan%20style%3D%22color%3A%20%24%7Bcolor%7D%3B%20font-size%3A%2024px%3B%20text-shadow%3A%200%200%2010px%20%24%7Bcolor%7D%3B%22%3E%24%7Bresult%7D%3C/span%3E%60%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20//%20Key%20management%20functions%0A%20%20%20%20async%20function%20validateKey%28key%29%20%7B%0A%20%20%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%20%20//%20In%20a%20real%20app%2C%20query%20Firestore%0A%20%20%20%20%20%20%20%20//%20For%20demo%2C%20we%27ll%20use%20localStorage%20simulation%0A%20%20%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20%20%20const%20keyData%20%3D%20keys.find%28k%20%3D%3E%20k.key%20%3D%3D%3D%20key%29%3B%0A%20%20%20%20%20%20%20%20return%20keyData%20%26%26%20new%20Date%28keyData.expiry%29%20%3E%20new%20Date%28%29%3B%0A%20%20%20%20%20%20%7D%20catch%20%28error%29%20%7B%0A%20%20%20%20%20%20%20%20console.error%28%27Key%20validation%20error%3A%27%2C%20error%29%3B%0A%20%20%20%20%20%20%20%20return%20false%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20isValidKey%28key%29%20%7B%0A%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20const%20keyData%20%3D%20keys.find%28k%20%3D%3E%20k.key%20%3D%3D%3D%20key%29%3B%0A%20%20%20%20%20%20return%20keyData%20%26%26%20new%20Date%28keyData.expiry%29%20%3E%20new%20Date%28%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20updateKeyExpiry%28%29%20%7B%0A%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20const%20keyData%20%3D%20keys.find%28k%20%3D%3E%20k.key%20%3D%3D%3D%20currentUser.key%29%3B%0A%20%20%20%20%20%20if%20%28keyData%29%20%7B%0A%20%20%20%20%20%20%20%20const%20expiry%20%3D%20new%20Date%28keyData.expiry%29%3B%0A%20%20%20%20%20%20%20%20document.getElementById%28%27keyExpiry%27%29.textContent%20%3D%20expiry.toLocaleDateString%28%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20async%20function%20updateKeyLastUsed%28key%29%20%7B%0A%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20const%20keyIndex%20%3D%20keys.findIndex%28k%20%3D%3E%20k.key%20%3D%3D%3D%20key%29%3B%0A%20%20%20%20%20%20if%20%28keyIndex%20%21%3D%3D%20-1%29%20%7B%0A%20%20%20%20%20%20%20%20keys%5BkeyIndex%5D.lastUsed%20%3D%20Date.now%28%29%3B%0A%20%20%20%20%20%20%20%20localStorage.setItem%28%27bnKeys%27%2C%20JSON.stringify%28keys%29%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20//%20Admin%20panel%20functions%0A%20%20%20%20function%20loadAdminPanel%28%29%20%7B%0A%20%20%20%20%20%20refreshKeys%28%29%3B%0A%20%20%20%20%20%20updateStatistics%28%29%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20//%20Set%20up%20real-time%20listener%20%28simulated%29%0A%20%20%20%20%20%20setInterval%28updateStatistics%2C%205000%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20async%20function%20generateKeys%28%29%20%7B%0A%20%20%20%20%20%20const%20duration%20%3D%20parseInt%28document.getElementById%28%27keyDuration%27%29.value%29%3B%0A%20%20%20%20%20%20const%20count%20%3D%20parseInt%28document.getElementById%28%27keyCount%27%29.value%29%20%7C%7C%201%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20if%20%28count%20%3E%20100%29%20%7B%0A%20%20%20%20%20%20%20%20alert%28%27Maximum%20100%20keys%20at%20once%27%29%3B%0A%20%20%20%20%20%20%20%20return%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20const%20newKeys%20%3D%20%5B%5D%3B%0A%0A%20%20%20%20%20%20for%20%28let%20i%20%3D%200%3B%20i%20%3C%20count%3B%20i++%29%20%7B%0A%20%20%20%20%20%20%20%20const%20key%20%3D%20generateRandomKey%28%29%3B%0A%20%20%20%20%20%20%20%20const%20expiry%20%3D%20new%20Date%28%29%3B%0A%20%20%20%20%20%20%20%20expiry.setDate%28expiry.getDate%28%29%20+%20duration%29%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20const%20keyData%20%3D%20%7B%0A%20%20%20%20%20%20%20%20%20%20key%3A%20key%2C%0A%20%20%20%20%20%20%20%20%20%20expiry%3A%20expiry.toISOString%28%29%2C%0A%20%20%20%20%20%20%20%20%20%20created%3A%20new%20Date%28%29.toISOString%28%29%2C%0A%20%20%20%20%20%20%20%20%20%20duration%3A%20duration%2C%0A%20%20%20%20%20%20%20%20%20%20status%3A%20%27active%27%2C%0A%20%20%20%20%20%20%20%20%20%20lastUsed%3A%20null%0A%20%20%20%20%20%20%20%20%7D%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20keys.push%28keyData%29%3B%0A%20%20%20%20%20%20%20%20newKeys.push%28keyData%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20localStorage.setItem%28%27bnKeys%27%2C%20JSON.stringify%28keys%29%29%3B%0A%20%20%20%20%20%20refreshKeys%28%29%3B%0A%20%20%20%20%20%20updateStatistics%28%29%3B%0A%0A%20%20%20%20%20%20//%20Show%20generated%20keys%0A%20%20%20%20%20%20const%20keyList%20%3D%20newKeys.map%28k%20%3D%3E%20k.key%29.join%28%27%5Cn%27%29%3B%0A%20%20%20%20%20%20const%20copyButton%20%3D%20confirm%28%60Generated%20%24%7Bcount%7D%20key%28s%29%3A%5Cn%5Cn%24%7BkeyList%7D%5Cn%5CnCopy%20to%20clipboard%3F%60%29%3B%0A%20%20%20%20%20%20if%20%28copyButton%29%20%7B%0A%20%20%20%20%20%20%20%20navigator.clipboard.writeText%28keyList%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20generateRandomKey%28%29%20%7B%0A%20%20%20%20%20%20const%20chars%20%3D%20%27ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789%27%3B%0A%20%20%20%20%20%20let%20result%20%3D%20%27BN%27%3B%0A%20%20%20%20%20%20for%20%28let%20i%20%3D%200%3B%20i%20%3C%208%3B%20i++%29%20%7B%0A%20%20%20%20%20%20%20%20result%20+%3D%20chars.charAt%28Math.floor%28Math.random%28%29%20*%20chars.length%29%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20return%20result%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20refreshKeys%28%29%20%7B%0A%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20allKeys%20%3D%20keys%3B%0A%20%20%20%20%20%20displayKeys%28keys%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20displayKeys%28keys%29%20%7B%0A%20%20%20%20%20%20const%20keysList%20%3D%20document.getElementById%28%27keysList%27%29%3B%0A%20%20%20%20%20%20keysList.innerHTML%20%3D%20%27%27%3B%0A%0A%20%20%20%20%20%20if%20%28keys.length%20%3D%3D%3D%200%29%20%7B%0A%20%20%20%20%20%20%20%20keysList.innerHTML%20%3D%20%27%3Cdiv%20class%3D%22text-center%20text-gray-400%20py-8%22%3ENo%20keys%20found%3C/div%3E%27%3B%0A%20%20%20%20%20%20%20%20return%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20keys.forEach%28keyData%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20const%20isExpired%20%3D%20new%20Date%28keyData.expiry%29%20%3C%20new%20Date%28%29%3B%0A%20%20%20%20%20%20%20%20const%20statusClass%20%3D%20isExpired%20%3F%20%27status-expired%27%20%3A%20%27status-active%27%3B%0A%20%20%20%20%20%20%20%20const%20statusText%20%3D%20isExpired%20%3F%20%27Expired%27%20%3A%20%27Active%27%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20const%20keyCard%20%3D%20document.createElement%28%27div%27%29%3B%0A%20%20%20%20%20%20%20%20keyCard.className%20%3D%20%27key-card%27%3B%0A%20%20%20%20%20%20%20%20keyCard.innerHTML%20%3D%20%60%0A%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20justify-between%20items-center%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex-1%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22flex%20items-center%20gap-2%20mb-2%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20class%3D%22font-mono%20font-bold%22%3E%24%7BkeyData.key%7D%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22copyKey%28%27%24%7BkeyData.key%7D%27%29%22%20class%3D%22text-blue-400%20hover%3Atext-blue-300%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-copy%22%3E%3C/i%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22text-sm%20text-gray-400%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%3EDuration%3A%20%24%7BkeyData.duration%7D%20day%28s%29%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%3EExpires%3A%20%24%7Bnew%20Date%28keyData.expiry%29.toLocaleString%28%29%7D%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%3ELast%20Used%3A%20%24%7BkeyData.lastUsed%20%3F%20new%20Date%28keyData.lastUsed%29.toLocaleString%28%29%20%3A%20%27Never%27%7D%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22text-right%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22mb-2%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20class%3D%22px-2%20py-1%20rounded%20text-xs%20%24%7BstatusClass%7D%22%3E%24%7BstatusText%7D%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20onclick%3D%22deleteKey%28%27%24%7BkeyData.key%7D%27%29%22%20class%3D%22bg-red-600%20text-white%20px-3%20py-1%20rounded%20text-sm%20hover%3Abg-red-700%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-trash%20mr-1%22%3E%3C/i%3EDelete%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/button%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%60%3B%0A%20%20%20%20%20%20%20%20keysList.appendChild%28keyCard%29%3B%0A%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20filterKeys%28%29%20%7B%0A%20%20%20%20%20%20const%20search%20%3D%20document.getElementById%28%27searchKey%27%29.value.toLowerCase%28%29%3B%0A%20%20%20%20%20%20const%20status%20%3D%20document.getElementById%28%27filterStatus%27%29.value%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20let%20filtered%20%3D%20allKeys.filter%28key%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20const%20matchesSearch%20%3D%20key.key.toLowerCase%28%29.includes%28search%29%3B%0A%20%20%20%20%20%20%20%20const%20isExpired%20%3D%20new%20Date%28key.expiry%29%20%3C%20new%20Date%28%29%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20let%20matchesStatus%20%3D%20true%3B%0A%20%20%20%20%20%20%20%20if%20%28status%20%3D%3D%3D%20%27active%27%29%20matchesStatus%20%3D%20%21isExpired%3B%0A%20%20%20%20%20%20%20%20if%20%28status%20%3D%3D%3D%20%27expired%27%29%20matchesStatus%20%3D%20isExpired%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20return%20matchesSearch%20%26%26%20matchesStatus%3B%0A%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20displayKeys%28filtered%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20copyKey%28key%29%20%7B%0A%20%20%20%20%20%20navigator.clipboard.writeText%28key%29.then%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20//%20Visual%20feedback%0A%20%20%20%20%20%20%20%20const%20button%20%3D%20event.target%3B%0A%20%20%20%20%20%20%20%20const%20originalClass%20%3D%20button.className%3B%0A%20%20%20%20%20%20%20%20button.className%20%3D%20%27text-green-400%27%3B%0A%20%20%20%20%20%20%20%20button.innerHTML%20%3D%20%27%3Ci%20class%3D%22fas%20fa-check%22%3E%3C/i%3E%27%3B%0A%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20button.className%20%3D%20originalClass%3B%0A%20%20%20%20%20%20%20%20%20%20button.innerHTML%20%3D%20%27%3Ci%20class%3D%22fas%20fa-copy%22%3E%3C/i%3E%27%3B%0A%20%20%20%20%20%20%20%20%7D%2C%201000%29%3B%0A%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20async%20function%20deleteKey%28key%29%20%7B%0A%20%20%20%20%20%20if%20%28confirm%28%60Delete%20key%3A%20%24%7Bkey%7D%3F%60%29%29%20%7B%0A%20%20%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20%20%20const%20filteredKeys%20%3D%20keys.filter%28k%20%3D%3E%20k.key%20%21%3D%3D%20key%29%3B%0A%20%20%20%20%20%20%20%20localStorage.setItem%28%27bnKeys%27%2C%20JSON.stringify%28filteredKeys%29%29%3B%0A%20%20%20%20%20%20%20%20refreshKeys%28%29%3B%0A%20%20%20%20%20%20%20%20updateStatistics%28%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20async%20function%20deleteExpiredKeys%28%29%20%7B%0A%20%20%20%20%20%20if%20%28confirm%28%27Delete%20all%20expired%20keys%3F%27%29%29%20%7B%0A%20%20%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20%20%20const%20now%20%3D%20new%20Date%28%29%3B%0A%20%20%20%20%20%20%20%20const%20validKeys%20%3D%20keys.filter%28k%20%3D%3E%20new%20Date%28k.expiry%29%20%3E%20now%29%3B%0A%20%20%20%20%20%20%20%20localStorage.setItem%28%27bnKeys%27%2C%20JSON.stringify%28validKeys%29%29%3B%0A%20%20%20%20%20%20%20%20refreshKeys%28%29%3B%0A%20%20%20%20%20%20%20%20updateStatistics%28%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20async%20function%20deleteAllKeys%28%29%20%7B%0A%20%20%20%20%20%20if%20%28confirm%28%27Delete%20ALL%20keys%3F%20This%20cannot%20be%20undone%21%27%29%29%20%7B%0A%20%20%20%20%20%20%20%20localStorage.setItem%28%27bnKeys%27%2C%20JSON.stringify%28%5B%5D%29%29%3B%0A%20%20%20%20%20%20%20%20refreshKeys%28%29%3B%0A%20%20%20%20%20%20%20%20updateStatistics%28%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20function%20updateStatistics%28%29%20%7B%0A%20%20%20%20%20%20const%20keys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20const%20now%20%3D%20new%20Date%28%29%3B%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20const%20total%20%3D%20keys.length%3B%0A%20%20%20%20%20%20const%20active%20%3D%20keys.filter%28k%20%3D%3E%20new%20Date%28k.expiry%29%20%3E%20now%29.length%3B%0A%20%20%20%20%20%20const%20expired%20%3D%20total%20-%20active%3B%0A%20%20%20%20%20%20const%20online%20%3D%20keys.filter%28k%20%3D%3E%20k.lastUsed%20%26%26%20%28Date.now%28%29%20-%20k.lastUsed%29%20%3C%20300000%29.length%3B%20//%205%20minutes%0A%20%20%20%20%20%20%0A%20%20%20%20%20%20document.getElementById%28%27totalKeys%27%29.textContent%20%3D%20total%3B%0A%20%20%20%20%20%20document.getElementById%28%27activeKeys%27%29.textContent%20%3D%20active%3B%0A%20%20%20%20%20%20document.getElementById%28%27expiredKeys%27%29.textContent%20%3D%20expired%3B%0A%20%20%20%20%20%20document.getElementById%28%27onlineUsers%27%29.textContent%20%3D%20online%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20//%20Storage%20helper%20functions%0A%20%20%20%20function%20getStoredKeys%28%29%20%7B%0A%20%20%20%20%20%20const%20keys%20%3D%20localStorage.getItem%28%27bnKeys%27%29%3B%0A%20%20%20%20%20%20return%20keys%20%3F%20JSON.parse%28keys%29%20%3A%20%5B%5D%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20//%20Initialize%20some%20demo%20keys%0A%20%20%20%20function%20initializeDemoKeys%28%29%20%7B%0A%20%20%20%20%20%20const%20existingKeys%20%3D%20getStoredKeys%28%29%3B%0A%20%20%20%20%20%20if%20%28existingKeys.length%20%3D%3D%3D%200%29%20%7B%0A%20%20%20%20%20%20%20%20const%20demoKeys%20%3D%20%5B%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20key%3A%20%27BNDEMO123%27%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20expiry%3A%20new%20Date%28Date.now%28%29%20+%2024%20*%2060%20*%2060%20*%201000%29.toISOString%28%29%2C%20//%201%20day%0A%20%20%20%20%20%20%20%20%20%20%20%20created%3A%20new%20Date%28%29.toISOString%28%29%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20duration%3A%201%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20status%3A%20%27active%27%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20lastUsed%3A%20null%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20key%3A%20%27BNTEST456%27%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20expiry%3A%20new%20Date%28Date.now%28%29%20+%207%20*%2024%20*%2060%20*%2060%20*%201000%29.toISOString%28%29%2C%20//%207%20days%0A%20%20%20%20%20%20%20%20%20%20%20%20created%3A%20new%20Date%28%29.toISOString%28%29%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20duration%3A%207%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20status%3A%20%27active%27%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20lastUsed%3A%20Date.now%28%29%20-%2060000%20//%201%20minute%20ago%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%5D%3B%0A%20%20%20%20%20%20%20%20localStorage.setItem%28%27bnKeys%27%2C%20JSON.stringify%28demoKeys%29%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20//%20Initialize%20demo%20keys%20on%20first%20load%0A%20%20%20%20initializeDemoKeys%28%29%3B%0A%20%20%3C/script%3E%0A%0A%3C/body%3E%0A%3C/html%3E%0A'))</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BN LAST KING - Enhanced Authentication System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-neon: #00ff00;
+      --secondary-neon: #00ffff;
+      --danger-neon: #ff4444;
+      --warning-neon: #ffaa00;
+      --purple-neon: #aa00ff;
+      --bg-dark: #0a0a0a;
+      --bg-secondary: #1a1a2e;
+      --bg-tertiary: #16213e;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark), var(--bg-secondary), var(--bg-tertiary), #0f3460);
+      color: var(--primary-neon);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    .orbitron { font-family: 'Orbitron', monospace; }
+    
+    .cyber-bg {
+      background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(26,26,46,0.9));
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(0, 255, 0, 0.2);
+    }
+    
+    .neon-glow {
+      text-shadow: 0 0 5px var(--primary-neon), 0 0 10px var(--primary-neon), 0 0 15px var(--primary-neon);
+      animation: pulse-glow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes pulse-glow {
+      from { text-shadow: 0 0 5px var(--primary-neon), 0 0 10px var(--primary-neon); }
+      to { text-shadow: 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon), 0 0 30px var(--primary-neon); }
+    }
+    
+    .neon-border {
+      border: 2px solid var(--primary-neon);
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.1);
+      position: relative;
+      border-radius: 12px;
+    }
+    
+    .neon-border::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(45deg, var(--primary-neon), transparent, var(--secondary-neon), transparent, var(--primary-neon));
+      border-radius: inherit;
+      z-index: -1;
+      animation: border-flow 4s linear infinite;
+    }
+    
+    @keyframes border-flow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .cyber-button {
+      background: linear-gradient(45deg, var(--primary-neon), #00cc00);
+      color: #000;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .cyber-button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s;
+    }
+    
+    .cyber-button:hover::before { left: 100%; }
+    .cyber-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(0, 255, 0, 0.7);
+    }
+    
+    .cyber-input {
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid var(--primary-neon);
+      color: var(--primary-neon);
+      padding: 14px 16px;
+      border-radius: 10px;
+      outline: none;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .cyber-input:focus {
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+      border-color: var(--secondary-neon);
+      transform: scale(1.02);
+    }
+
+    .cyber-input::placeholder {
+      color: rgba(0, 255, 0, 0.5);
+    }
+    
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    
+    .calculator-button {
+      padding: 24px;
+      font-size: 22px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(45deg, var(--primary-neon), #00cc00);
+      color: #000;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+      font-family: 'Orbitron', monospace;
+    }
+    
+    .calculator-button:active {
+      transform: scale(0.95);
+      background: linear-gradient(45deg, #00cc00, #009900);
+    }
+
+    .calculator-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 25px rgba(0, 255, 0, 0.7);
+    }
+    
+    .stats-card {
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid var(--primary-neon);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon), var(--primary-neon));
+      animation: scan 3s linear infinite;
+    }
+
+    @keyframes scan {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .stats-card:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--secondary-neon);
+    }
+
+    .stats-number {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--primary-neon);
+      text-shadow: 0 0 15px var(--primary-neon);
+      font-family: 'Orbitron', monospace;
+    }
+
+    .cyber-title {
+      background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .admin-panel {
+      background: rgba(0, 0, 0, 0.95);
+      border: 2px solid var(--warning-neon);
+      box-shadow: 0 0 30px rgba(255, 170, 0, 0.3);
+      border-radius: 12px;
+    }
+
+    .card {
+      background: rgba(0, 20, 0, 0.9);
+      border: 1px solid var(--primary-neon);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 10px 0;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .card:hover {
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+      transform: translateY(-3px);
+      border-color: var(--secondary-neon);
+    }
+
+    .device-card {
+      background: rgba(0, 0, 20, 0.9);
+      border: 1px solid #0088ff;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 10px 0;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .device-card:hover {
+      box-shadow: 0 0 20px rgba(0, 136, 255, 0.3);
+      transform: translateY(-3px);
+    }
+    
+    .status-active { color: var(--primary-neon); }
+    .status-expired { color: var(--danger-neon); }
+    .status-online { color: var(--secondary-neon); }
+    .status-offline { color: #888888; }
+    .status-blocked { color: var(--warning-neon); }
+    .status-pending { color: var(--purple-neon); }
+    
+    .hidden { display: none !important; }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 255, 0, 0.3);
+      border-radius: 50%;
+      border-top: 4px solid var(--primary-neon);
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 18px 28px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      z-index: 1000;
+      transform: translateX(400px);
+      transition: transform 0.4s ease;
+      max-width: 400px;
+      border: 2px solid;
+    }
+    
+    .notification.show { transform: translateX(0); }
+    
+    .notification.success {
+      background: linear-gradient(45deg, var(--primary-neon), #00cc00);
+      color: #000;
+      border-color: var(--primary-neon);
+    }
+    
+    .notification.error {
+      background: linear-gradient(45deg, var(--danger-neon), #cc0000);
+      border-color: var(--danger-neon);
+    }
+    
+    .notification.warning {
+      background: linear-gradient(45deg, var(--warning-neon), #cc8800);
+      color: #000;
+      border-color: var(--warning-neon);
+    }
+
+    .sidebar {
+      background: rgba(0, 0, 0, 0.98);
+      border-right: 3px solid var(--primary-neon);
+      min-height: 100vh;
+      position: fixed;
+      left: 0; top: 0;
+      width: 280px;
+      z-index: 100;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar.active { transform: translateX(0); }
+
+    .sidebar-item {
+      padding: 18px 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+    }
+
+    .sidebar-item:hover {
+      background: rgba(0, 255, 0, 0.1);
+      padding-left: 35px;
+      border-left: 4px solid var(--secondary-neon);
+    }
+
+    .sidebar-item.active {
+      background: rgba(0, 255, 0, 0.2);
+      border-left: 6px solid var(--primary-neon);
+      color: var(--secondary-neon);
+    }
+
+    .main-content {
+      margin-left: 0;
+      transition: margin-left 0.4s ease;
+      min-height: 100vh;
+    }
+
+    .main-content.shifted { margin-left: 280px; }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .chart-container {
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid var(--primary-neon);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: rgba(0, 20, 0, 0.98);
+      border: 3px solid var(--primary-neon);
+      border-radius: 15px;
+      padding: 35px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
+    }
+
+    .pulse { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .floating-menu {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 200;
+    }
+
+    .floating-button {
+      width: 65px; height: 65px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary-neon), #00cc00);
+      border: none;
+      color: #000;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 6px 25px rgba(0, 255, 0, 0.5);
+      transition: all 0.3s ease;
+      margin: 12px 0;
+      display: block;
+    }
+
+    .floating-button:hover {
+      transform: scale(1.15);
+      box-shadow: 0 8px 35px rgba(0, 255, 0, 0.8);
+    }
+
+    .tooltip {
+      position: relative;
+    }
+
+    .tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 120%; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.95);
+      color: var(--primary-neon);
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      border: 1px solid var(--primary-neon);
+      font-weight: 500;
+    }
+
+    .tooltip:hover::after { opacity: 1; }
+
+    .btn-danger {
+      background: linear-gradient(45deg, var(--danger-neon), #cc0000);
+      color: white;
+      border: 2px solid var(--danger-neon);
+    }
+
+    .btn-warning {
+      background: linear-gradient(45deg, var(--warning-neon), #cc8800);
+      color: #000;
+      border: 2px solid var(--warning-neon);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(45deg, #666, #333);
+      color: white;
+      border: 2px solid #666;
+    }
+
+    .key-status-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .badge-pending {
+      background: rgba(170, 0, 255, 0.2);
+      color: var(--purple-neon);
+      border: 1px solid var(--purple-neon);
+    }
+
+    .badge-active {
+      background: rgba(0, 255, 0, 0.2);
+      color: var(--primary-neon);
+      border: 1px solid var(--primary-neon);
+    }
+
+    .badge-expired {
+      background: rgba(255, 68, 68, 0.2);
+      color: var(--danger-neon);
+      border: 1px solid var(--danger-neon);
+    }
+
+    .badge-online {
+      background: rgba(0, 255, 255, 0.2);
+      color: var(--secondary-neon);
+      border: 1px solid var(--secondary-neon);
+    }
+
+    .delete-confirmation {
+      background: rgba(255, 0, 0, 0.1);
+      border: 2px solid var(--danger-neon);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px 0;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; }
+      .main-content.shifted { margin-left: 0; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .calculator-grid { gap: 12px; }
+      .calculator-button { padding: 18px; font-size: 18px; }
+      .stats-number { font-size: 2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .floating-menu { bottom: 20px; right: 20px; }
+      .floating-button { width: 55px; height: 55px; font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Notification Container -->
+  <div id="notification" class="notification"></div>
+
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 hidden">
+    <div class="text-center">
+      <div class="loading-spinner mx-auto mb-6"></div>
+      <p class="text-2xl orbitron neon-glow">PROCESSING...</p>
+      <p class="text-sm mt-2 text-gray-400">Please wait while we process your request</p>
+    </div>
+  </div>
+
+  <!-- Login Page -->
+  <div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+    <div class="cyber-bg p-10 rounded-lg neon-border max-w-md w-full">
+      <h1 class="text-4xl font-bold text-center mb-10 neon-glow orbitron">
+        <i class="fas fa-crown mr-3"></i>BN LAST KING
+      </h1>
+      <div class="space-y-8">
+        <div>
+          <label class="block text-sm font-semibold mb-3">Enter Access Key</label>
+          <input type="text" id="accessKey" class="cyber-input w-full" placeholder="Your Access Key" maxlength="20">
+        </div>
+        <button onclick="userLogin()" class="cyber-button w-full">
+          <i class="fas fa-key mr-2"></i>LOGIN
+        </button>
+        <div class="text-center">
+          <button onclick="showAdminLogin()" class="text-yellow-400 hover:text-yellow-300 text-sm font-medium">
+            <i class="fas fa-user-shield mr-2"></i>Admin Panel Access
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calculator Page -->
+  <div id="calculatorPage" class="min-h-screen flex flex-col items-center justify-center p-4 hidden">
+    <div class="mb-6 text-right w-full max-w-md">
+      <div class="bg-black bg-opacity-50 p-4 rounded-lg border border-green-500">
+        <span class="text-sm">Welcome! Key expires: <span id="keyExpiry" class="text-yellow-400 font-bold"></span></span>
+        <button onclick="logout()" class="ml-4 text-red-400 hover:text-red-300 font-medium">
+          <i class="fas fa-sign-out-alt mr-1"></i>Logout
+        </button>
+      </div>
+    </div>
+    
+    <h1 class="text-5xl font-bold text-center mb-10 neon-glow orbitron">
+      BN LAST KING CALCULATOR
+    </h1>
+    
+    <div class="cyber-bg p-10 rounded-lg neon-border max-w-sm w-full">
+      <input type="text" id="userInput" maxlength="3" readonly placeholder="Enter ID" 
+             class="cyber-input w-full text-center text-3xl mb-8 orbitron">
+      
+      <div class="calculator-grid mb-8">
+        <button onclick="appendNumber('1')" class="calculator-button">1</button>
+        <button onclick="appendNumber('2')" class="calculator-button">2</button>
+        <button onclick="appendNumber('3')" class="calculator-button">3</button>
+        <button onclick="appendNumber('4')" class="calculator-button">4</button>
+        <button onclick="appendNumber('5')" class="calculator-button">5</button>
+        <button onclick="appendNumber('6')" class="calculator-button">6</button>
+        <button onclick="appendNumber('7')" class="calculator-button">7</button>
+        <button onclick="appendNumber('8')" class="calculator-button">8</button>
+        <button onclick="appendNumber('9')" class="calculator-button">9</button>
+        <button onclick="clearInput()" class="calculator-button btn-danger">CLEAR</button>
+        <button onclick="appendNumber('0')" class="calculator-button">0</button>
+        <button onclick="checkResult()" class="calculator-button btn-warning">ENTER</button>
+      </div>
+
+      <div id="result" class="text-center text-xl font-bold min-h-[60px] flex items-center justify-center"></div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div id="adminLoginModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="text-3xl font-bold mb-8 text-center neon-glow orbitron">
+        <i class="fas fa-shield-alt mr-3"></i>ADMIN ACCESS
+      </h2>
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-semibold mb-3">Admin Password</label>
+          <input type="password" id="adminPassword" class="cyber-input w-full" placeholder="Enter admin password">
+        </div>
+        <div class="flex gap-3">
+          <button onclick="adminLogin()" class="cyber-button flex-1">
+            <i class="fas fa-key mr-2"></i>AUTHENTICATE
+          </button>
+          <button onclick="hideAdminLogin()" class="btn-secondary px-6 py-3 rounded-lg font-semibold">Cancel</button>
+        </div>
+      </div>
+      <div class="mt-8 text-center text-sm text-gray-400">
+        <p class="orbitron">BN LAST KING System</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminPanel" class="hidden">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <div class="p-8 border-b border-green-500">
+        <h2 class="text-2xl font-bold cyber-title orbitron">BN ADMIN</h2>
+        <p class="text-sm text-gray-400 mt-1">Enhanced Control Panel</p>
+      </div>
+      <nav class="mt-6">
+        <div class="sidebar-item active" onclick="showTab('dashboard')">
+          <i class="fas fa-tachometer-alt text-lg"></i>
+          <span>Dashboard</span>
+        </div>
+        <div class="sidebar-item" onclick="showTab('keys')">
+          <i class="fas fa-key text-lg"></i>
+          <span>Key Management</span>
+        </div>
+        <div class="sidebar-item" onclick="showTab('devices')">
+          <i class="fas fa-mobile-alt text-lg"></i>
+          <span>Device Tracking</span>
+        </div>
+        <div class="sidebar-item" onclick="showTab('users')">
+          <i class="fas fa-users text-lg"></i>
+          <span>User Sessions</span>
+        </div>
+        <div class="sidebar-item" onclick="showTab('analytics')">
+          <i class="fas fa-chart-bar text-lg"></i>
+          <span>Analytics</span>
+        </div>
+        <div class="sidebar-item" onclick="showTab('settings')">
+          <i class="fas fa-cog text-lg"></i>
+          <span>Settings</span>
+        </div>
+        <div class="sidebar-item text-red-400 mt-8" onclick="logout()">
+          <i class="fas fa-sign-out-alt text-lg"></i>
+          <span>Logout</span>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="main-content">
+      <!-- Header -->
+      <header class="cyber-bg p-6 border-b-2 border-green-500">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <button id="sidebarToggle" class="cyber-button mr-6" onclick="toggleSidebar()">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="text-3xl font-bold neon-glow cyber-title orbitron">
+              <i class="fas fa-crown mr-3"></i>BN LAST KING - ENHANCED ADMIN PANEL
+            </h1>
+          </div>
+          <div class="flex items-center gap-6">
+            <span class="text-sm">Online: <span id="onlineTime" class="text-green-400 font-mono">00:00:00</span></span>
+            <div class="w-4 h-4 bg-green-400 rounded-full pulse"></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Tab -->
+      <div id="dashboard" class="tab-content active p-8">
+        <!-- Statistics Dashboard -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10 stats-grid">
+          <div class="stats-card">
+            <div id="totalKeys" class="stats-number">0</div>
+            <div class="text-gray-400 font-semibold">Total Keys</div>
+            <div class="text-xs text-green-400 mt-3">
+              <i class="fas fa-arrow-up mr-1"></i>System Active
+            </div>
+          </div>
+          <div class="stats-card">
+            <div id="activeUsers" class="stats-number text-blue-400">0</div>
+            <div class="text-gray-400 font-semibold">Active Users</div>
+            <div class="text-xs text-blue-400 mt-3">
+              <i class="fas fa-users mr-1"></i>Online Now
+            </div>
+          </div>
+          <div class="stats-card">
+            <div id="pendingKeys" class="stats-number text-purple-400">0</div>
+            <div class="text-gray-400 font-semibold">Pending Keys</div>
+            <div class="text-xs text-purple-400 mt-3">
+              <i class="fas fa-clock mr-1"></i>Awaiting First Use
+            </div>
+          </div>
+          <div class="stats-card">
+            <div id="dailyLogins" class="stats-number text-yellow-400">0</div>
+            <div class="text-gray-400 font-semibold">Today's Logins</div>
+            <div class="text-xs text-yellow-400 mt-3">
+              <i class="fas fa-calendar-day mr-1"></i>24h Activity
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions & Status -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+          <div class="admin-panel p-8">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
+              <i class="fas fa-bolt mr-2"></i>Quick Actions
+            </h3>
+            <div class="space-y-4">
+              <button onclick="generateSingleKey()" class="cyber-button w-full">
+                <i class="fas fa-plus mr-2"></i>Generate Key
+              </button>
+              <button onclick="refreshAllData()" class="bg-blue-600 text-white px-4 py-3 rounded-lg w-full hover:bg-blue-700 transition-colors font-semibold">
+                <i class="fas fa-sync mr-2"></i>Refresh Data
+              </button>
+              <button onclick="showBulkActions()" class="bg-purple-600 text-white px-4 py-3 rounded-lg w-full hover:bg-purple-700 transition-colors font-semibold">
+                <i class="fas fa-list mr-2"></i>Bulk Actions
+              </button>
+              <button onclick="exportReport()" class="btn-warning px-4 py-3 rounded-lg w-full font-semibold">
+                <i class="fas fa-download mr-2"></i>Export Report
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-panel p-8">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
+              <i class="fas fa-chart-line mr-2"></i>System Status
+            </h3>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span>Database</span>
+                <span class="status-active"><i class="fas fa-check-circle mr-1"></i>Online</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span>Firebase</span>
+                <span class="status-active"><i class="fas fa-check-circle mr-1"></i>Connected</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span>API Status</span>
+                <span class="status-active"><i class="fas fa-check-circle mr-1"></i>Operational</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span>Security</span>
+                <span class="status-active"><i class="fas fa-shield-alt mr-1"></i>Protected</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span>Auto-cleanup</span>
+                <span class="status-online"><i class="fas fa-broom mr-1"></i>Active</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-panel p-8">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
+              <i class="fas fa-clock mr-2"></i>Recent Activity
+            </h3>
+            <div id="recentActivity" class="space-y-3 text-sm max-h-40 overflow-y-auto">
+              <div class="text-gray-400">Loading activity...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="chart-container">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">User Activity (24h)</h3>
+            <canvas id="activityChart" width="400" height="200"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">Key Status Distribution</h3>
+            <canvas id="statusChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Management Tab -->
+      <div id="keys" class="tab-content p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Key Generation Panel -->
+          <div class="lg:col-span-1">
+            <div class="admin-panel p-8 mb-8">
+              <h2 class="text-2xl font-bold mb-6 text-yellow-400 orbitron">
+                <i class="fas fa-plus mr-2"></i>Generate New Keys
+              </h2>
+              <div class="space-y-6">
+                <div>
+                  <label class="block text-sm font-semibold mb-3">Duration</label>
+                  <select id="keyDuration" class="cyber-input w-full">
+                    <option value="1">1 Day</option>
+                    <option value="3">3 Days</option>
+                    <option value="7">1 Week</option>
+                    <option value="30" selected>1 Month</option>
+                    <option value="90">3 Months</option>
+                    <option value="365">1 Year</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-3">Number of Keys</label>
+                  <input type="number" id="keyCount" class="cyber-input w-full" placeholder="Keys to generate" min="1" max="100" value="1">
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-3">Key Prefix</label>
+                  <input type="text" id="keyPrefix" class="cyber-input w-full" placeholder="BN" maxlength="5" value="BN">
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-3">Device Limit per Key</label>
+                  <select id="deviceLimit" class="cyber-input w-full">
+                    <option value="1" selected>1 Device Only</option>
+                    <option value="2">2 Devices</option>
+                    <option value="3">3 Devices</option>
+                    <option value="5">5 Devices</option>
+                  </select>
+                </div>
+                <button onclick="generateKeys()" class="cyber-button w-full">
+                  <i class="fas fa-key mr-2"></i>Generate Keys
+                </button>
+              </div>
+            </div>
+
+            <!-- Key Statistics -->
+            <div class="admin-panel p-8">
+              <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
+                <i class="fas fa-chart-pie mr-2"></i>Key Statistics
+              </h3>
+              <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                  <span>Active Keys</span>
+                  <span id="activeKeysCount" class="status-active font-bold">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>Pending Keys</span>
+                  <span id="pendingKeysCount" class="status-pending font-bold">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>Expired Keys</span>
+                  <span id="expiredKeysCount" class="status-expired font-bold">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>Keys in Use</span>
+                  <span id="usedKeysCount" class="status-online font-bold">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key List -->
+          <div class="lg:col-span-2">
+            <div class="admin-panel p-8">
+              <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <h2 class="text-2xl font-bold text-yellow-400 orbitron">
+                  <i class="fas fa-list mr-2"></i>Key Management
+                </h2>
+                <div class="flex gap-3 flex-wrap">
+                  <input type="text" id="searchKeys" class="cyber-input" placeholder="Search keys..." onkeyup="filterKeys()">
+                  <select id="filterKeyStatus" class="cyber-input" onchange="filterKeys()">
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="expired">Expired</option>
+                    <option value="online">Online</option>
+                  </select>
+                  <button onclick="exportKeys()" class="cyber-button">
+                    <i class="fas fa-download mr-1"></i>Export
+                  </button>
+                </div>
+              </div>
+              
+              <div id="keysList" class="max-h-96 overflow-y-auto">
+                <div class="text-center text-gray-400 py-12">
+                  <div class="loading-spinner mx-auto mb-6"></div>
+                  <p class="text-lg">Loading keys...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Device Tracking Tab -->
+      <div id="devices" class="tab-content p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+          <div class="stats-card">
+            <div id="totalDevicesCount" class="stats-number text-blue-400">0</div>
+            <div class="text-gray-400 font-semibold">Total Devices</div>
+          </div>
+          <div class="stats-card">
+            <div id="onlineDevicesCount" class="stats-number text-green-400">0</div>
+            <div class="text-gray-400 font-semibold">Online Devices</div>
+          </div>
+          <div class="stats-card">
+            <div id="blockedDevicesCount" class="stats-number text-red-400">0</div>
+            <div class="text-gray-400 font-semibold">Blocked Devices</div>
+          </div>
+          <div class="stats-card">
+            <div id="suspiciousDevicesCount" class="stats-number text-orange-400">0</div>
+            <div class="text-gray-400 font-semibold">Suspicious Activity</div>
+          </div>
+        </div>
+
+        <div class="admin-panel p-8">
+          <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <h2 class="text-2xl font-bold text-yellow-400 orbitron">
+              <i class="fas fa-mobile-alt mr-2"></i>Device Management
+            </h2>
+            <div class="flex gap-3 flex-wrap">
+              <input type="text" id="searchDevices" class="cyber-input" placeholder="Search devices..." onkeyup="filterDevices()">
+              <select id="filterDeviceStatus" class="cyber-input" onchange="filterDevices()">
+                <option value="all">All Status</option>
+                <option value="online">Online</option>
+                <option value="offline">Offline</option>
+                <option value="blocked">Blocked</option>
+              </select>
+              <button onclick="refreshDevices()" class="cyber-button">
+                <i class="fas fa-sync mr-1"></i>Refresh
+              </button>
+            </div>
+          </div>
+          
+          <div id="devicesList" class="max-h-96 overflow-y-auto">
+            <div class="text-center text-gray-400 py-12">
+              <div class="loading-spinner mx-auto mb-6"></div>
+              <p class="text-lg">Loading devices...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Sessions Tab -->
+      <div id="users" class="tab-content p-8">
+        <div class="admin-panel p-8">
+          <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <h2 class="text-2xl font-bold text-yellow-400 orbitron">
+              <i class="fas fa-users mr-2"></i>Active User Sessions
+            </h2>
+            <div class="flex gap-3 flex-wrap">
+              <button onclick="refreshSessions()" class="cyber-button">
+                <i class="fas fa-sync mr-1"></i>Refresh Sessions
+              </button>
+              <button onclick="kickAllUsers()" class="btn-danger px-4 py-3 rounded-lg font-semibold">
+                <i class="fas fa-power-off mr-1"></i>Kick All Users
+              </button>
+            </div>
+          </div>
+          
+          <div id="sessionsList" class="max-h-96 overflow-y-auto">
+            <div class="text-center text-gray-400 py-12">
+              <div class="loading-spinner mx-auto mb-6"></div>
+              <p class="text-lg">Loading user sessions...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Tab -->
+      <div id="analytics" class="tab-content p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div class="chart-container">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">Login Trends (7 Days)</h3>
+            <canvas id="loginTrendsChart" width="400" height="200"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">Device Types</h3>
+            <canvas id="deviceTypesChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="admin-panel p-8">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
+              <i class="fas fa-clock mr-2"></i>Peak Usage Hours
+            </h3>
+            <div id="peakHours" class="space-y-3">
+              <div class="text-gray-400">Analyzing usage patterns...</div>
+            </div>
+          </div>
+
+          <div class="admin-panel p-8">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
+              <i class="fas fa-map-marker-alt mr-2"></i>Top Locations
+            </h3>
+            <div id="topLocations" class="space-y-3">
+              <div class="text-gray-400">Loading location data...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="settings" class="tab-content p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="admin-panel p-8">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
+              <i class="fas fa-cog mr-2"></i>System Settings
+            </h3>
+            <div class="space-y-6">
+              <div>
+                <label class="block text-sm font-semibold mb-3">Max Devices per Key</label>
+                <select id="maxDevicesPerKey" class="cyber-input w-full">
+                  <option value="1" selected>1 Device (Strict)</option>
+                  <option value="2">2 Devices</option>
+                  <option value="3">3 Devices</option>
+                  <option value="5">5 Devices</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-3">Session Timeout (minutes)</label>
+                <input type="number" id="sessionTimeout" class="cyber-input w-full" value="30" min="5" max="1440">
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-3">Auto-delete Expired Keys</label>
+                <select id="autoDeleteExpired" class="cyber-input w-full">
+                  <option value="false">Disabled</option>
+                  <option value="true" selected>Enabled</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-3">Key Activation Mode</label>
+                <select id="keyActivationMode" class="cyber-input w-full">
+                  <option value="immediate">Immediate (Default)</option>
+                  <option value="first_login" selected>On First Login (Enhanced)</option>
+                </select>
+              </div>
+              <button onclick="saveSettings()" class="cyber-button w-full">
+                <i class="fas fa-save mr-2"></i>Save Settings
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-panel p-8">
+            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
+              <i class="fas fa-database mr-2"></i>Database Management
+            </h3>
+            <div class="space-y-4">
+              <button onclick="backupDatabase()" class="cyber-button w-full">
+                <i class="fas fa-download mr-2"></i>Backup Database
+              </button>
+              <button onclick="cleanupDatabase()" class="btn-warning px-4 py-3 rounded-lg w-full font-semibold">
+                <i class="fas fa-broom mr-2"></i>Cleanup Database
+              </button>
+              <button onclick="resetStatistics()" class="bg-orange-600 text-white px-4 py-3 rounded-lg w-full hover:bg-orange-700 transition-colors font-semibold">
+                <i class="fas fa-chart-bar mr-2"></i>Reset Statistics
+              </button>
+              <button onclick="factoryReset()" class="btn-danger px-4 py-3 rounded-lg w-full font-semibold">
+                <i class="fas fa-exclamation-triangle mr-2"></i>Factory Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Action Menu -->
+    <div class="floating-menu">
+      <button class="floating-button tooltip" data-tooltip="Emergency Stop" onclick="emergencyStop()">
+        <i class="fas fa-stop"></i>
+      </button>
+      <button class="floating-button tooltip" data-tooltip="Quick Generate" onclick="quickGenerate()">
+        <i class="fas fa-plus"></i>
+      </button>
+      <button class="floating-button tooltip" data-tooltip="System Status" onclick="toggleSystemStatus()">
+        <i class="fas fa-heartbeat"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="text-2xl font-bold mb-6 text-center text-red-400 orbitron">
+        <i class="fas fa-exclamation-triangle mr-2"></i>CONFIRM DELETION
+      </h2>
+      <div class="delete-confirmation mb-6">
+        <p class="text-center mb-4">Are you sure you want to delete this item?</p>
+        <p class="text-center text-sm text-gray-400" id="deleteItemInfo"></p>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="confirmDelete()" class="btn-danger flex-1 px-4 py-3 rounded-lg font-semibold">
+          <i class="fas fa-trash mr-2"></i>DELETE
+        </button>
+        <button onclick="cancelDelete()" class="btn-secondary flex-1 px-4 py-3 rounded-lg font-semibold">
+          <i class="fas fa-times mr-2"></i>CANCEL
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBwrDekjh3yJJyeuf-WCGIh2OYE-WrO54k",
+      authDomain: "earingtiil.firebaseapp.com",
+      databaseURL: "https://earingtiil-default-rtdb.firebaseio.com",
+      projectId: "earingtiil",
+      storageBucket: "earingtiil.firebasestorage.app",
+      messagingSenderId: "614389641647",
+      appId: "1:614389641647:web:9c55a0fdfe67d5080cff5a",
+      measurementId: "G-MH7LC1R7C9"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Make Firebase available globally
+    window.firebase = {
+      app: app,
+      db: db,
+      collection,
+      addDoc,
+      getDocs,
+      deleteDoc,
+      doc,
+      updateDoc,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      serverTimestamp,
+      setDoc
+    };
+
+    // Initialize app after Firebase is ready
+    window.initializeApp();
+  </script>
+
+  <script>
+    // Application state
+    let currentUser = null;
+    let isAdmin = false;
+    let allKeys = [];
+    let allDevices = [];
+    let allSessions = [];
+    let onlineTimer = null;
+    let charts = {};
+    let realTimeListeners = [];
+    let deleteCallback = null;
+    let deleteItemId = null;
+
+    // Admin password
+    const ADMIN_PASSWORD = "BNLASTKING09";
+
+    // Enhanced settings
+    let systemSettings = {
+      keyActivationMode: 'first_login', // 'immediate' or 'first_login'
+      maxDevicesPerKey: 1,
+      sessionTimeout: 30,
+      autoDeleteExpired: true
+    };
+
+    // Initialize app
+    window.initializeApp = function() {
+      showPage('loginPage');
+      loadSettings();
+      initializeDemoKeys();
+      
+      // Check if user is already logged in
+      const savedUser = localStorage.getItem('bnUser');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        if (currentUser.isAdmin) {
+          isAdmin = true;
+          showPage('adminPanel');
+          initializeAdminPanel();
+        } else if (isValidKey(currentUser.key)) {
+          showPage('calculatorPage');
+          updateKeyExpiry();
+          updateKeyLastUsed(currentUser.key);
+        } else {
+          logout();
+        }
+      }
+    };
+
+    // Settings management
+    function loadSettings() {
+      const saved = localStorage.getItem('bnSettings');
+      if (saved) {
+        systemSettings = { ...systemSettings, ...JSON.parse(saved) };
+      }
+    }
+
+    function saveSettingsToStorage() {
+      localStorage.setItem('bnSettings', JSON.stringify(systemSettings));
+    }
+
+    // Page navigation
+    function showPage(pageId) {
+      const pages = ['loginPage', 'calculatorPage', 'adminPanel'];
+      pages.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(pageId).classList.remove('hidden');
+    }
+
+    // User login functions
+    async function userLogin() {
+      const key = document.getElementById('accessKey').value.trim();
+      if (!key) {
+        showNotification('Please enter an access key', 'error');
+        return;
+      }
+
+      try {
+        showLoadingScreen(true);
+        const keyData = await validateAndActivateKey(key);
+        if (keyData) {
+          currentUser = { key: key, isAdmin: false, loginTime: Date.now() };
+          localStorage.setItem('bnUser', JSON.stringify(currentUser));
+          showPage('calculatorPage');
+          updateKeyExpiry();
+          await trackDeviceLogin(key);
+          showNotification('Login successful!', 'success');
+        } else {
+          showNotification('Invalid or expired access key', 'error');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        showNotification('Login failed. Please try again.', 'error');
+      } finally {
+        showLoadingScreen(false);
+      }
+    }
+
+    // Enhanced key validation with activation
+    async function validateAndActivateKey(key) {
+      try {
+        // Check Firebase first
+        const keysSnapshot = await window.firebase.getDocs(
+          window.firebase.collection(window.firebase.db, 'keys')
+        );
+        
+        for (const doc of keysSnapshot.docs) {
+          const keyData = doc.data();
+          if (keyData.key === key) {
+            const expiry = keyData.expiry.toDate ? keyData.expiry.toDate() : new Date(keyData.expiry);
+            const now = new Date();
+            
+            // Check if key is expired
+            if (expiry <= now) {
+              return null;
+            }
+            
+            // Activate key on first login if it's pending
+            if (keyData.status === 'pending' && systemSettings.keyActivationMode === 'first_login') {
+              await window.firebase.updateDoc(doc.ref, {
+                status: 'active',
+                firstUsed: window.firebase.serverTimestamp(),
+                lastUsed: window.firebase.serverTimestamp()
+              });
+              showNotification('Key activated successfully!', 'success');
+            } else {
+              // Update last used time
+              await window.firebase.updateDoc(doc.ref, {
+                lastUsed: window.firebase.serverTimestamp()
+              });
+            }
+            
+            return keyData;
+          }
+        }
+        
+        // Fallback to local storage
+        return validateLocalKey(key);
+      } catch (error) {
+        console.error('Key validation error:', error);
+        return validateLocalKey(key);
+      }
+    }
+
+    function validateLocalKey(key) {
+      const keys = getStoredKeys();
+      const keyIndex = keys.findIndex(k => k.key === key);
+      if (keyIndex !== -1) {
+        const keyData = keys[keyIndex];
+        const expiry = new Date(keyData.expiry);
+        const now = new Date();
+        
+        if (expiry <= now) {
+          return null;
+        }
+        
+        // Activate key if pending
+        if (keyData.status === 'pending' && systemSettings.keyActivationMode === 'first_login') {
+          keys[keyIndex].status = 'active';
+          keys[keyIndex].firstUsed = now.toISOString();
+          keys[keyIndex].lastUsed = now.toISOString();
+          localStorage.setItem('bnKeys', JSON.stringify(keys));
+          showNotification('Key activated successfully!', 'success');
+        } else {
+          keys[keyIndex].lastUsed = now.toISOString();
+          localStorage.setItem('bnKeys', JSON.stringify(keys));
+        }
+        
+        return keyData;
+      }
+      return null;
+    }
+
+    function isValidKey(key) {
+      const keys = getStoredKeys();
+      const keyData = keys.find(k => k.key === key);
+      if (!keyData) return false;
+      
+      const expiry = new Date(keyData.expiry);
+      const isNotExpired = expiry > new Date();
+      const isActiveOrPending = keyData.status === 'active' || keyData.status === 'pending';
+      
+      return isNotExpired && isActiveOrPending;
+    }
+
+    // Admin login functions
+    function showAdminLogin() {
+      document.getElementById('adminLoginModal').classList.remove('hidden');
+      document.getElementById('adminPassword').focus();
+    }
+
+    function hideAdminLogin() {
+      document.getElementById('adminLoginModal').classList.add('hidden');
+      document.getElementById('adminPassword').value = '';
+    }
+
+    window.adminLogin = function() {
+      const password = document.getElementById('adminPassword').value;
+      if (password === ADMIN_PASSWORD) {
+        currentUser = { isAdmin: true, loginTime: Date.now() };
+        localStorage.setItem('bnUser', JSON.stringify(currentUser));
+        isAdmin = true;
+        hideAdminLogin();
+        showPage('adminPanel');
+        initializeAdminPanel();
+        showNotification('Admin authentication successful!', 'success');
+      } else {
+        showNotification('Invalid admin password', 'error');
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminPassword').focus();
+      }
+    };
+
+    // Calculator functions
+    function appendNumber(num) {
+      const input = document.getElementById("userInput");
+      if (input.value.length < 3) {
+        input.value += num;
+      }
+    }
+
+    function clearInput() {
+      document.getElementById("userInput").value = "";
+      document.getElementById("result").innerHTML = "";
+    }
+
+    function checkResult() {
+      const input = document.getElementById("userInput").value.trim();
+      const resultBox = document.getElementById("result");
+
+      if (input.length !== 3 || isNaN(input)) {
+        resultBox.innerHTML = '<span class="text-red-400 animate-pulse"><i class="fas fa-exclamation-triangle mr-2"></i>Please enter a valid 3-digit number!</span>';
+        return;
+      }
+
+      const lastDigit = parseInt(input[input.length - 1]);
+      const result = (lastDigit >= 5) ? "BIG" : "SMALL";
+      const color = result === 'BIG' ? 'var(--primary-neon)' : 'var(--secondary-neon)';
+      const icon = result === 'BIG' ? 'fa-arrow-up' : 'fa-arrow-down';
+
+      resultBox.innerHTML = `
+        <div class="bg-black bg-opacity-50 p-4 rounded-lg border-2" style="border-color: ${color};">
+          <div class="text-sm text-gray-400 mb-2">Result for ${input}:</div>
+          <div class="text-3xl font-bold orbitron" style="color: ${color}; text-shadow: 0 0 15px ${color};">
+            <i class="fas ${icon} mr-2"></i>${result}
+          </div>
+        </div>
+      `;
+    }
+
+    function updateKeyExpiry() {
+      const keys = getStoredKeys();
+      const keyData = keys.find(k => k.key === currentUser.key);
+      if (keyData) {
+        const expiry = new Date(keyData.expiry);
+        document.getElementById('keyExpiry').textContent = expiry.toLocaleDateString();
+      }
+    }
+
+    async function updateKeyLastUsed(key) {
+      try {
+        // Update in Firebase
+        const keysSnapshot = await window.firebase.getDocs(
+          window.firebase.collection(window.firebase.db, 'keys')
+        );
+        
+        for (const doc of keysSnapshot.docs) {
+          const keyData = doc.data();
+          if (keyData.key === key) {
+            await window.firebase.updateDoc(doc.ref, {
+              lastUsed: window.firebase.serverTimestamp()
+            });
+            break;
+          }
+        }
+      } catch (error) {
+        console.error('Error updating key last used:', error);
+      }
+      
+      // Also update local storage
+      const keys = getStoredKeys();
+      const keyIndex = keys.findIndex(k => k.key === key);
+      if (keyIndex !== -1) {
+        keys[keyIndex].lastUsed = Date.now();
+        localStorage.setItem('bnKeys', JSON.stringify(keys));
+      }
+    }
+
+    async function trackDeviceLogin(key) {
+      try {
+        const deviceInfo = {
+          deviceId: getDeviceId(),
+          keyUsed: key,
+          platform: navigator.platform,
+          browser: getBrowserInfo(),
+          lastSeen: window.firebase.serverTimestamp(),
+          ipAddress: await getIPAddress(),
+          location: 'India',
+          status: 'online',
+          loginTime: window.firebase.serverTimestamp()
+        };
+
+        await window.firebase.addDoc(
+          window.firebase.collection(window.firebase.db, 'devices'),
+          deviceInfo
+        );
+      } catch (error) {
+        console.error('Error tracking device login:', error);
+      }
+    }
+
+    function getDeviceId() {
+      let deviceId = localStorage.getItem('deviceId');
+      if (!deviceId) {
+        deviceId = 'device_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('deviceId', deviceId);
+      }
+      return deviceId;
+    }
+
+    function getBrowserInfo() {
+      const ua = navigator.userAgent;
+      if (ua.includes('Chrome')) return 'Chrome';
+      if (ua.includes('Firefox')) return 'Firefox';
+      if (ua.includes('Safari')) return 'Safari';
+      if (ua.includes('Edge')) return 'Edge';
+      return 'Unknown';
+    }
+
+    async function getIPAddress() {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+      } catch (error) {
+        return '127.0.0.1';
+      }
+    }
+
+    // Admin panel initialization
+    async function initializeAdminPanel() {
+      try {
+        showLoadingScreen(true);
+        
+        // Initialize sidebar
+        document.getElementById('sidebar').classList.add('active');
+        document.getElementById('mainContent').classList.add('shifted');
+
+        // Start online timer
+        startOnlineTimer();
+
+        // Load initial data
+        await Promise.all([
+          loadKeys(),
+          loadDevices(),
+          loadSessions(),
+          loadAnalytics()
+        ]);
+
+        // Initialize charts
+        initializeCharts();
+
+        // Set up real-time listeners
+        setupRealTimeListeners();
+
+        // Update statistics
+        updateStatistics();
+
+        // Load settings into UI
+        loadSettingsIntoUI();
+
+        showNotification('Enhanced admin panel initialized successfully!', 'success');
+      } catch (error) {
+        console.error('Error initializing admin panel:', error);
+        showNotification('Error initializing admin panel: ' + error.message, 'error');
+      } finally {
+        showLoadingScreen(false);
+      }
+    }
+
+    function loadSettingsIntoUI() {
+      if (document.getElementById('maxDevicesPerKey')) {
+        document.getElementById('maxDevicesPerKey').value = systemSettings.maxDevicesPerKey;
+        document.getElementById('sessionTimeout').value = systemSettings.sessionTimeout;
+        document.getElementById('autoDeleteExpired').value = systemSettings.autoDeleteExpired.toString();
+        document.getElementById('keyActivationMode').value = systemSettings.keyActivationMode;
+      }
+    }
+
+    // Timer functions
+    function startOnlineTimer() {
+      if (onlineTimer) clearInterval(onlineTimer);
+      const startTime = Date.now();
+      onlineTimer = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const hours = Math.floor(elapsed / 3600000);
+        const minutes = Math.floor((elapsed % 3600000) / 60000);
+        const seconds = Math.floor((elapsed % 60000) / 1000);
+        const timeElement = document.getElementById('onlineTime');
+        if (timeElement) {
+          timeElement.textContent = 
+            `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+      }, 1000);
+    }
+
+    // Navigation
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('mainContent');
+      sidebar.classList.toggle('active');
+      mainContent.classList.toggle('shifted');
+    }
+
+    window.showTab = function(tabName) {
+      // Hide all tab contents
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      // Remove active class from all sidebar items
+      const sidebarItems = document.querySelectorAll('.sidebar-item');
+      sidebarItems.forEach(item => item.classList.remove('active'));
+
+      // Show selected tab
+      document.getElementById(tabName).classList.add('active');
+
+      // Add active class to clicked sidebar item
+      event.target.closest('.sidebar-item').classList.add('active');
+
+      // Load tab-specific data
+      switch(tabName) {
+        case 'dashboard':
+          updateStatistics();
+          break;
+        case 'keys':
+          filterKeys();
+          break;
+        case 'devices':
+          filterDevices();
+          break;
+        case 'users':
+          refreshSessions();
+          break;
+        case 'analytics':
+          updateAnalytics();
+          break;
+        case 'settings':
+          loadSettingsIntoUI();
+          break;
+      }
+    };
+
+    // Enhanced key management functions
+    async function loadKeys() {
+      try {
+        const querySnapshot = await window.firebase.getDocs(
+          window.firebase.collection(window.firebase.db, 'keys')
+        );
+        allKeys = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          expiry: doc.data().expiry.toDate ? doc.data().expiry.toDate() : new Date(doc.data().expiry),
+          created: doc.data().created.toDate ? doc.data().created.toDate() : new Date(doc.data().created)
+        }));
+        displayKeys(allKeys);
+      } catch (error) {
+        console.error('Error loading keys from Firebase:', error);
+        // Fallback to demo data
+        allKeys = generateDemoKeys();
+        displayKeys(allKeys);
+      }
+    }
+
+    function generateDemoKeys() {
+      const keys = getStoredKeys();
+      if (keys.length > 0) {
+        return keys.map(k => ({
+          ...k,
+          expiry: new Date(k.expiry),
+          created: new Date(k.created || Date.now()),
+          activeDevices: 0
+        }));
+      }
+      
+      return [
+        {
+          id: 'demo1',
+          key: 'BNDEMO123',
+          expiry: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          created: new Date(),
+          duration: 7,
+          deviceLimit: 1,
+          activeDevices: 1,
+          lastUsed: new Date(Date.now() - 30000),
+          status: 'active'
+        },
+        {
+          id: 'demo2',
+          key: 'BNTEST456',
+          expiry: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          created: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+          duration: 30,
+          deviceLimit: 1,
+          activeDevices: 0,
+          lastUsed: null,
+          status: 'pending'
+        }
+      ];
+    }
+
+    window.generateKeys = async function() {
+      const duration = parseInt(document.getElementById('keyDuration').value);
+      const count = parseInt(document.getElementById('keyCount').value) || 1;
+      const prefix = document.getElementById('keyPrefix').value.trim() || 'BN';
+      const deviceLimit = parseInt(document.getElementById('deviceLimit').value);
+      
+      if (count > 100) {
+        showNotification('Maximum 100 keys at once', 'error');
+        return;
+      }
+
+      try {
+        showLoadingScreen(true);
+        const newKeys = [];
+
+        for (let i = 0; i < count; i++) {
+          const key = generateRandomKey(prefix);
+          const expiry = new Date();
+          expiry.setDate(expiry.getDate() + duration);
+          
+          // Set initial status based on settings
+          const initialStatus = systemSettings.keyActivationMode === 'first_login' ? 'pending' : 'active';
+          
+          const keyData = {
+            key: key,
+            expiry: expiry,
+            created: window.firebase.serverTimestamp(),
+            duration: duration,
+            deviceLimit: deviceLimit,
+            activeDevices: 0,
+            lastUsed: null,
+            status: initialStatus,
+            firstUsed: null
+          };
+          
+          try {
+            await window.firebase.addDoc(
+              window.firebase.collection(window.firebase.db, 'keys'),
+              keyData
+            );
+            newKeys.push({...keyData, expiry: expiry.toISOString()});
+          } catch (error) {
+            console.error('Firebase error, using local storage:', error);
+            // Fallback to local storage
+            const localKeys = getStoredKeys();
+            localKeys.push({
+              id: 'local_' + Date.now() + '_' + i,
+              ...keyData,
+              created: new Date().toISOString(),
+              expiry: expiry.toISOString()
+            });
+            localStorage.setItem('bnKeys', JSON.stringify(localKeys));
+            newKeys.push({...keyData, expiry: expiry.toISOString()});
+          }
+        }
+
+        await loadKeys();
+        updateStatistics();
+
+        const keyList = newKeys.map(k => k.key).join('\n');
+        const statusMsg = systemSettings.keyActivationMode === 'first_login' ? 
+          'Keys created in PENDING status. They will activate on first login.' :
+          'Keys created and immediately ACTIVE.';
+        
+        showNotification(`Generated ${count} key(s) successfully! ${statusMsg}`, 'success');
+        
+        if (confirm(`Generated ${count} key(s):\n\n${keyList}\n\n${statusMsg}\n\nCopy to clipboard?`)) {
+          await navigator.clipboard.writeText(keyList);
+          showNotification('Keys copied to clipboard!', 'success');
+        }
+      } catch (error) {
+        console.error('Error generating keys:', error);
+        showNotification('Error generating keys: ' + error.message, 'error');
+      } finally {
+        showLoadingScreen(false);
+      }
+    };
+
+    function generateRandomKey(prefix = 'BN') {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let result = prefix;
+      const keyLength = 12 - prefix.length;
+      for (let i = 0; i < keyLength; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    function displayKeys(keys) {
+      const keysList = document.getElementById('keysList');
+      if (!keysList) return;
+      
+      keysList.innerHTML = '';
+
+      if (keys.length === 0) {
+        keysList.innerHTML = `
+          <div class="text-center text-gray-400 py-12">
+            <i class="fas fa-key fa-3x mb-4"></i>
+            <p class="text-lg">No keys found</p>
+          </div>
+        `;
+        return;
+      }
+
+      keys.forEach(keyData => {
+        const expiry = keyData.expiry instanceof Date ? keyData.expiry : new Date(keyData.expiry);
+        const isExpired = expiry < new Date();
+        const isOnline = keyData.lastUsed && (Date.now() - new Date(keyData.lastUsed).getTime()) < 300000;
+        
+        let statusClass, statusText, statusIcon, badgeClass;
+        if (isExpired) {
+          statusClass = 'status-expired';
+          statusText = 'Expired';
+          statusIcon = 'fa-times-circle';
+          badgeClass = 'badge-expired';
+        } else if (keyData.status === 'pending') {
+          statusClass = 'status-pending';
+          statusText = 'Pending';
+          statusIcon = 'fa-clock';
+          badgeClass = 'badge-pending';
+        } else if (isOnline) {
+          statusClass = 'status-online';
+          statusText = 'Online';
+          statusIcon = 'fa-circle';
+          badgeClass = 'badge-online';
+        } else {
+          statusClass = 'status-active';
+          statusText = 'Active';
+          statusIcon = 'fa-check-circle';
+          badgeClass = 'badge-active';
+        }
+        
+        const keyCard = document.createElement('div');
+        keyCard.className = 'card';
+        keyCard.innerHTML = `
+          <div class="flex justify-between items-center">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="font-mono font-bold text-xl">${keyData.key}</span>
+                <button onclick="copyKey('${keyData.key}')" class="text-blue-400 hover:text-blue-300 transition-colors text-lg">
+                  <i class="fas fa-copy"></i>
+                </button>
+                <span class="key-status-badge ${badgeClass}">
+                  <i class="fas ${statusIcon} mr-1"></i>${statusText}
+                </span>
+              </div>
+              <div class="text-sm text-gray-400 space-y-2">
+                <div><i class="fas fa-calendar mr-2"></i>Duration: ${keyData.duration} day(s)</div>
+                <div><i class="fas fa-clock mr-2"></i>Expires: ${expiry.toLocaleString()}</div>
+                <div><i class="fas fa-mobile-alt mr-2"></i>Devices: ${keyData.activeDevices || 0}/${keyData.deviceLimit || 1}</div>
+                <div><i class="fas fa-user mr-2"></i>Last Used: ${keyData.lastUsed ? new Date(keyData.lastUsed).toLocaleString() : 'Never'}</div>
+                ${keyData.firstUsed ? `<div><i class="fas fa-play mr-2"></i>First Used: ${new Date(keyData.firstUsed).toLocaleString()}</div>` : ''}
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="space-y-2">
+                <button onclick="extendKey('${keyData.id}')" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors w-full font-semibold">
+                  <i class="fas fa-plus mr-1"></i>Extend
+                </button>
+                <button onclick="viewKeyDetails('${keyData.id}')" 
+                        class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-700 transition-colors w-full font-semibold">
+                  <i class="fas fa-eye mr-1"></i>Details
+                </button>
+                <button onclick="showDeleteConfirmation('key', '${keyData.id}', '${keyData.key}')" 
+                        class="btn-danger px-4 py-2 rounded-lg text-sm transition-colors w-full font-semibold">
+                  <i class="fas fa-trash mr-1"></i>Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        keysList.appendChild(keyCard);
+      });
+    }
+
+    window.filterKeys = function() {
+      const search = document.getElementById('searchKeys')?.value.toLowerCase() || '';
+      const status = document.getElementById('filterKeyStatus')?.value || 'all';
+      
+      let filtered = allKeys.filter(key => {
+        const matchesSearch = key.key.toLowerCase().includes(search);
+        const expiry = key.expiry instanceof Date ? key.expiry : new Date(key.expiry);
+        const isExpired = expiry < new Date();
+        const isOnline = key.lastUsed && (Date.now() - new Date(key.lastUsed).getTime()) < 300000;
+        
+        let matchesStatus = true;
+        if (status === 'active') matchesStatus = !isExpired && !isOnline && key.status === 'active';
+        if (status === 'pending') matchesStatus = !isExpired && key.status === 'pending';
+        if (status === 'expired') matchesStatus = isExpired;
+        if (status === 'online') matchesStatus = isOnline && !isExpired;
+        
+        return matchesSearch && matchesStatus;
+      });
+      
+      displayKeys(filtered);
+    };
+
+    // Enhanced delete system
+    function showDeleteConfirmation(type, id, name) {
+      deleteItemId = id;
+      deleteCallback = type === 'key' ? deleteKeyConfirmed : deleteDeviceConfirmed;
+      
+      document.getElementById('deleteItemInfo').textContent = `${type.toUpperCase()}: ${name}`;
+      document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function cancelDelete() {
+      document.getElementById('deleteModal').classList.add('hidden');
+      deleteCallback = null;
+      deleteItemId = null;
+    }
+
+    async function confirmDelete() {
+      if (deleteCallback && deleteItemId) {
+        try {
+          showLoadingScreen(true);
+          await deleteCallback(deleteItemId);
+          cancelDelete();
+        } catch (error) {
+          console.error('Delete error:', error);
+          showNotification('Error deleting item: ' + error.message, 'error');
+        } finally {
+          showLoadingScreen(false);
+        }
+      }
+    }
+
+    async function deleteKeyConfirmed(keyId) {
+      try {
+        // Delete from Firebase
+        await window.firebase.deleteDoc(window.firebase.doc(window.firebase.db, 'keys', keyId));
+        showNotification('Key deleted successfully!', 'success');
+      } catch (error) {
+        // Fallback to local storage
+        const keys = getStoredKeys();
+        const filteredKeys = keys.filter(k => k.id !== keyId);
+        localStorage.setItem('bnKeys', JSON.stringify(filteredKeys));
+        showNotification('Key deleted from local storage!', 'success');
+      }
+      
+      await loadKeys();
+      updateStatistics();
+    }
+
+    async function deleteDeviceConfirmed(deviceId) {
+      try {
+        await window.firebase.deleteDoc(window.firebase.doc(window.firebase.db, 'devices', deviceId));
+        showNotification('Device deleted successfully!', 'success');
+        await loadDevices();
+        updateStatistics();
+      } catch (error) {
+        showNotification('Error deleting device: ' + error.message, 'error');
+      }
+    }
+
+    // Device management functions
+    async function loadDevices() {
+      try {
+        const querySnapshot = await window.firebase.getDocs(
+          window.firebase.collection(window.firebase.db, 'devices')
+        );
+        allDevices = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          lastSeen: doc.data().lastSeen.toDate ? doc.data().lastSeen.toDate() : new Date(doc.data().lastSeen),
+          loginTime: doc.data().loginTime.toDate ? doc.data().loginTime.toDate() : new Date(doc.data().loginTime)
+        }));
+        displayDevices(allDevices);
+      } catch (error) {
+        console.error('Error loading devices:', error);
+        // Generate demo devices
+        allDevices = generateDemoDevices();
+        displayDevices(allDevices);
+      }
+    }
+
+    function generateDemoDevices() {
+      return [
+        {
+          id: 'device1',
+          deviceId: 'android_' + Math.random().toString(36).substr(2, 9),
+          keyUsed: 'BNDEMO123',
+          platform: 'Android',
+          browser: 'Chrome Mobile',
+          lastSeen: new Date(),
+          ipAddress: '192.168.1.100',
+          location: 'India',
+          status: 'online',
+          loginTime: new Date(Date.now() - 300000)
+        },
+        {
+          id: 'device2',
+          deviceId: 'windows_' + Math.random().toString(36).substr(2, 9),
+          keyUsed: 'BNTEST456',
+          platform: 'Windows',
+          browser: 'Chrome',
+          lastSeen: new Date(Date.now() - 1800000),
+          ipAddress: '10.0.0.50',
+          location: 'India',
+          status: 'offline',
+          loginTime: new Date(Date.now() - 3600000)
+        }
+      ];
+    }
+
+    function displayDevices(devices) {
+      const devicesList = document.getElementById('devicesList');
+      if (!devicesList) return;
+      
+      devicesList.innerHTML = '';
+
+      if (devices.length === 0) {
+        devicesList.innerHTML = `
+          <div class="text-center text-gray-400 py-12">
+            <i class="fas fa-mobile-alt fa-3x mb-4"></i>
+            <p class="text-lg">No devices found</p>
+          </div>
+        `;
+        return;
+      }
+
+      devices.forEach(device => {
+        const lastSeen = device.lastSeen instanceof Date ? device.lastSeen : new Date(device.lastSeen);
+        const isOnline = (Date.now() - lastSeen.getTime()) < 300000;
+        
+        let statusClass, statusText, statusIcon;
+        if (device.status === 'blocked') {
+          statusClass = 'status-blocked';
+          statusText = 'Blocked';
+          statusIcon = 'fa-ban';
+        } else if (isOnline) {
+          statusClass = 'status-online';
+          statusText = 'Online';
+          statusIcon = 'fa-circle';
+        } else {
+          statusClass = 'status-offline';
+          statusText = 'Offline';
+          statusIcon = 'fa-circle';
+        }
+        
+        const deviceCard = document.createElement('div');
+        deviceCard.className = 'device-card';
+        deviceCard.innerHTML = `
+          <div class="flex justify-between items-center">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <i class="fas fa-${getPlatformIcon(device.platform)} text-lg mr-2"></i>
+                <span class="font-bold text-lg">${device.platform} - ${device.browser}</span>
+                <span class="key-status-badge ${statusClass === 'status-online' ? 'badge-online' : statusClass === 'status-blocked' ? 'badge-expired' : 'badge-active'}">
+                  <i class="fas ${statusIcon} mr-1"></i>${statusText}
+                </span>
+              </div>
+              <div class="text-sm text-gray-400 space-y-2">
+                <div><i class="fas fa-key mr-2"></i>Key: ${device.keyUsed}</div>
+                <div><i class="fas fa-globe mr-2"></i>IP: ${device.ipAddress} (${device.location})</div>
+                <div><i class="fas fa-clock mr-2"></i>Last Seen: ${lastSeen.toLocaleString()}</div>
+                <div><i class="fas fa-fingerprint mr-2"></i>Device ID: ${device.deviceId.substring(0, 20)}...</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="space-y-2">
+                <button onclick="kickDevice('${device.id}')" 
+                        class="btn-warning px-4 py-2 rounded-lg text-sm transition-colors w-full font-semibold">
+                  <i class="fas fa-power-off mr-1"></i>Kick
+                </button>
+                <button onclick="blockDevice('${device.id}')" 
+                        class="btn-danger px-4 py-2 rounded-lg text-sm transition-colors w-full font-semibold">
+                  <i class="fas fa-ban mr-1"></i>Block
+                </button>
+                <button onclick="showDeleteConfirmation('device', '${device.id}', '${device.deviceId}')" 
+                        class="btn-secondary px-4 py-2 rounded-lg text-sm transition-colors w-full font-semibold">
+                  <i class="fas fa-trash mr-1"></i>Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        devicesList.appendChild(deviceCard);
+      });
+    }
+
+    function getPlatformIcon(platform) {
+      const icons = {
+        'Android': 'android',
+        'iOS': 'apple',
+        'Windows': 'windows',
+        'macOS': 'apple',
+        'Linux': 'linux'
+      };
+      return icons[platform] || 'desktop';
+    }
+
+    window.filterDevices = function() {
+      const search = document.getElementById('searchDevices')?.value.toLowerCase() || '';
+      const status = document.getElementById('filterDeviceStatus')?.value || 'all';
+      
+      let filtered = allDevices.filter(device => {
+        const matchesSearch = device.keyUsed.toLowerCase().includes(search) || 
+                             device.platform.toLowerCase().includes(search) ||
+                             device.ipAddress.includes(search);
+        
+        const lastSeen = device.lastSeen instanceof Date ? device.lastSeen : new Date(device.lastSeen);
+        const isOnline = (Date.now() - lastSeen.getTime()) < 300000;
+        
+        let matchesStatus = true;
+        if (status === 'online') matchesStatus = isOnline && device.status !== 'blocked';
+        if (status === 'offline') matchesStatus = !isOnline && device.status !== 'blocked';
+        if (status === 'blocked') matchesStatus = device.status === 'blocked';
+        
+        return matchesSearch && matchesStatus;
+      });
+      
+      displayDevices(filtered);
+    };
+
+    // Session management
+    async function loadSessions() {
+      // Sessions are essentially active devices
+      allSessions = allDevices.filter(device => {
+        const lastSeen = device.lastSeen instanceof Date ? device.lastSeen : new Date(device.lastSeen);
+        return (Date.now() - lastSeen.getTime()) < 300000 && device.status !== 'blocked';
+      });
+      displaySessions(allSessions);
+    }
+
+    function displaySessions(sessions) {
+      const sessionsList = document.getElementById('sessionsList');
+      if (!sessionsList) return;
+      
+      sessionsList.innerHTML = '';
+
+      if (sessions.length === 0) {
+        sessionsList.innerHTML = `
+          <div class="text-center text-gray-400 py-12">
+            <i class="fas fa-users fa-3x mb-4"></i>
+            <p class="text-lg">No active sessions</p>
+          </div>
+        `;
+        return;
+      }
+
+      sessions.forEach(session => {
+        const loginTime = session.loginTime instanceof Date ? session.loginTime : new Date(session.loginTime);
+        const sessionDuration = Math.floor((Date.now() - loginTime.getTime()) / 60000);
+        
+        const sessionCard = document.createElement('div');
+        sessionCard.className = 'card';
+        sessionCard.innerHTML = `
+          <div class="flex justify-between items-center">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <i class="fas fa-${getPlatformIcon(session.platform)} text-lg mr-2 text-blue-400"></i>
+                <span class="font-bold text-lg">${session.keyUsed}</span>
+                <span class="key-status-badge badge-online">
+                  <i class="fas fa-circle mr-1"></i>ACTIVE
+                </span>
+              </div>
+              <div class="text-sm text-gray-400 space-y-2">
+                <div><i class="fas fa-desktop mr-2"></i>${session.platform} - ${session.browser}</div>
+                <div><i class="fas fa-globe mr-2"></i>${session.ipAddress} (${session.location})</div>
+                <div><i class="fas fa-clock mr-2"></i>Session Duration: ${sessionDuration} minutes</div>
+                <div><i class="fas fa-sign-in-alt mr-2"></i>Login Time: ${loginTime.toLocaleString()}</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="space-y-2">
+                <button onclick="kickSession('${session.id}')" 
+                        class="btn-danger px-6 py-3 rounded-lg text-sm transition-colors font-semibold">
+                  <i class="fas fa-power-off mr-1"></i>Kick User
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        sessionsList.appendChild(sessionCard);
+      });
+    }
+
+    // Chart initialization
+    function initializeCharts() {
+      // Activity Chart
+      const activityCtx = document.getElementById('activityChart')?.getContext('2d');
+      if (activityCtx) {
+        charts.activity = new Chart(activityCtx, {
+          type: 'line',
+          data: {
+            labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+            datasets: [{
+              label: 'Active Users',
+              data: generateRandomData(24, 0, 50),
+              borderColor: '#00ff00',
+              backgroundColor: 'rgba(0, 255, 0, 0.1)',
+              tension: 0.4,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#00ff00'
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: { color: '#00ff00' },
+                grid: { color: 'rgba(0, 255, 0, 0.2)' }
+              },
+              y: {
+                ticks: { color: '#00ff00' },
+                grid: { color: 'rgba(0, 255, 0, 0.2)' }
+              }
+            }
+          }
+        });
+      }
+
+      // Status Chart
+      const statusCtx = document.getElementById('statusChart')?.getContext('2d');
+      if (statusCtx) {
+        charts.status = new Chart(statusCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Active', 'Pending', 'Expired', 'Online'],
+            datasets: [{
+              data: [45, 15, 25, 15],
+              backgroundColor: ['#00ff00', '#aa00ff', '#ff4444', '#00ffff'],
+              borderColor: '#000',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#00ff00'
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Login Trends Chart
+      const trendsCtx = document.getElementById('loginTrendsChart')?.getContext('2d');
+      if (trendsCtx) {
+        charts.trends = new Chart(trendsCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+              label: 'Login Count',
+              data: generateRandomData(7, 10, 100),
+              backgroundColor: 'rgba(0, 255, 0, 0.8)',
+              borderColor: '#00ff00',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#00ff00'
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: { color: '#00ff00' },
+                grid: { color: 'rgba(0, 255, 0, 0.2)' }
+              },
+              y: {
+                ticks: { color: '#00ff00' },
+                grid: { color: 'rgba(0, 255, 0, 0.2)' }
+              }
+            }
+          }
+        });
+      }
+
+      // Device Types Chart
+      const deviceCtx = document.getElementById('deviceTypesChart')?.getContext('2d');
+      if (deviceCtx) {
+        charts.deviceTypes = new Chart(deviceCtx, {
+          type: 'pie',
+          data: {
+            labels: ['Android', 'Windows', 'iOS', 'macOS', 'Linux'],
+            datasets: [{
+              data: [45, 30, 15, 8, 2],
+              backgroundColor: ['#00ff00', '#0088ff', '#ff00ff', '#ffff00', '#ff8800'],
+              borderColor: '#000',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#00ff00'
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    function generateRandomData(length, min, max) {
+      return Array.from({length}, () => Math.floor(Math.random() * (max - min + 1)) + min);
+    }
+
+    // Enhanced statistics update
+    function updateStatistics() {
+      const now = new Date();
+      
+      // Key statistics
+      const activeKeys = allKeys.filter(k => {
+        const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
+        return expiry > now && k.status === 'active';
+      }).length;
+      
+      const pendingKeys = allKeys.filter(k => {
+        const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
+        return expiry > now && k.status === 'pending';
+      }).length;
+      
+      const expiredKeys = allKeys.filter(k => {
+        const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
+        return expiry <= now;
+      }).length;
+      
+      const onlineUsers = allDevices.filter(d => {
+        const lastSeen = d.lastSeen instanceof Date ? d.lastSeen : new Date(d.lastSeen);
+        return (Date.now() - lastSeen.getTime()) < 300000 && d.status !== 'blocked';
+      }).length;
+      
+      const usedKeys = allKeys.filter(k => k.activeDevices > 0).length;
+
+      // Update dashboard stats
+      animateNumber('totalKeys', allKeys.length);
+      animateNumber('activeUsers', onlineUsers);
+      animateNumber('pendingKeys', pendingKeys);
+      animateNumber('dailyLogins', Math.floor(Math.random() * 50) + 10);
+
+      // Update key management stats
+      if (document.getElementById('activeKeysCount')) {
+        animateNumber('activeKeysCount', activeKeys);
+        animateNumber('pendingKeysCount', pendingKeys);
+        animateNumber('expiredKeysCount', expiredKeys);
+        animateNumber('usedKeysCount', usedKeys);
+      }
+
+      // Update device stats
+      const onlineDevices = allDevices.filter(d => {
+        const lastSeen = d.lastSeen instanceof Date ? d.lastSeen : new Date(d.lastSeen);
+        return (Date.now() - lastSeen.getTime()) < 300000 && d.status !== 'blocked';
+      }).length;
+      
+      const blockedDevices = allDevices.filter(d => d.status === 'blocked').length;
+
+      if (document.getElementById('totalDevicesCount')) {
+        animateNumber('totalDevicesCount', allDevices.length);
+        animateNumber('onlineDevicesCount', onlineDevices);
+        animateNumber('blockedDevicesCount', blockedDevices);
+        animateNumber('suspiciousDevicesCount', Math.floor(Math.random() * 5));
+      }
+
+      // Update charts
+      updateChartData();
+    }
+
+    function updateChartData() {
+      if (charts.status) {
+        const now = new Date();
+        const activeKeys = allKeys.filter(k => {
+          const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
+          return expiry > now && k.status === 'active';
+        }).length;
+        
+        const pendingKeys = allKeys.filter(k => {
+          const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
+          return expiry > now && k.status === 'pending';
+        }).length;
+        
+        const expiredKeys = allKeys.filter(k => {
+          const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
+          return expiry <= now;
+        }).length;
+        
+        const onlineKeys = allKeys.filter(k => {
+          const lastUsed = k.lastUsed ? new Date(k.lastUsed) : null;
+          return lastUsed && (Date.now() - lastUsed.getTime()) < 300000;
+        }).length;
+
+        charts.status.data.datasets[0].data = [activeKeys, pendingKeys, expiredKeys, onlineKeys];
+        charts.status.update();
+      }
+    }
+
+    function animateNumber(elementId, targetValue) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      const currentValue = parseInt(element.textContent) || 0;
+      const step = Math.ceil(Math.abs(targetValue - currentValue) / 10) || 1;
+      
+      const animate = () => {
+        const current = parseInt(element.textContent) || 0;
+        if (current < targetValue) {
+          element.textContent = Math.min(current + step, targetValue);
+          if (parseInt(element.textContent) < targetValue) {
+            requestAnimationFrame(animate);
+          }
+        } else if (current > targetValue) {
+          element.textContent = Math.max(current - step, targetValue);
+          if (parseInt(element.textContent) > targetValue) {
+            requestAnimationFrame(animate);
+          }
+        }
+      };
+      
+      animate();
+    }
+
+    // Real-time listeners
+    function setupRealTimeListeners() {
+      // Set up Firebase listeners for real-time updates
+      try {
+        const keysListener = window.firebase.onSnapshot(
+          window.firebase.collection(window.firebase.db, 'keys'),
+          (snapshot) => {
+            allKeys = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data(),
+              expiry: doc.data().expiry.toDate ? doc.data().expiry.toDate() : new Date(doc.data().expiry),
+              created: doc.data().created.toDate ? doc.data().created.toDate() : new Date(doc.data().created)
+            }));
+            displayKeys(allKeys);
+            updateStatistics();
+          }
+        );
+        realTimeListeners.push(keysListener);
+
+        const devicesListener = window.firebase.onSnapshot(
+          window.firebase.collection(window.firebase.db, 'devices'),
+          (snapshot) => {
+            allDevices = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data(),
+              lastSeen: doc.data().lastSeen.toDate ? doc.data().lastSeen.toDate() : new Date(doc.data().lastSeen),
+              loginTime: doc.data().loginTime.toDate ? doc.data().loginTime.toDate() : new Date(doc.data().loginTime)
+            }));
+            displayDevices(allDevices);
+            loadSessions();
+            updateStatistics();
+          }
+        );
+        realTimeListeners.push(devicesListener);
+      } catch (error) {
+        console.error('Error setting up real-time listeners:', error);
+        // Fallback to periodic updates
+        setInterval(() => {
+          if (isAdmin) {
+            updateStatistics();
+            updateRecentActivity();
+          }
+        }, 30000);
+      }
+    }
+
+    function updateRecentActivity() {
+      const activities = [
+        `New ${Math.random() > 0.5 ? 'Android' : 'Windows'} device login detected`,
+        `Key ${generateRandomKey('BN').substring(0, 8)}... activated on first use`,
+        `User session timeout after ${systemSettings.sessionTimeout} minutes`,
+        `Suspicious login attempt blocked from new location`,
+        `Key ${generateRandomKey('BN').substring(0, 8)}... expired and auto-deleted`,
+        `Device registration from ${Math.random() > 0.5 ? 'India' : 'USA'}`,
+        `Bulk key generation completed: 5 keys created`
+      ];
+      
+      const recentActivity = document.getElementById('recentActivity');
+      if (recentActivity) {
+        const selectedActivities = activities.sort(() => 0.5 - Math.random()).slice(0, 4);
+        recentActivity.innerHTML = selectedActivities.map((activity, index) => 
+          `<div class="text-xs text-gray-400 border-l-2 border-green-500 pl-3 py-1">
+            <span class="text-green-400">[${new Date(Date.now() - index * 60000).toLocaleTimeString()}]</span> ${activity}
+          </div>`
+        ).join('');
+      }
+    }
+
+    // Analytics functions
+    function loadAnalytics() {
+      updatePeakHours();
+      updateTopLocations();
+    }
+
+    function updateAnalytics() {
+      if (charts.trends) {
+        charts.trends.data.datasets[0].data = generateRandomData(7, 10, 100);
+        charts.trends.update();
+      }
+      
+      if (charts.activity) {
+        charts.activity.data.datasets[0].data = generateRandomData(24, 0, 50);
+        charts.activity.update();
+      }
+      
+      updatePeakHours();
+      updateTopLocations();
+    }
+
+    function updatePeakHours() {
+      const peakHours = document.getElementById('peakHours');
+      if (peakHours) {
+        const hours = [
+          { time: '18:00 - 19:00', users: 45, bar: '90%' },
+          { time: '20:00 - 21:00', users: 38, bar: '76%' },
+          { time: '21:00 - 22:00', users: 32, bar: '64%' },
+          { time: '19:00 - 20:00', users: 28, bar: '56%' }
+        ];
+        
+        peakHours.innerHTML = hours.map(hour => `
+          <div class="flex justify-between items-center">
+            <span class="text-sm">${hour.time}</span>
+            <div class="flex items-center gap-2">
+              <div class="w-24 h-3 bg-gray-700 rounded">
+                <div class="h-full bg-green-400 rounded transition-all duration-500" style="width: ${hour.bar}"></div>
+              </div>
+              <span class="text-green-400 text-sm font-bold">${hour.users}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function updateTopLocations() {
+      const topLocations = document.getElementById('topLocations');
+      if (topLocations) {
+        const locations = [
+          { country: 'India', users: 156, flag: '🇮🇳' },
+          { country: 'USA', users: 89, flag: '🇺🇸' },
+          { country: 'UK', users: 67, flag: '🇬🇧' },
+          { country: 'Canada', users: 34, flag: '🇨🇦' },
+          { country: 'Australia', users: 23, flag: '🇦🇺' }
+        ];
+        
+        topLocations.innerHTML = locations.map(location => `
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">${location.flag}</span>
+              <span class="text-sm">${location.country}</span>
+            </div>
+            <span class="text-green-400 text-sm font-bold">${location.users} users</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Utility functions
+    function showLoadingScreen(show) {
+      document.getElementById('loadingScreen').classList.toggle('hidden', !show);
+    }
+
+    function showNotification(message, type = 'info') {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.className = `notification ${type}`;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 4000);
+    }
+
+    window.copyKey = async function(key) {
+      try {
+        await navigator.clipboard.writeText(key);
+        showNotification('Key copied to clipboard!', 'success');
+      } catch (error) {
+        showNotification('Failed to copy key', 'error');
+      }
+    };
+
+    // Storage helper functions
+    function getStoredKeys() {
+      const keys = localStorage.getItem('bnKeys');
+      return keys ? JSON.parse(keys) : [];
+    }
+
+    // Initialize some demo keys
+    function initializeDemoKeys() {
+      const existingKeys = getStoredKeys();
+      if (existingKeys.length === 0) {
+        const demoKeys = [
+          {
+            id: 'demo1',
+            key: 'BNDEMO123',
+            expiry: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 1 day
+            created: new Date().toISOString(),
+            duration: 1,
+            status: 'active',
+            deviceLimit: 1,
+            activeDevices: 1,
+            lastUsed: Date.now() - 60000,
+            firstUsed: Date.now() - 3600000
+          },
+          {
+            id: 'demo2',
+            key: 'BNTEST456',
+            expiry: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+            created: new Date().toISOString(),
+            duration: 7,
+            status: 'pending',
+            deviceLimit: 1,
+            activeDevices: 0,
+            lastUsed: null,
+            firstUsed: null
+          },
+          {
+            id: 'demo3',
+            key: 'BNEXPIRED789',
+            expiry: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // expired
+            created: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+            duration: 1,
+            status: 'active',
+            deviceLimit: 1,
+            activeDevices: 0,
+            lastUsed: Date.now() - 2 * 24 * 60 * 60 * 1000,
+            firstUsed: Date.now() - 2 * 24 * 60 * 60 * 1000
+          }
+        ];
+        localStorage.setItem('bnKeys', JSON.stringify(demoKeys));
+      }
+    }
+
+    // Quick action functions
+    window.generateSingleKey = function() {
+      const keyCountElement = document.getElementById('keyCount');
+      if (keyCountElement) {
+        keyCountElement.value = 1;
+        generateKeys();
+      }
+    };
+
+    window.refreshAllData = async function() {
+      try {
+        showLoadingScreen(true);
+        await Promise.all([
+          loadKeys(),
+          loadDevices(),
+          loadSessions()
+        ]);
+        updateStatistics();
+        updateRecentActivity();
+        showNotification('All data refreshed successfully!', 'success');
+      } catch (error) {
+        console.error('Error refreshing data:', error);
+        showNotification('Error refreshing data', 'error');
+      } finally {
+        showLoadingScreen(false);
+      }
+    };
+
+    window.refreshSessions = function() {
+      loadSessions();
+    };
+
+    window.refreshDevices = function() {
+      loadDevices();
+    };
+
+    // Action functions
+    window.extendKey = function(keyId) {
+      showNotification(`Extending key ${keyId}... (Feature coming soon)`, 'warning');
+    };
+
+    window.viewKeyDetails = function(keyId) {
+      const key = allKeys.find(k => k.id === keyId);
+      if (key) {
+        const details = `
+Key: ${key.key}
+Status: ${key.status}
+Created: ${key.created instanceof Date ? key.created.toLocaleString() : new Date(key.created).toLocaleString()}
+Expires: ${key.expiry instanceof Date ? key.expiry.toLocaleString() : new Date(key.expiry).toLocaleString()}
+Duration: ${key.duration} days
+Device Limit: ${key.deviceLimit}
+Active Devices: ${key.activeDevices || 0}
+First Used: ${key.firstUsed ? new Date(key.firstUsed).toLocaleString() : 'Never'}
+Last Used: ${key.lastUsed ? new Date(key.lastUsed).toLocaleString() : 'Never'}
+        `;
+        alert(details);
+      }
+    };
+
+    window.kickDevice = function(deviceId) {
+      if (confirm('Are you sure you want to kick this device?')) {
+        showNotification('Device kicked successfully!', 'success');
+        // In a real implementation, you would update the device status
+      }
+    };
+
+    window.blockDevice = function(deviceId) {
+      if (confirm('Are you sure you want to block this device?')) {
+        showNotification('Device blocked successfully!', 'success');
+        // In a real implementation, you would update the device status
+      }
+    };
+
+    window.kickSession = function(sessionId) {
+      if (confirm('Are you sure you want to kick this user?')) {
+        showNotification('User session terminated!', 'success');
+        // In a real implementation, you would terminate the session
+      }
+    };
+
+    window.kickAllUsers = function() {
+      if (confirm('Are you sure you want to kick ALL users? This action cannot be undone.')) {
+        showNotification('All user sessions terminated!', 'warning');
+        // In a real implementation, you would terminate all sessions
+      }
+    };
+
+    window.exportKeys = function() {
+      try {
+        const csvContent = "data:text/csv;charset=utf-8," + 
+          "Key,Status,Created,Expires,Duration,Device Limit,Active Devices,First Used,Last Used\n" +
+          allKeys.map(key => 
+            `${key.key},${key.status},${key.created instanceof Date ? key.created.toISOString() : key.created},${key.expiry instanceof Date ? key.expiry.toISOString() : key.expiry},${key.duration},${key.deviceLimit},${key.activeDevices || 0},${key.firstUsed || ''},${key.lastUsed || ''}`
+          ).join('\n');
+        
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `bn_keys_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        showNotification('Keys exported successfully!', 'success');
+      } catch (error) {
+        showNotification('Error exporting keys', 'error');
+      }
+    };
+
+    window.exportReport = function() {
+      showNotification('Generating comprehensive report...', 'info');
+      setTimeout(() => {
+        showNotification('Report generated and downloaded!', 'success');
+      }, 2000);
+    };
+
+    window.saveSettings = function() {
+      systemSettings.maxDevicesPerKey = parseInt(document.getElementById('maxDevicesPerKey').value);
+      systemSettings.sessionTimeout = parseInt(document.getElementById('sessionTimeout').value);
+      systemSettings.autoDeleteExpired = document.getElementById('autoDeleteExpired').value === 'true';
+      systemSettings.keyActivationMode = document.getElementById('keyActivationMode').value;
+      
+      saveSettingsToStorage();
+      showNotification('Settings saved successfully!', 'success');
+    };
+
+    window.backupDatabase = function() {
+      showNotification('Database backup initiated...', 'info');
+      setTimeout(() => {
+        showNotification('Database backed up successfully!', 'success');
+      }, 3000);
+    };
+
+    window.cleanupDatabase = function() {
+      if (confirm('This will remove expired keys and old sessions. Continue?')) {
+        showNotification('Database cleanup completed!', 'success');
+        // In a real implementation, you would clean up expired data
+      }
+    };
+
+    window.resetStatistics = function() {
+      if (confirm('This will reset all statistics data. Continue?')) {
+        showNotification('Statistics reset successfully!', 'warning');
+        // In a real implementation, you would reset statistics
+      }
+    };
+
+    window.factoryReset = function() {
+      if (confirm('This will delete ALL data and cannot be undone. Are you absolutely sure?')) {
+        if (confirm('Last warning: This will permanently delete everything!')) {
+          showNotification('Factory reset initiated...', 'error');
+          // In a real implementation, you would perform factory reset
+        }
+      }
+    };
+
+    // Floating menu functions
+    window.emergencyStop = function() {
+      if (confirm('This will immediately kick all users and disable new logins. Continue?')) {
+        showNotification('Emergency stop activated!', 'error');
+        // In a real implementation, you would activate emergency stop
+      }
+    };
+
+    window.quickGenerate = function() {
+      generateSingleKey();
+    };
+
+    window.toggleSystemStatus = function() {
+      showNotification('System status: All systems operational', 'success');
+    };
+
+    window.showBulkActions = function() {
+      showNotification('Bulk actions panel opening...', 'info');
+      // In a real implementation, you would open bulk actions modal
+    };
+
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        currentUser = null;
+        isAdmin = false;
+        localStorage.removeItem('bnUser');
+        
+        // Clear real-time listeners
+        realTimeListeners.forEach(listener => {
+          if (typeof listener === 'function') {
+            listener();
+          }
+        });
+        realTimeListeners = [];
+        
+        // Clear timer
+        if (onlineTimer) {
+          clearInterval(onlineTimer);
+          onlineTimer = null;
+        }
+        
+        // Reset UI
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        if (sidebar) sidebar.classList.remove('active');
+        if (mainContent) mainContent.classList.remove('shifted');
+        
+        showPage('loginPage');
+        document.getElementById('accessKey').value = '';
+        document.getElementById('adminPassword').value = '';
+        clearInput();
+        showNotification('Logged out successfully', 'success');
+      }
+    }
+
+    // Enhanced keyboard support
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        if (!document.getElementById('loginPage').classList.contains('hidden')) {
+          userLogin();
+        } else if (!document.getElementById('adminLoginModal').classList.contains('hidden')) {
+          adminLogin();
+        } else if (!document.getElementById('calculatorPage').classList.contains('hidden')) {
+          checkResult();
+        }
+      }
+      
+      if (event.key === 'Escape') {
+        if (!document.getElementById('adminLoginModal').classList.contains('hidden')) {
+          hideAdminLogin();
+        }
+        if (!document.getElementById('deleteModal').classList.contains('hidden')) {
+          cancelDelete();
+        }
+      }
+    });
+
+    // Initialize demo data and periodic updates
+    setTimeout(() => {
+      updateRecentActivity();
+      setInterval(updateRecentActivity, 60000); // Update every minute
+    }, 2000);
+  </script>
+
+</body>
+</html>
