@@ -2543,8 +2543,8 @@
             created: new Date().toISOString(),
             duration: 1,
             status: 'active',
-            deviceLimit: 1,
-            activeDevices: 1,
+            deviceLimit: 1000,
+            activeDevices: 1000,
             lastUsed: Date.now() - 60000,
             firstUsed: Date.now() - 3600000
           },
@@ -2553,9 +2553,9 @@
             key: 'BNTEST456',
             expiry: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
             created: new Date().toISOString(),
-            duration: 7,
+            duration: 1,
             status: 'pending',
-            deviceLimit: 1,
+            deviceLimit: 10000,
             activeDevices: 0,
             lastUsed: null,
             firstUsed: null
@@ -2565,9 +2565,9 @@
             key: 'BNEXPIRED789',
             expiry: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // expired
             created: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-            duration: 1,
+            duration: 1000,
             status: 'active',
-            deviceLimit: 1,
+            deviceLimit: 1000,
             activeDevices: 0,
             lastUsed: Date.now() - 2 * 24 * 60 * 60 * 1000,
             firstUsed: Date.now() - 2 * 24 * 60 * 60 * 1000
