@@ -1,2821 +1,883 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BN LAST KING - Enhanced Authentication System</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    :root {
-      --primary-neon: #00ff00;
-      --secondary-neon: #00ffff;
-      --danger-neon: #ff4444;
-      --warning-neon: #ffaa00;
-      --purple-neon: #aa00ff;
-      --bg-dark: #0a0a0a;
-      --bg-secondary: #1a1a2e;
-      --bg-tertiary: #16213e;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, var(--bg-dark), var(--bg-secondary), var(--bg-tertiary), #0f3460);
-      color: var(--primary-neon);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    
-    .orbitron { font-family: 'Orbitron', monospace; }
-    
-    .cyber-bg {
-      background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(26,26,46,0.9));
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(0, 255, 0, 0.2);
-    }
-    
-    .neon-glow {
-      text-shadow: 0 0 5px var(--primary-neon), 0 0 10px var(--primary-neon), 0 0 15px var(--primary-neon);
-      animation: pulse-glow 3s ease-in-out infinite alternate;
-    }
-    
-    @keyframes pulse-glow {
-      from { text-shadow: 0 0 5px var(--primary-neon), 0 0 10px var(--primary-neon); }
-      to { text-shadow: 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon), 0 0 30px var(--primary-neon); }
-    }
-    
-    .neon-border {
-      border: 2px solid var(--primary-neon);
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.1);
-      position: relative;
-      border-radius: 12px;
-    }
-    
-    .neon-border::before {
-      content: '';
-      position: absolute;
-      top: -2px; left: -2px; right: -2px; bottom: -2px;
-      background: linear-gradient(45deg, var(--primary-neon), transparent, var(--secondary-neon), transparent, var(--primary-neon));
-      border-radius: inherit;
-      z-index: -1;
-      animation: border-flow 4s linear infinite;
-    }
-    
-    @keyframes border-flow {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .cyber-button {
-      background: linear-gradient(45deg, var(--primary-neon), #00cc00);
-      color: #000;
-      border: none;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-      position: relative;
-      overflow: hidden;
-      font-family: 'Inter', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .cyber-button::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.6s;
-    }
-    
-    .cyber-button:hover::before { left: 100%; }
-    .cyber-button:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 8px 30px rgba(0, 255, 0, 0.7);
-    }
-    
-    .cyber-input {
-      background: rgba(0, 0, 0, 0.9);
-      border: 2px solid var(--primary-neon);
-      color: var(--primary-neon);
-      padding: 14px 16px;
-      border-radius: 10px;
-      outline: none;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-    }
-    
-    .cyber-input:focus {
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
-      border-color: var(--secondary-neon);
-      transform: scale(1.02);
-    }
-
-    .cyber-input::placeholder {
-      color: rgba(0, 255, 0, 0.5);
-    }
-    
-    .calculator-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-    
-    .calculator-button {
-      padding: 24px;
-      font-size: 22px;
-      font-weight: 700;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(45deg, var(--primary-neon), #00cc00);
-      color: #000;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-      font-family: 'Orbitron', monospace;
-    }
-    
-    .calculator-button:active {
-      transform: scale(0.95);
-      background: linear-gradient(45deg, #00cc00, #009900);
-    }
-
-    .calculator-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 25px rgba(0, 255, 0, 0.7);
-    }
-    
-    .stats-card {
-      background: rgba(0, 0, 0, 0.85);
-      border: 1px solid var(--primary-neon);
-      border-radius: 12px;
-      padding: 24px;
-      text-align: center;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stats-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon), var(--primary-neon));
-      animation: scan 3s linear infinite;
-    }
-
-    @keyframes scan {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    .stats-card:hover {
-      box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
-      transform: translateY(-8px) scale(1.02);
-      border-color: var(--secondary-neon);
-    }
-
-    .stats-number {
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--primary-neon);
-      text-shadow: 0 0 15px var(--primary-neon);
-      font-family: 'Orbitron', monospace;
-    }
-
-    .cyber-title {
-      background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .admin-panel {
-      background: rgba(0, 0, 0, 0.95);
-      border: 2px solid var(--warning-neon);
-      box-shadow: 0 0 30px rgba(255, 170, 0, 0.3);
-      border-radius: 12px;
-    }
-
-    .card {
-      background: rgba(0, 20, 0, 0.9);
-      border: 1px solid var(--primary-neon);
-      border-radius: 12px;
-      padding: 20px;
-      margin: 10px 0;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    
-    .card:hover {
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-      transform: translateY(-3px);
-      border-color: var(--secondary-neon);
-    }
-
-    .device-card {
-      background: rgba(0, 0, 20, 0.9);
-      border: 1px solid #0088ff;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 10px 0;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    
-    .device-card:hover {
-      box-shadow: 0 0 20px rgba(0, 136, 255, 0.3);
-      transform: translateY(-3px);
-    }
-    
-    .status-active { color: var(--primary-neon); }
-    .status-expired { color: var(--danger-neon); }
-    .status-online { color: var(--secondary-neon); }
-    .status-offline { color: #888888; }
-    .status-blocked { color: var(--warning-neon); }
-    .status-pending { color: var(--purple-neon); }
-    
-    .hidden { display: none !important; }
-    
-    .loading-spinner {
-      border: 4px solid rgba(0, 255, 0, 0.3);
-      border-radius: 50%;
-      border-top: 4px solid var(--primary-neon);
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 18px 28px;
-      border-radius: 12px;
-      color: white;
-      font-weight: 600;
-      z-index: 1000;
-      transform: translateX(400px);
-      transition: transform 0.4s ease;
-      max-width: 400px;
-      border: 2px solid;
-    }
-    
-    .notification.show { transform: translateX(0); }
-    
-    .notification.success {
-      background: linear-gradient(45deg, var(--primary-neon), #00cc00);
-      color: #000;
-      border-color: var(--primary-neon);
-    }
-    
-    .notification.error {
-      background: linear-gradient(45deg, var(--danger-neon), #cc0000);
-      border-color: var(--danger-neon);
-    }
-    
-    .notification.warning {
-      background: linear-gradient(45deg, var(--warning-neon), #cc8800);
-      color: #000;
-      border-color: var(--warning-neon);
-    }
-
-    .sidebar {
-      background: rgba(0, 0, 0, 0.98);
-      border-right: 3px solid var(--primary-neon);
-      min-height: 100vh;
-      position: fixed;
-      left: 0; top: 0;
-      width: 280px;
-      z-index: 100;
-      transform: translateX(-100%);
-      transition: transform 0.4s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .sidebar.active { transform: translateX(0); }
-
-    .sidebar-item {
-      padding: 18px 24px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border-bottom: 1px solid rgba(0, 255, 0, 0.2);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 500;
-    }
-
-    .sidebar-item:hover {
-      background: rgba(0, 255, 0, 0.1);
-      padding-left: 35px;
-      border-left: 4px solid var(--secondary-neon);
-    }
-
-    .sidebar-item.active {
-      background: rgba(0, 255, 0, 0.2);
-      border-left: 6px solid var(--primary-neon);
-      color: var(--secondary-neon);
-    }
-
-    .main-content {
-      margin-left: 0;
-      transition: margin-left 0.4s ease;
-      min-height: 100vh;
-    }
-
-    .main-content.shifted { margin-left: 280px; }
-
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-
-    .chart-container {
-      background: rgba(0, 0, 0, 0.85);
-      border: 2px solid var(--primary-neon);
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-    }
-
-    .modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      backdrop-filter: blur(5px);
-    }
-
-    .modal-content {
-      background: rgba(0, 20, 0, 0.98);
-      border: 3px solid var(--primary-neon);
-      border-radius: 15px;
-      padding: 35px;
-      max-width: 500px;
-      width: 90%;
-      position: relative;
-      box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
-    }
-
-    .pulse { animation: pulse 2s infinite; }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .floating-menu {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      z-index: 200;
-    }
-
-    .floating-button {
-      width: 65px; height: 65px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, var(--primary-neon), #00cc00);
-      border: none;
-      color: #000;
-      font-size: 26px;
-      cursor: pointer;
-      box-shadow: 0 6px 25px rgba(0, 255, 0, 0.5);
-      transition: all 0.3s ease;
-      margin: 12px 0;
-      display: block;
-    }
-
-    .floating-button:hover {
-      transform: scale(1.15);
-      box-shadow: 0 8px 35px rgba(0, 255, 0, 0.8);
-    }
-
-    .tooltip {
-      position: relative;
-    }
-
-    .tooltip::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 120%; left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.95);
-      color: var(--primary-neon);
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-size: 13px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      border: 1px solid var(--primary-neon);
-      font-weight: 500;
-    }
-
-    .tooltip:hover::after { opacity: 1; }
-
-    .btn-danger {
-      background: linear-gradient(45deg, var(--danger-neon), #cc0000);
-      color: white;
-      border: 2px solid var(--danger-neon);
-    }
-
-    .btn-warning {
-      background: linear-gradient(45deg, var(--warning-neon), #cc8800);
-      color: #000;
-      border: 2px solid var(--warning-neon);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(45deg, #666, #333);
-      color: white;
-      border: 2px solid #666;
-    }
-
-    .key-status-badge {
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .badge-pending {
-      background: rgba(170, 0, 255, 0.2);
-      color: var(--purple-neon);
-      border: 1px solid var(--purple-neon);
-    }
-
-    .badge-active {
-      background: rgba(0, 255, 0, 0.2);
-      color: var(--primary-neon);
-      border: 1px solid var(--primary-neon);
-    }
-
-    .badge-expired {
-      background: rgba(255, 68, 68, 0.2);
-      color: var(--danger-neon);
-      border: 1px solid var(--danger-neon);
-    }
-
-    .badge-online {
-      background: rgba(0, 255, 255, 0.2);
-      color: var(--secondary-neon);
-      border: 1px solid var(--secondary-neon);
-    }
-
-    .delete-confirmation {
-      background: rgba(255, 0, 0, 0.1);
-      border: 2px solid var(--danger-neon);
-      border-radius: 10px;
-      padding: 20px;
-      margin: 10px 0;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar { width: 100%; }
-      .main-content.shifted { margin-left: 0; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .calculator-grid { gap: 12px; }
-      .calculator-button { padding: 18px; font-size: 18px; }
-      .stats-number { font-size: 2rem; }
-    }
-
-    @media (max-width: 480px) {
-      .stats-grid { grid-template-columns: 1fr; }
-      .floating-menu { bottom: 20px; right: 20px; }
-      .floating-button { width: 55px; height: 55px; font-size: 22px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BN LAST KING - Enhanced Prediction System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-
-  <!-- Notification Container -->
-  <div id="notification" class="notification"></div>
-
-  <!-- Loading Screen -->
-  <div id="loadingScreen" class="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 hidden">
-    <div class="text-center">
-      <div class="loading-spinner mx-auto mb-6"></div>
-      <p class="text-2xl orbitron neon-glow">PROCESSING...</p>
-      <p class="text-sm mt-2 text-gray-400">Please wait while we process your request</p>
+<body class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white" id="mainBody">
+    <!-- Security Alert -->
+    <div id="securityAlert" class="fixed top-0 left-0 w-full bg-red-600 text-white p-2 text-center z-50 hidden">
+        <i class="fas fa-shield-alt mr-2"></i>Security Check Active - Encrypted Session
     </div>
-  </div>
 
-  <!-- Login Page -->
-  <div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
-    <div class="cyber-bg p-10 rounded-lg neon-border max-w-md w-full">
-      <h1 class="text-4xl font-bold text-center mb-10 neon-glow orbitron">
-        <i class="fas fa-crown mr-3"></i>BN LAST KING
-      </h1>
-      <div class="space-y-8">
-        <div>
-          <label class="block text-sm font-semibold mb-3">Enter Access Key</label>
-          <input type="text" id="accessKey" class="cyber-input w-full" placeholder="Your Access Key" maxlength="20">
-        </div>
-        <button onclick="userLogin()" class="cyber-button w-full">
-          <i class="fas fa-key mr-2"></i>LOGIN
-        </button>
-        <div class="text-center">
-          <button onclick="showAdminLogin()" class="text-yellow-400 hover:text-yellow-300 text-sm font-medium">
-            <i class="fas fa-user-shield mr-2"></i>Admin Panel Access
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <button id="sidebarToggle" class="fixed top-4 left-4 z-50 md:hidden bg-gray-800 text-white p-2 rounded-lg">
+        <i class="fas fa-bars"></i>
+    </button>
 
-  <!-- Calculator Page -->
-  <div id="calculatorPage" class="min-h-screen flex flex-col items-center justify-center p-4 hidden">
-    <div class="mb-6 text-right w-full max-w-md">
-      <div class="bg-black bg-opacity-50 p-4 rounded-lg border border-green-500">
-        <span class="text-sm">Welcome! Key expires: <span id="keyExpiry" class="text-yellow-400 font-bold"></span></span>
-        <button onclick="logout()" class="ml-4 text-red-400 hover:text-red-300 font-medium">
-          <i class="fas fa-sign-out-alt mr-1"></i>Logout
-        </button>
-      </div>
-    </div>
-    
-    <h1 class="text-5xl font-bold text-center mb-10 neon-glow orbitron">
-      BN LAST KING CALCULATOR
-    </h1>
-    
-    <div class="cyber-bg p-10 rounded-lg neon-border max-w-sm w-full">
-      <input type="text" id="userInput" maxlength="3" readonly placeholder="Enter ID" 
-             class="cyber-input w-full text-center text-3xl mb-8 orbitron">
-      
-      <div class="calculator-grid mb-8">
-        <button onclick="appendNumber('1')" class="calculator-button">1</button>
-        <button onclick="appendNumber('2')" class="calculator-button">2</button>
-        <button onclick="appendNumber('3')" class="calculator-button">3</button>
-        <button onclick="appendNumber('4')" class="calculator-button">4</button>
-        <button onclick="appendNumber('5')" class="calculator-button">5</button>
-        <button onclick="appendNumber('6')" class="calculator-button">6</button>
-        <button onclick="appendNumber('7')" class="calculator-button">7</button>
-        <button onclick="appendNumber('8')" class="calculator-button">8</button>
-        <button onclick="appendNumber('9')" class="calculator-button">9</button>
-        <button onclick="clearInput()" class="calculator-button btn-danger">CLEAR</button>
-        <button onclick="appendNumber('0')" class="calculator-button">0</button>
-        <button onclick="checkResult()" class="calculator-button btn-warning">ENTER</button>
-      </div>
+    <!-- Theme Switcher Button -->
+    <button id="themeSwitcher" class="fixed top-4 right-4 z-50 bg-gray-800 bg-opacity-50 backdrop-blur-lg text-white px-4 py-2 rounded-lg border border-gray-700 hover:bg-gray-700 transition-all duration-300">
+        <i class="fas fa-palette mr-2"></i>Switch Theme
+    </button>
 
-      <div id="result" class="text-center text-xl font-bold min-h-[60px] flex items-center justify-center"></div>
-    </div>
-  </div>
+    <!-- Settings Button -->
+    <button id="settingsBtn" class="fixed top-16 right-4 z-50 bg-gray-800 bg-opacity-50 backdrop-blur-lg text-white px-4 py-2 rounded-lg border border-gray-700 hover:bg-gray-700 transition-all duration-300">
+        <i class="fas fa-cog mr-2"></i>Settings
+    </button>
 
-  <!-- Admin Login Modal -->
-  <div id="adminLoginModal" class="modal hidden">
-    <div class="modal-content">
-      <h2 class="text-3xl font-bold mb-8 text-center neon-glow orbitron">
-        <i class="fas fa-shield-alt mr-3"></i>ADMIN ACCESS
-      </h2>
-      <div class="space-y-6">
-        <div>
-          <label class="block text-sm font-semibold mb-3">Admin Password</label>
-          <input type="password" id="adminPassword" class="cyber-input w-full" placeholder="Enter admin password">
-        </div>
-        <div class="flex gap-3">
-          <button onclick="adminLogin()" class="cyber-button flex-1">
-            <i class="fas fa-key mr-2"></i>AUTHENTICATE
-          </button>
-          <button onclick="hideAdminLogin()" class="btn-secondary px-6 py-3 rounded-lg font-semibold">Cancel</button>
-        </div>
-      </div>
-      <div class="mt-8 text-center text-sm text-gray-400">
-        <p class="orbitron">BN LAST KING System</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Admin Panel -->
-  <div id="adminPanel" class="hidden">
     <!-- Sidebar -->
-    <div id="sidebar" class="sidebar">
-      <div class="p-8 border-b border-green-500">
-        <h2 class="text-2xl font-bold cyber-title orbitron">BN ADMIN</h2>
-        <p class="text-sm text-gray-400 mt-1">Enhanced Control Panel</p>
-      </div>
-      <nav class="mt-6">
-        <div class="sidebar-item active" onclick="showTab('dashboard')">
-          <i class="fas fa-tachometer-alt text-lg"></i>
-          <span>Dashboard</span>
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-80 bg-gray-900 bg-opacity-95 backdrop-blur-lg border-r border-gray-700 transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40 overflow-y-auto">
+        <div class="p-6">
+            <!-- Close Button (Mobile) -->
+            <button id="sidebarClose" class="absolute top-4 right-4 md:hidden text-gray-400 hover:text-white">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Logo/Title -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                    <i class="fas fa-crystal-ball mr-2"></i>Prediction Hub
+                </h2>
+                <p class="text-sm text-gray-400 mt-2">Advanced Gaming Analytics</p>
+                <div class="text-xs text-green-400 mt-1">
+                    <i class="fas fa-lock mr-1"></i>Encrypted Session Active
+                </div>
+            </div>
+
+            <!-- Security Status -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-green-400">
+                    <i class="fas fa-shield-alt mr-2"></i>Security Status
+                </h3>
+                <div class="bg-gray-800 bg-opacity-50 rounded-lg p-3 border border-gray-700">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-300">Encryption</span>
+                        <span class="text-green-400 text-sm"><i class="fas fa-check"></i> Active</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-300">Session</span>
+                        <span class="text-green-400 text-sm"><i class="fas fa-check"></i> Secure</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-300">Data Protection</span>
+                        <span class="text-green-400 text-sm"><i class="fas fa-check"></i> Enabled</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold mb-4 text-blue-400">
+                    <i class="fas fa-info-circle mr-2"></i>About
+                </h3>
+                <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 border border-gray-700">
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3">
+                        Welcome to the most advanced Result Prediction System with enhanced security and encrypted algorithms.
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Real-time 30-second predictions</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Advanced pattern recognition</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Live statistics tracking</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Encrypted data processing</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Multiple theme options</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Telegram Channel Section -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold mb-4 text-blue-400">
+                    <i class="fab fa-telegram mr-2"></i>Official Channel
+                </h3>
+                <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 border border-gray-700">
+                    <div class="text-center mb-4">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-full mb-3">
+                            <i class="fab fa-telegram text-2xl text-white"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-white">BN LAST KING HACK</h4>
+                        <p class="text-sm text-gray-400">Premium Predictions & Tips</p>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center text-sm text-gray-300">
+                            <i class="fas fa-users text-blue-400 mr-2"></i>
+                            <span>Exclusive Gaming Community</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-300">
+                            <i class="fas fa-chart-line text-green-400 mr-2"></i>
+                            <span>Advanced Strategies</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-300">
+                            <i class="fas fa-bell text-yellow-400 mr-2"></i>
+                            <span>Real-time Alerts</span>
+                        </div>
+                    </div>
+
+                    <a href="https://t.me/BNLASTKINGHACK" target="_blank" 
+                       class="block w-full mt-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
+                        <i class="fab fa-telegram mr-2"></i>Join Channel
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold mb-4 text-blue-400">
+                    <i class="fas fa-trophy mr-2"></i>Quick Stats
+                </h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-gray-800 bg-opacity-50 rounded-lg p-3 text-center border border-gray-700">
+                        <div class="text-xl font-bold text-green-400" id="sidebarAccuracy">0%</div>
+                        <div class="text-xs text-gray-400">Accuracy</div>
+                    </div>
+                    <div class="bg-gray-800 bg-opacity-50 rounded-lg p-3 text-center border border-gray-700">
+                        <div class="text-xl font-bold text-blue-400" id="sidebarTotal">0</div>
+                        <div class="text-xs text-gray-400">Total</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="text-center">
+                <p class="text-xs text-gray-500 mb-2">Need Support?</p>
+                <a href="https://t.me/BNLASTKINGHACK" target="_blank" class="text-blue-400 hover:text-blue-300 text-sm">
+                    <i class="fas fa-headset mr-1"></i>Contact Admin
+                </a>
+            </div>
         </div>
-        <div class="sidebar-item" onclick="showTab('keys')">
-          <i class="fas fa-key text-lg"></i>
-          <span>Key Management</span>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 z-60 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-md border border-gray-700">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">
+                        <i class="fas fa-cog mr-2 text-blue-400"></i>Settings
+                    </h3>
+                    <button id="closeSettings" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-gray-300 mb-2">Prediction Algorithm</label>
+                        <select id="algorithmSelect" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white">
+                            <option value="standard">Standard Pattern</option>
+                            <option value="advanced">Advanced AI</option>
+                            <option value="neural">Neural Network</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm text-gray-300 mb-2">Security Level</label>
+                        <select id="securityLevel" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white">
+                            <option value="standard">Standard</option>
+                            <option value="high">High</option>
+                            <option value="maximum">Maximum</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="flex items-center text-sm text-gray-300">
+                            <input type="checkbox" id="encryptData" class="mr-2" checked>
+                            Enable Data Encryption
+                        </label>
+                    </div>
+                    
+                    <div>
+                        <label class="flex items-center text-sm text-gray-300">
+                            <input type="checkbox" id="autoSave" class="mr-2" checked>
+                            Auto-save Session Data
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex space-x-3">
+                    <button id="saveSettings" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors">
+                        <i class="fas fa-save mr-2"></i>Save
+                    </button>
+                    <button id="resetSettings" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition-colors">
+                        <i class="fas fa-undo mr-2"></i>Reset
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="sidebar-item" onclick="showTab('devices')">
-          <i class="fas fa-mobile-alt text-lg"></i>
-          <span>Device Tracking</span>
-        </div>
-        <div class="sidebar-item" onclick="showTab('users')">
-          <i class="fas fa-users text-lg"></i>
-          <span>User Sessions</span>
-        </div>
-        <div class="sidebar-item" onclick="showTab('analytics')">
-          <i class="fas fa-chart-bar text-lg"></i>
-          <span>Analytics</span>
-        </div>
-        <div class="sidebar-item" onclick="showTab('settings')">
-          <i class="fas fa-cog text-lg"></i>
-          <span>Settings</span>
-        </div>
-        <div class="sidebar-item text-red-400 mt-8" onclick="logout()">
-          <i class="fas fa-sign-out-alt text-lg"></i>
-          <span>Logout</span>
-        </div>
-      </nav>
     </div>
 
     <!-- Main Content -->
-    <div id="mainContent" class="main-content">
-      <!-- Header -->
-      <header class="cyber-bg p-6 border-b-2 border-green-500">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center">
-            <button id="sidebarToggle" class="cyber-button mr-6" onclick="toggleSidebar()">
-              <i class="fas fa-bars"></i>
-            </button>
-            <h1 class="text-3xl font-bold neon-glow cyber-title orbitron">
-              <i class="fas fa-crown mr-3"></i>BN LAST KING - ENHANCED ADMIN PANEL
-            </h1>
-          </div>
-          <div class="flex items-center gap-6">
-            <span class="text-sm">Online: <span id="onlineTime" class="text-green-400 font-mono">00:00:00</span></span>
-            <div class="w-4 h-4 bg-green-400 rounded-full pulse"></div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Dashboard Tab -->
-      <div id="dashboard" class="tab-content active p-8">
-        <!-- Statistics Dashboard -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10 stats-grid">
-          <div class="stats-card">
-            <div id="totalKeys" class="stats-number">0</div>
-            <div class="text-gray-400 font-semibold">Total Keys</div>
-            <div class="text-xs text-green-400 mt-3">
-              <i class="fas fa-arrow-up mr-1"></i>System Active
-            </div>
-          </div>
-          <div class="stats-card">
-            <div id="activeUsers" class="stats-number text-blue-400">0</div>
-            <div class="text-gray-400 font-semibold">Active Users</div>
-            <div class="text-xs text-blue-400 mt-3">
-              <i class="fas fa-users mr-1"></i>Online Now
-            </div>
-          </div>
-          <div class="stats-card">
-            <div id="pendingKeys" class="stats-number text-purple-400">0</div>
-            <div class="text-gray-400 font-semibold">Pending Keys</div>
-            <div class="text-xs text-purple-400 mt-3">
-              <i class="fas fa-clock mr-1"></i>Awaiting First Use
-            </div>
-          </div>
-          <div class="stats-card">
-            <div id="dailyLogins" class="stats-number text-yellow-400">0</div>
-            <div class="text-gray-400 font-semibold">Today's Logins</div>
-            <div class="text-xs text-yellow-400 mt-3">
-              <i class="fas fa-calendar-day mr-1"></i>24h Activity
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Actions & Status -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-          <div class="admin-panel p-8">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
-              <i class="fas fa-bolt mr-2"></i>Quick Actions
-            </h3>
-            <div class="space-y-4">
-              <button onclick="generateSingleKey()" class="cyber-button w-full">
-                <i class="fas fa-plus mr-2"></i>Generate Key
-              </button>
-              <button onclick="refreshAllData()" class="bg-blue-600 text-white px-4 py-3 rounded-lg w-full hover:bg-blue-700 transition-colors font-semibold">
-                <i class="fas fa-sync mr-2"></i>Refresh Data
-              </button>
-              <button onclick="showBulkActions()" class="bg-purple-600 text-white px-4 py-3 rounded-lg w-full hover:bg-purple-700 transition-colors font-semibold">
-                <i class="fas fa-list mr-2"></i>Bulk Actions
-              </button>
-              <button onclick="exportReport()" class="btn-warning px-4 py-3 rounded-lg w-full font-semibold">
-                <i class="fas fa-download mr-2"></i>Export Report
-              </button>
-            </div>
-          </div>
-
-          <div class="admin-panel p-8">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
-              <i class="fas fa-chart-line mr-2"></i>System Status
-            </h3>
-            <div class="space-y-4">
-              <div class="flex justify-between items-center">
-                <span>Database</span>
-                <span class="status-active"><i class="fas fa-check-circle mr-1"></i>Online</span>
-              </div>
-              <div class="flex justify-between items-center">
-                <span>Firebase</span>
-                <span class="status-active"><i class="fas fa-check-circle mr-1"></i>Connected</span>
-              </div>
-              <div class="flex justify-between items-center">
-                <span>API Status</span>
-                <span class="status-active"><i class="fas fa-check-circle mr-1"></i>Operational</span>
-              </div>
-              <div class="flex justify-between items-center">
-                <span>Security</span>
-                <span class="status-active"><i class="fas fa-shield-alt mr-1"></i>Protected</span>
-              </div>
-              <div class="flex justify-between items-center">
-                <span>Auto-cleanup</span>
-                <span class="status-online"><i class="fas fa-broom mr-1"></i>Active</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="admin-panel p-8">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
-              <i class="fas fa-clock mr-2"></i>Recent Activity
-            </h3>
-            <div id="recentActivity" class="space-y-3 text-sm max-h-40 overflow-y-auto">
-              <div class="text-gray-400">Loading activity...</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div class="chart-container">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">User Activity (24h)</h3>
-            <canvas id="activityChart" width="400" height="200"></canvas>
-          </div>
-          <div class="chart-container">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">Key Status Distribution</h3>
-            <canvas id="statusChart" width="400" height="200"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <!-- Key Management Tab -->
-      <div id="keys" class="tab-content p-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <!-- Key Generation Panel -->
-          <div class="lg:col-span-1">
-            <div class="admin-panel p-8 mb-8">
-              <h2 class="text-2xl font-bold mb-6 text-yellow-400 orbitron">
-                <i class="fas fa-plus mr-2"></i>Generate New Keys
-              </h2>
-              <div class="space-y-6">
-                <div>
-                  <label class="block text-sm font-semibold mb-3">Duration</label>
-                  <select id="keyDuration" class="cyber-input w-full">
-                    <option value="1">1 Day</option>
-                    <option value="3">3 Days</option>
-                    <option value="7">1 Week</option>
-                    <option value="30" selected>1 Month</option>
-                    <option value="90">3 Months</option>
-                    <option value="365">1 Year</option>
-                  </select>
+    <div class="md:ml-80 transition-all duration-300">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Header -->
+            <div class="text-center mb-8 mt-12 md:mt-0">
+                <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                    <i class="fas fa-crystal-ball mr-3"></i>BN LAST KING HACK 
+                </h1>
+                <p class="text-lg text-gray-300">@BN_OWNER - Enhanced Security Edition</p>
+                <div class="mt-2 inline-flex items-center px-3 py-1 bg-green-600 bg-opacity-20 rounded-full text-green-400 text-sm">
+                    <i class="fas fa-shield-alt mr-2"></i>Encrypted Session Active
                 </div>
-                <div>
-                  <label class="block text-sm font-semibold mb-3">Number of Keys</label>
-                  <input type="number" id="keyCount" class="cyber-input w-full" placeholder="Keys to generate" min="1" max="100" value="1">
-                </div>
-                <div>
-                  <label class="block text-sm font-semibold mb-3">Key Prefix</label>
-                  <input type="text" id="keyPrefix" class="cyber-input w-full" placeholder="BN" maxlength="5" value="BN">
-                </div>
-                <div>
-                  <label class="block text-sm font-semibold mb-3">Device Limit per Key</label>
-                  <select id="deviceLimit" class="cyber-input w-full">
-                    <option value="1" selected>1 Device Only</option>
-                    <option value="2">2 Devices</option>
-                    <option value="3">3 Devices</option>
-                    <option value="5">5 Devices</option>
-                  </select>
-                </div>
-                <button onclick="generateKeys()" class="cyber-button w-full">
-                  <i class="fas fa-key mr-2"></i>Generate Keys
-                </button>
-              </div>
             </div>
 
-            <!-- Key Statistics -->
-            <div class="admin-panel p-8">
-              <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
-                <i class="fas fa-chart-pie mr-2"></i>Key Statistics
-              </h3>
-              <div class="space-y-4">
-                <div class="flex justify-between items-center">
-                  <span>Active Keys</span>
-                  <span id="activeKeysCount" class="status-active font-bold">0</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Pending Keys</span>
-                  <span id="pendingKeysCount" class="status-pending font-bold">0</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Expired Keys</span>
-                  <span id="expiredKeysCount" class="status-expired font-bold">0</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Keys in Use</span>
-                  <span id="usedKeysCount" class="status-online font-bold">0</span>
-                </div>
-              </div>
-            </div>
-          </div>
+            <!-- Main Dashboard -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Timer and Period Card -->
+                <div class="bg-gray-800 bg-opacity-50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700">
+                    <h2 class="text-2xl font-semibold mb-4 text-center">
+                        <i class="fas fa-clock mr-2 text-blue-400"></i>Current Period
+                    </h2>
+                    
+                    <div class="text-center mb-6">
+                        <div class="text-sm text-gray-400 mb-2">Period Number</div>
+                        <div id="periodNumber" class="text-2xl font-mono bg-gray-700 rounded-lg p-3 border">
+                            Loading...
+                        </div>
+                    </div>
 
-          <!-- Key List -->
-          <div class="lg:col-span-2">
-            <div class="admin-panel p-8">
-              <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                <h2 class="text-2xl font-bold text-yellow-400 orbitron">
-                  <i class="fas fa-list mr-2"></i>Key Management
+                    <div class="text-center mb-4">
+                        <div class="text-sm text-gray-400 mb-2">Time Remaining</div>
+                        <div id="timer" class="text-4xl font-mono font-bold text-green-400">
+                            00 : 00
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="text-sm text-gray-400 mb-2">Next Prediction</div>
+                        <div id="nextPrediction" class="text-xl font-bold p-3 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600">
+                            <span class="text-white">Calculating...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Result Card -->
+                <div class="bg-gray-800 bg-opacity-50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700">
+                    <h2 class="text-2xl font-semibold mb-4 text-center">
+                        <i class="fas fa-trophy mr-2 text-yellow-400"></i>Current Result
+                    </h2>
+                    
+                    <div class="text-center mb-4">
+                        <div class="text-sm text-gray-400 mb-2">Result</div>
+                        <div id="currentResult" class="text-3xl font-bold p-4 rounded-lg border-2 border-dashed border-gray-600">
+                            <span class="text-gray-500">Waiting...</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <div class="text-sm text-gray-400">Status</div>
+                        <div id="resultStatus" class="text-lg font-semibold text-blue-400">
+                            Ready
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="text-sm text-gray-400 mb-2">Confidence Level</div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="confidenceBar" class="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <div id="confidenceText" class="text-sm text-gray-300 mt-1">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics and Chart -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Statistics -->
+                <div class="bg-gray-800 bg-opacity-50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700">
+                    <h2 class="text-2xl font-semibold mb-4 text-center">
+                        <i class="fas fa-chart-bar mr-2 text-purple-400"></i>Session Statistics
+                    </h2>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-400" id="totalPeriods">0</div>
+                            <div class="text-sm text-gray-400">Total Periods</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-400" id="smallCount">0</div>
+                            <div class="text-sm text-gray-400">Small Results</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-red-400" id="bigCount">0</div>
+                            <div class="text-sm text-gray-400">Big Results</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-yellow-400" id="accuracy">0%</div>
+                            <div class="text-sm text-gray-400">Accuracy</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <div class="text-sm text-gray-400 mb-2">Prediction Trend</div>
+                        <div class="flex space-x-1" id="trendIndicator">
+                            <!-- Trend bars will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="bg-gray-800 bg-opacity-50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700">
+                    <h2 class="text-2xl font-semibold mb-4 text-center">
+                        <i class="fas fa-chart-line mr-2 text-cyan-400"></i>Performance Chart
+                    </h2>
+                    <canvas id="performanceChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Results -->
+            <div class="bg-gray-800 bg-opacity-50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700">
+                <h2 class="text-2xl font-semibold mb-4 text-center">
+                    <i class="fas fa-history mr-2 text-orange-400"></i>Recent Results
                 </h2>
-                <div class="flex gap-3 flex-wrap">
-                  <input type="text" id="searchKeys" class="cyber-input" placeholder="Search keys..." onkeyup="filterKeys()">
-                  <select id="filterKeyStatus" class="cyber-input" onchange="filterKeys()">
-                    <option value="all">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="pending">Pending</option>
-                    <option value="expired">Expired</option>
-                    <option value="online">Online</option>
-                  </select>
-                  <button onclick="exportKeys()" class="cyber-button">
-                    <i class="fas fa-download mr-1"></i>Export
-                  </button>
+                <div id="recentResults" class="grid grid-cols-5 md:grid-cols-10 gap-2">
+                    <!-- Recent results will be displayed here -->
                 </div>
-              </div>
-              
-              <div id="keysList" class="max-h-96 overflow-y-auto">
-                <div class="text-center text-gray-400 py-12">
-                  <div class="loading-spinner mx-auto mb-6"></div>
-                  <p class="text-lg">Loading keys...</p>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-
-      <!-- Device Tracking Tab -->
-      <div id="devices" class="tab-content p-8">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-          <div class="stats-card">
-            <div id="totalDevicesCount" class="stats-number text-blue-400">0</div>
-            <div class="text-gray-400 font-semibold">Total Devices</div>
-          </div>
-          <div class="stats-card">
-            <div id="onlineDevicesCount" class="stats-number text-green-400">0</div>
-            <div class="text-gray-400 font-semibold">Online Devices</div>
-          </div>
-          <div class="stats-card">
-            <div id="blockedDevicesCount" class="stats-number text-red-400">0</div>
-            <div class="text-gray-400 font-semibold">Blocked Devices</div>
-          </div>
-          <div class="stats-card">
-            <div id="suspiciousDevicesCount" class="stats-number text-orange-400">0</div>
-            <div class="text-gray-400 font-semibold">Suspicious Activity</div>
-          </div>
-        </div>
-
-        <div class="admin-panel p-8">
-          <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <h2 class="text-2xl font-bold text-yellow-400 orbitron">
-              <i class="fas fa-mobile-alt mr-2"></i>Device Management
-            </h2>
-            <div class="flex gap-3 flex-wrap">
-              <input type="text" id="searchDevices" class="cyber-input" placeholder="Search devices..." onkeyup="filterDevices()">
-              <select id="filterDeviceStatus" class="cyber-input" onchange="filterDevices()">
-                <option value="all">All Status</option>
-                <option value="online">Online</option>
-                <option value="offline">Offline</option>
-                <option value="blocked">Blocked</option>
-              </select>
-              <button onclick="refreshDevices()" class="cyber-button">
-                <i class="fas fa-sync mr-1"></i>Refresh
-              </button>
-            </div>
-          </div>
-          
-          <div id="devicesList" class="max-h-96 overflow-y-auto">
-            <div class="text-center text-gray-400 py-12">
-              <div class="loading-spinner mx-auto mb-6"></div>
-              <p class="text-lg">Loading devices...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- User Sessions Tab -->
-      <div id="users" class="tab-content p-8">
-        <div class="admin-panel p-8">
-          <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <h2 class="text-2xl font-bold text-yellow-400 orbitron">
-              <i class="fas fa-users mr-2"></i>Active User Sessions
-            </h2>
-            <div class="flex gap-3 flex-wrap">
-              <button onclick="refreshSessions()" class="cyber-button">
-                <i class="fas fa-sync mr-1"></i>Refresh Sessions
-              </button>
-              <button onclick="kickAllUsers()" class="btn-danger px-4 py-3 rounded-lg font-semibold">
-                <i class="fas fa-power-off mr-1"></i>Kick All Users
-              </button>
-            </div>
-          </div>
-          
-          <div id="sessionsList" class="max-h-96 overflow-y-auto">
-            <div class="text-center text-gray-400 py-12">
-              <div class="loading-spinner mx-auto mb-6"></div>
-              <p class="text-lg">Loading user sessions...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Analytics Tab -->
-      <div id="analytics" class="tab-content p-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div class="chart-container">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">Login Trends (7 Days)</h3>
-            <canvas id="loginTrendsChart" width="400" height="200"></canvas>
-          </div>
-          <div class="chart-container">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">Device Types</h3>
-            <canvas id="deviceTypesChart" width="400" height="200"></canvas>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div class="admin-panel p-8">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
-              <i class="fas fa-clock mr-2"></i>Peak Usage Hours
-            </h3>
-            <div id="peakHours" class="space-y-3">
-              <div class="text-gray-400">Analyzing usage patterns...</div>
-            </div>
-          </div>
-
-          <div class="admin-panel p-8">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
-              <i class="fas fa-map-marker-alt mr-2"></i>Top Locations
-            </h3>
-            <div id="topLocations" class="space-y-3">
-              <div class="text-gray-400">Loading location data...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Settings Tab -->
-      <div id="settings" class="tab-content p-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div class="admin-panel p-8">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
-              <i class="fas fa-cog mr-2"></i>System Settings
-            </h3>
-            <div class="space-y-6">
-              <div>
-                <label class="block text-sm font-semibold mb-3">Max Devices per Key</label>
-                <select id="maxDevicesPerKey" class="cyber-input w-full">
-                  <option value="1" selected>1 Device (Strict)</option>
-                  <option value="2">2 Devices</option>
-                  <option value="3">3 Devices</option>
-                  <option value="5">5 Devices</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-sm font-semibold mb-3">Session Timeout (minutes)</label>
-                <input type="number" id="sessionTimeout" class="cyber-input w-full" value="30" min="5" max="1440">
-              </div>
-              <div>
-                <label class="block text-sm font-semibold mb-3">Auto-delete Expired Keys</label>
-                <select id="autoDeleteExpired" class="cyber-input w-full">
-                  <option value="false">Disabled</option>
-                  <option value="true" selected>Enabled</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-sm font-semibold mb-3">Key Activation Mode</label>
-                <select id="keyActivationMode" class="cyber-input w-full">
-                  <option value="immediate">Immediate (Default)</option>
-                  <option value="first_login" selected>On First Login (Enhanced)</option>
-                </select>
-              </div>
-              <button onclick="saveSettings()" class="cyber-button w-full">
-                <i class="fas fa-save mr-2"></i>Save Settings
-              </button>
-            </div>
-          </div>
-
-          <div class="admin-panel p-8">
-            <h3 class="text-xl font-bold mb-6 text-yellow-400 orbitron">
-              <i class="fas fa-database mr-2"></i>Database Management
-            </h3>
-            <div class="space-y-4">
-              <button onclick="backupDatabase()" class="cyber-button w-full">
-                <i class="fas fa-download mr-2"></i>Backup Database
-              </button>
-              <button onclick="cleanupDatabase()" class="btn-warning px-4 py-3 rounded-lg w-full font-semibold">
-                <i class="fas fa-broom mr-2"></i>Cleanup Database
-              </button>
-              <button onclick="resetStatistics()" class="bg-orange-600 text-white px-4 py-3 rounded-lg w-full hover:bg-orange-700 transition-colors font-semibold">
-                <i class="fas fa-chart-bar mr-2"></i>Reset Statistics
-              </button>
-              <button onclick="factoryReset()" class="btn-danger px-4 py-3 rounded-lg w-full font-semibold">
-                <i class="fas fa-exclamation-triangle mr-2"></i>Factory Reset
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Floating Action Menu -->
-    <div class="floating-menu">
-      <button class="floating-button tooltip" data-tooltip="Emergency Stop" onclick="emergencyStop()">
-        <i class="fas fa-stop"></i>
-      </button>
-      <button class="floating-button tooltip" data-tooltip="Quick Generate" onclick="quickGenerate()">
-        <i class="fas fa-plus"></i>
-      </button>
-      <button class="floating-button tooltip" data-tooltip="System Status" onclick="toggleSystemStatus()">
-        <i class="fas fa-heartbeat"></i>
-      </button>
-    </div>
-  </div>
+    <!-- Overlay for mobile sidebar -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden"></div>
 
-  <!-- Delete Confirmation Modal -->
-  <div id="deleteModal" class="modal hidden">
-    <div class="modal-content">
-      <h2 class="text-2xl font-bold mb-6 text-center text-red-400 orbitron">
-        <i class="fas fa-exclamation-triangle mr-2"></i>CONFIRM DELETION
-      </h2>
-      <div class="delete-confirmation mb-6">
-        <p class="text-center mb-4">Are you sure you want to delete this item?</p>
-        <p class="text-center text-sm text-gray-400" id="deleteItemInfo"></p>
-      </div>
-      <div class="flex gap-3">
-        <button onclick="confirmDelete()" class="btn-danger flex-1 px-4 py-3 rounded-lg font-semibold">
-          <i class="fas fa-trash mr-2"></i>DELETE
-        </button>
-        <button onclick="cancelDelete()" class="btn-secondary flex-1 px-4 py-3 rounded-lg font-semibold">
-          <i class="fas fa-times mr-2"></i>CANCEL
-        </button>
-      </div>
-    </div>
-  </div>
+    <script>
+        class EnhancedSecurityPredictionSystem {
+            constructor() {
+                this.currentPeriod = null;
+                this.encryptedPatterns = this.initializeEncryptedPatterns();
+                this.currentPatternIndex = 0;
+                this.results = [];
+                this.predictions = [];
+                this.totalPeriods = 0;
+                this.smallCount = 0;
+                this.bigCount = 0;
+                this.correctPredictions = 0;
+                this.currentTheme = 0;
+                this.sessionKey = this.generateSessionKey();
+                this.chart = null;
+                this.chartData = [];
+                this.recentResultsList = [];
+                this.confidenceLevel = 0;
+                this.algorithm = 'standard';
+                
+                // Encrypted strings (Base64 encoded)
+                this.encryptedStrings = {
+                    systemName: atob('Qk4gTEFTVCBLSU5HIEhBQ0s='), // BN LAST KING HACK
+                    channelName: atob('QkxBU1RLSU5HSEFDSA=='), // BNLASTKINGHACK
+                    owner: atob('QkJfT1dORVI='), // BN_OWNER
+                    securityKey: atob('U0VDVVJFXzIwMjQ='), // SECURE_2024
+                    apiEndpoint: atob('aHR0cHM6Ly9hcGkuZXhhbXBsZS5jb20=') // https://api.example.com
+                };
+                
+                this.themes = [
+                    {
+                        name: 'Dark Purple',
+                        bodyClass: 'bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900',
+                        primaryColor: 'text-purple-400',
+                        secondaryColor: 'text-blue-400'
+                    },
+                    {
+                        name: 'Neon Green',
+                        bodyClass: 'bg-gradient-to-br from-gray-900 via-green-900 to-black',
+                        primaryColor: 'text-green-400',
+                        secondaryColor: 'text-lime-400'
+                    },
+                    {
+                        name: 'Ocean Blue',
+                        bodyClass: 'bg-gradient-to-br from-blue-900 via-cyan-900 to-teal-900',
+                        primaryColor: 'text-cyan-400',
+                        secondaryColor: 'text-blue-400'
+                    },
+                    {
+                        name: 'Fire Red',
+                        bodyClass: 'bg-gradient-to-br from-red-900 via-orange-900 to-yellow-900',
+                        primaryColor: 'text-red-400',
+                        secondaryColor: 'text-orange-400'
+                    }
+                ];
+                
+                this.initializeSystem();
+            }
 
-  <!-- Firebase Scripts -->
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+            initializeEncryptedPatterns() {
+                // Encrypted prediction patterns using simple XOR encryption
+                const key = 42;
+                const patterns = [
+                    'SMALL', 'BIG', 'SMALL', 'SMALL', 'BIG', 'SMALL', 'BIG', 'BIG',
+                    'SMALL', 'BIG', 'BIG', 'SMALL', 'SMALL', 'BIG', 'SMALL', 'BIG'
+                ];
+                
+                return patterns.map(pattern => 
+                    pattern.split('').map(char => 
+                        String.fromCharCode(char.charCodeAt(0) ^ key)
+                    ).join('')
+                );
+            }
 
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBwrDekjh3yJJyeuf-WCGIh2OYE-WrO54k",
-      authDomain: "earingtiil.firebaseapp.com",
-      databaseURL: "https://earingtiil-default-rtdb.firebaseio.com",
-      projectId: "earingtiil",
-      storageBucket: "earingtiil.firebasestorage.app",
-      messagingSenderId: "614389641647",
-      appId: "1:614389641647:web:9c55a0fdfe67d5080cff5a",
-      measurementId: "G-MH7LC1R7C9"
-    };
+            decryptPattern(encryptedPattern) {
+                const key = 42;
+                return encryptedPattern.split('').map(char => 
+                    String.fromCharCode(char.charCodeAt(0) ^ key)
+                ).join('');
+            }
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+            generateSessionKey() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                for (let i = 0; i < 16; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            }
 
-    // Make Firebase available globally
-    window.firebase = {
-      app: app,
-      db: db,
-      collection,
-      addDoc,
-      getDocs,
-      deleteDoc,
-      doc,
-      updateDoc,
-      query,
-      where,
-      orderBy,
-      onSnapshot,
-      serverTimestamp,
-      setDoc
-    };
+            initializeSystem() {
+                this.initializeTimer();
+                this.initializeSidebar();
+                this.initializeThemeSwitcher();
+                this.initializeSettings();
+                this.initializeChart();
+                this.initializeSecurityAlert();
+                this.loadSessionData();
+            }
 
-    // Initialize app after Firebase is ready
-    window.initializeApp();
-  </script>
+            initializeSecurityAlert() {
+                const alert = document.getElementById('securityAlert');
+                alert.classList.remove('hidden');
+                setTimeout(() => {
+                    alert.classList.add('hidden');
+                }, 3000);
+            }
 
-  <script>
-    // Application state
-    let currentUser = null;
-    let isAdmin = false;
-    let allKeys = [];
-    let allDevices = [];
-    let allSessions = [];
-    let onlineTimer = null;
-    let charts = {};
-    let realTimeListeners = [];
-    let deleteCallback = null;
-    let deleteItemId = null;
+            initializeChart() {
+                const ctx = document.getElementById('performanceChart').getContext('2d');
+                this.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Accuracy %',
+                            data: [],
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: { color: 'rgba(75, 85, 99, 0.3)' },
+                                ticks: { color: 'rgba(156, 163, 175, 0.8)' }
+                            },
+                            x: {
+                                grid: { color: 'rgba(75, 85, 99, 0.3)' },
+                                ticks: { color: 'rgba(156, 163, 175, 0.8)' }
+                            }
+                        },
+                        plugins: {
+                            legend: { labels: { color: 'rgba(156, 163, 175, 0.8)' } }
+                        }
+                    }
+                });
+            }
 
-    // Admin password
-    const ADMIN_PASSWORD = "BNLASTKING09";
+            getCurrentPeriod() {
+                const now = new Date();
+                const utc = new Date(now.getTime() + (now.getTimezoneOffset() * 60000));
+                
+                const seconds = utc.getSeconds();
+                const minutes = utc.getMinutes();
+                const hours = utc.getHours();
+                const totalMinutes = hours * 60 + minutes;
+                
+                const dateStr = utc.getFullYear().toString() + 
+                               (utc.getMonth() + 1).toString().padStart(2, '0') + 
+                               utc.getDate().toString().padStart(2, '0');
+                
+                const sequenceNumber = 1 + totalMinutes * 2 + (seconds >= 30 ? 1 : 0);
+                
+                return dateStr + '30' + sequenceNumber.toString();
+            }
 
-    // Enhanced settings
-    let systemSettings = {
-      keyActivationMode: 'first_login', // 'immediate' or 'first_login'
-      maxDevicesPerKey: 1,
-      sessionTimeout: 30,
-      autoDeleteExpired: true
-    };
+            getRemainingSeconds() {
+                const now = new Date();
+                const seconds = now.getSeconds();
+                return 30 - (seconds % 30);
+            }
 
-    // Initialize app
-    window.initializeApp = function() {
-      showPage('loginPage');
-      loadSettings();
-      initializeDemoKeys();
-      
-      // Check if user is already logged in
-      const savedUser = localStorage.getItem('bnUser');
-      if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        if (currentUser.isAdmin) {
-          isAdmin = true;
-          showPage('adminPanel');
-          initializeAdminPanel();
-        } else if (isValidKey(currentUser.key)) {
-          showPage('calculatorPage');
-          updateKeyExpiry();
-          updateKeyLastUsed(currentUser.key);
-        } else {
-          logout();
+            generateAdvancedResult() {
+                let result;
+                
+                switch(this.algorithm) {
+                    case 'advanced':
+                        // Advanced AI simulation
+                        const patterns = this.results.slice(-5);
+                        const smallCount = patterns.filter(r => r === 'SMALL').length;
+                        result = smallCount > 2 ? 'BIG' : 'SMALL';
+                        this.confidenceLevel = Math.random() * 20 + 70; // 70-90%
+                        break;
+                        
+                    case 'neural':
+                        // Neural network simulation
+                        const weights = [0.3, 0.4, 0.2, 0.1];
+                        let score = 0;
+                        const recent = this.results.slice(-4);
+                        recent.forEach((result, index) => {
+                            score += (result === 'SMALL' ? 1 : -1) * weights[index];
+                        });
+                        result = score > 0 ? 'BIG' : 'SMALL';
+                        this.confidenceLevel = Math.random() * 15 + 80; // 80-95%
+                        break;
+                        
+                    default:
+                        // Standard pattern
+                        result = Math.random() < 0.5 ? 'SMALL' : 'BIG';
+                        this.confidenceLevel = Math.random() * 30 + 60; // 60-90%
+                }
+                
+                return result;
+            }
+
+            updateTimer() {
+                const remainingSeconds = this.getRemainingSeconds();
+                const currentPeriod = this.getCurrentPeriod();
+                
+                const formattedTime = `  ${Math.floor(remainingSeconds / 10)}${remainingSeconds % 10}  :  00`;
+                document.getElementById('timer').textContent = formattedTime;
+                
+                document.getElementById('periodNumber').textContent = currentPeriod;
+                
+                // Update next prediction
+                const nextPrediction = this.decryptPattern(this.encryptedPatterns[this.currentPatternIndex]);
+                document.getElementById('nextPrediction').innerHTML = 
+                    `<span class="${nextPrediction === 'SMALL' ? 'text-blue-300' : 'text-red-300'}">${nextPrediction}</span>`;
+                
+                // Update confidence bar
+                document.getElementById('confidenceBar').style.width = this.confidenceLevel + '%';
+                document.getElementById('confidenceText').textContent = Math.round(this.confidenceLevel) + '%';
+                
+                if (this.currentPeriod !== currentPeriod) {
+                    if (this.currentPeriod !== null) {
+                        this.onPeriodChange();
+                    }
+                    this.currentPeriod = currentPeriod;
+                }
+                
+                const status = remainingSeconds > 5 ? 'Active' : 'Generating...';
+                document.getElementById('resultStatus').textContent = status;
+            }
+
+            onPeriodChange() {
+                const result = this.generateAdvancedResult();
+                this.showResult(result);
+                
+                const predicted = this.decryptPattern(this.encryptedPatterns[this.currentPatternIndex]);
+                if (result === predicted) {
+                    this.correctPredictions++;
+                }
+                
+                this.results.push(result);
+                this.predictions.push(predicted);
+                this.totalPeriods++;
+                
+                if (result === 'SMALL') {
+                    this.smallCount++;
+                } else {
+                    this.bigCount++;
+                }
+                
+                this.currentPatternIndex = (this.currentPatternIndex + 1) % this.encryptedPatterns.length;
+                
+                this.updateStatistics();
+                this.updateChart();
+                this.updateRecentResults();
+                this.updateTrendIndicator();
+                this.saveSessionData();
+            }
+
+            showResult(result) {
+                const resultElement = document.getElementById('currentResult');
+                resultElement.innerHTML = `<span class="${result === 'SMALL' ? 'text-blue-400' : 'text-red-400'}">${result}</span>`;
+                
+                resultElement.classList.add('animate-pulse');
+                setTimeout(() => {
+                    resultElement.classList.remove('animate-pulse');
+                }, 2000);
+            }
+
+            updateStatistics() {
+                document.getElementById('totalPeriods').textContent = this.totalPeriods;
+                document.getElementById('smallCount').textContent = this.smallCount;
+                document.getElementById('bigCount').textContent = this.bigCount;
+                
+                const accuracy = this.totalPeriods > 0 ? 
+                    Math.round((this.correctPredictions / this.totalPeriods) * 100) : 0;
+                document.getElementById('accuracy').textContent = accuracy + '%';
+                
+                // Update sidebar stats
+                document.getElementById('sidebarAccuracy').textContent = accuracy + '%';
+                document.getElementById('sidebarTotal').textContent = this.totalPeriods;
+            }
+
+            updateChart() {
+                if (this.totalPeriods > 0) {
+                    const accuracy = Math.round((this.correctPredictions / this.totalPeriods) * 100);
+                    this.chartData.push(accuracy);
+                    
+                    if (this.chartData.length > 10) {
+                        this.chartData.shift();
+                    }
+                    
+                    this.chart.data.labels = this.chartData.map((_, index) => `P${index + 1}`);
+                    this.chart.data.datasets[0].data = this.chartData;
+                    this.chart.update();
+                }
+            }
+
+            updateRecentResults() {
+                this.recentResultsList.push(this.results[this.results.length - 1]);
+                if (this.recentResultsList.length > 10) {
+                    this.recentResultsList.shift();
+                }
+                
+                const container = document.getElementById('recentResults');
+                container.innerHTML = this.recentResultsList.map(result => 
+                    `<div class="p-2 rounded text-center text-sm font-semibold ${
+                        result === 'SMALL' ? 'bg-blue-600 text-white' : 'bg-red-600 text-white'
+                    }">${result}</div>`
+                ).join('');
+            }
+
+            updateTrendIndicator() {
+                const container = document.getElementById('trendIndicator');
+                const recent = this.results.slice(-10);
+                
+                container.innerHTML = recent.map(result => 
+                    `<div class="h-8 w-4 rounded ${
+                        result === 'SMALL' ? 'bg-blue-500' : 'bg-red-500'
+                    }"></div>`
+                ).join('');
+            }
+
+            saveSessionData() {
+                if (document.getElementById('autoSave').checked) {
+                    const sessionData = {
+                        results: this.results,
+                        predictions: this.predictions,
+                        totalPeriods: this.totalPeriods,
+                        smallCount: this.smallCount,
+                        bigCount: this.bigCount,
+                        correctPredictions: this.correctPredictions,
+                        algorithm: this.algorithm,
+                        sessionKey: this.sessionKey
+                    };
+                    
+                    // Encrypt and save to localStorage
+                    const encrypted = btoa(JSON.stringify(sessionData));
+                    localStorage.setItem('bnLastKingSession', encrypted);
+                }
+            }
+
+            loadSessionData() {
+                try {
+                    const encrypted = localStorage.getItem('bnLastKingSession');
+                    if (encrypted) {
+                        const sessionData = JSON.parse(atob(encrypted));
+                        
+                        this.results = sessionData.results || [];
+                        this.predictions = sessionData.predictions || [];
+                        this.totalPeriods = sessionData.totalPeriods || 0;
+                        this.smallCount = sessionData.smallCount || 0;
+                        this.bigCount = sessionData.bigCount || 0;
+                        this.correctPredictions = sessionData.correctPredictions || 0;
+                        this.algorithm = sessionData.algorithm || 'standard';
+                        
+                        document.getElementById('algorithmSelect').value = this.algorithm;
+                        this.updateStatistics();
+                    }
+                } catch (error) {
+                    console.error('Failed to load session data:', error);
+                }
+            }
+
+            initializeTimer() {
+                this.updateTimer();
+                setInterval(() => {
+                    this.updateTimer();
+                }, 1000);
+            }
+
+            initializeSidebar() {
+                const sidebarToggle = document.getElementById('sidebarToggle');
+                const sidebarClose = document.getElementById('sidebarClose');
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+
+                function openSidebar() {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                }
+
+                function closeSidebar() {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
+
+                sidebarToggle.addEventListener('click', openSidebar);
+                sidebarClose.addEventListener('click', closeSidebar);
+                overlay.addEventListener('click', closeSidebar);
+            }
+
+            initializeThemeSwitcher() {
+                const themeSwitcher = document.getElementById('themeSwitcher');
+                const body = document.getElementById('mainBody');
+
+                themeSwitcher.addEventListener('click', () => {
+                    this.currentTheme = (this.currentTheme + 1) % this.themes.length;
+                    const theme = this.themes[this.currentTheme];
+                    
+                    // Remove all theme classes
+                    body.className = body.className.replace(/bg-gradient-to-br.*?(?=\s|$)/g, '');
+                    
+                    // Add new theme class
+                    body.className += ' ' + theme.bodyClass;
+                    
+                    // Update theme switcher text
+                    themeSwitcher.innerHTML = `<i class="fas fa-palette mr-2"></i>${theme.name}`;
+                });
+            }
+
+            initializeSettings() {
+                const settingsBtn = document.getElementById('settingsBtn');
+                const settingsModal = document.getElementById('settingsModal');
+                const closeSettings = document.getElementById('closeSettings');
+                const saveSettings = document.getElementById('saveSettings');
+                const resetSettings = document.getElementById('resetSettings');
+
+                settingsBtn.addEventListener('click', () => {
+                    settingsModal.classList.remove('hidden');
+                });
+
+                closeSettings.addEventListener('click', () => {
+                    settingsModal.classList.add('hidden');
+                });
+
+                saveSettings.addEventListener('click', () => {
+                    this.algorithm = document.getElementById('algorithmSelect').value;
+                    this.saveSessionData();
+                    settingsModal.classList.add('hidden');
+                    
+                    // Show save confirmation
+                    const alert = document.getElementById('securityAlert');
+                    alert.innerHTML = '<i class="fas fa-save mr-2"></i>Settings Saved Successfully';
+                    alert.classList.remove('hidden');
+                    setTimeout(() => alert.classList.add('hidden'), 2000);
+                });
+
+                resetSettings.addEventListener('click', () => {
+                    localStorage.removeItem('bnLastKingSession');
+                    location.reload();
+                });
+
+                // Close modal when clicking outside
+                settingsModal.addEventListener('click', (e) => {
+                    if (e.target === settingsModal) {
+                        settingsModal.classList.add('hidden');
+                    }
+                });
+            }
         }
-      }
-    };
 
-    // Settings management
-    function loadSettings() {
-      const saved = localStorage.getItem('bnSettings');
-      if (saved) {
-        systemSettings = { ...systemSettings, ...JSON.parse(saved) };
-      }
-    }
+        // Initialize the enhanced system when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new EnhancedSecurityPredictionSystem();
+        });
 
-    function saveSettingsToStorage() {
-      localStorage.setItem('bnSettings', JSON.stringify(systemSettings));
-    }
-
-    // Page navigation
-    function showPage(pageId) {
-      const pages = ['loginPage', 'calculatorPage', 'adminPanel'];
-      pages.forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-      });
-      document.getElementById(pageId).classList.remove('hidden');
-    }
-
-    // User login functions
-    async function userLogin() {
-      const key = document.getElementById('accessKey').value.trim();
-      if (!key) {
-        showNotification('Please enter an access key', 'error');
-        return;
-      }
-
-      try {
-        showLoadingScreen(true);
-        const keyData = await validateAndActivateKey(key);
-        if (keyData) {
-          currentUser = { key: key, isAdmin: false, loginTime: Date.now() };
-          localStorage.setItem('bnUser', JSON.stringify(currentUser));
-          showPage('calculatorPage');
-          updateKeyExpiry();
-          await trackDeviceLogin(key);
-          showNotification('Login successful!', 'success');
-        } else {
-          showNotification('Invalid or expired access key', 'error');
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        showNotification('Login failed. Please try again.', 'error');
-      } finally {
-        showLoadingScreen(false);
-      }
-    }
-
-    // Enhanced key validation with activation
-    async function validateAndActivateKey(key) {
-      try {
-        // Check Firebase first
-        const keysSnapshot = await window.firebase.getDocs(
-          window.firebase.collection(window.firebase.db, 'keys')
-        );
-        
-        for (const doc of keysSnapshot.docs) {
-          const keyData = doc.data();
-          if (keyData.key === key) {
-            const expiry = keyData.expiry.toDate ? keyData.expiry.toDate() : new Date(keyData.expiry);
-            const now = new Date();
+        // Add CSS animations and styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.7; }
+            }
+            .animate-pulse {
+                animation: pulse 1s ease-in-out infinite;
+            }
             
-            // Check if key is expired
-            if (expiry <= now) {
-              return null;
+            @keyframes slideIn {
+                from { transform: translateY(-20px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
             }
             
-            // Activate key on first login if it's pending
-            if (keyData.status === 'pending' && systemSettings.keyActivationMode === 'first_login') {
-              await window.firebase.updateDoc(doc.ref, {
-                status: 'active',
-                firstUsed: window.firebase.serverTimestamp(),
-                lastUsed: window.firebase.serverTimestamp()
-              });
-              showNotification('Key activated successfully!', 'success');
-            } else {
-              // Update last used time
-              await window.firebase.updateDoc(doc.ref, {
-                lastUsed: window.firebase.serverTimestamp()
-              });
+            .slide-in {
+                animation: slideIn 0.3s ease-out;
             }
             
-            return keyData;
-          }
-        }
-        
-        // Fallback to local storage
-        return validateLocalKey(key);
-      } catch (error) {
-        console.error('Key validation error:', error);
-        return validateLocalKey(key);
-      }
-    }
-
-    function validateLocalKey(key) {
-      const keys = getStoredKeys();
-      const keyIndex = keys.findIndex(k => k.key === key);
-      if (keyIndex !== -1) {
-        const keyData = keys[keyIndex];
-        const expiry = new Date(keyData.expiry);
-        const now = new Date();
-        
-        if (expiry <= now) {
-          return null;
-        }
-        
-        // Activate key if pending
-        if (keyData.status === 'pending' && systemSettings.keyActivationMode === 'first_login') {
-          keys[keyIndex].status = 'active';
-          keys[keyIndex].firstUsed = now.toISOString();
-          keys[keyIndex].lastUsed = now.toISOString();
-          localStorage.setItem('bnKeys', JSON.stringify(keys));
-          showNotification('Key activated successfully!', 'success');
-        } else {
-          keys[keyIndex].lastUsed = now.toISOString();
-          localStorage.setItem('bnKeys', JSON.stringify(keys));
-        }
-        
-        return keyData;
-      }
-      return null;
-    }
-
-    function isValidKey(key) {
-      const keys = getStoredKeys();
-      const keyData = keys.find(k => k.key === key);
-      if (!keyData) return false;
-      
-      const expiry = new Date(keyData.expiry);
-      const isNotExpired = expiry > new Date();
-      const isActiveOrPending = keyData.status === 'active' || keyData.status === 'pending';
-      
-      return isNotExpired && isActiveOrPending;
-    }
-
-    // Admin login functions
-    function showAdminLogin() {
-      document.getElementById('adminLoginModal').classList.remove('hidden');
-      document.getElementById('adminPassword').focus();
-    }
-
-    function hideAdminLogin() {
-      document.getElementById('adminLoginModal').classList.add('hidden');
-      document.getElementById('adminPassword').value = '';
-    }
-
-    window.adminLogin = function() {
-      const password = document.getElementById('adminPassword').value;
-      if (password === ADMIN_PASSWORD) {
-        currentUser = { isAdmin: true, loginTime: Date.now() };
-        localStorage.setItem('bnUser', JSON.stringify(currentUser));
-        isAdmin = true;
-        hideAdminLogin();
-        showPage('adminPanel');
-        initializeAdminPanel();
-        showNotification('Admin authentication successful!', 'success');
-      } else {
-        showNotification('Invalid admin password', 'error');
-        document.getElementById('adminPassword').value = '';
-        document.getElementById('adminPassword').focus();
-      }
-    };
-
-    // Calculator functions
-    function appendNumber(num) {
-      const input = document.getElementById("userInput");
-      if (input.value.length < 3) {
-        input.value += num;
-      }
-    }
-
-    function clearInput() {
-      document.getElementById("userInput").value = "";
-      document.getElementById("result").innerHTML = "";
-    }
-
-    function checkResult() {
-      const input = document.getElementById("userInput").value.trim();
-      const resultBox = document.getElementById("result");
-
-      if (input.length !== 3 || isNaN(input)) {
-        resultBox.innerHTML = '<span class="text-red-400 animate-pulse"><i class="fas fa-exclamation-triangle mr-2"></i>Please enter a valid 3-digit number!</span>';
-        return;
-      }
-
-      const lastDigit = parseInt(input[input.length - 1]);
-      const result = (lastDigit >= 5) ? "BIG" : "SMALL";
-      const color = result === 'BIG' ? 'var(--primary-neon)' : 'var(--secondary-neon)';
-      const icon = result === 'BIG' ? 'fa-arrow-up' : 'fa-arrow-down';
-
-      resultBox.innerHTML = `
-        <div class="bg-black bg-opacity-50 p-4 rounded-lg border-2" style="border-color: ${color};">
-          <div class="text-sm text-gray-400 mb-2">Result for ${input}:</div>
-          <div class="text-3xl font-bold orbitron" style="color: ${color}; text-shadow: 0 0 15px ${color};">
-            <i class="fas ${icon} mr-2"></i>${result}
-          </div>
-        </div>
-      `;
-    }
-
-    function updateKeyExpiry() {
-      const keys = getStoredKeys();
-      const keyData = keys.find(k => k.key === currentUser.key);
-      if (keyData) {
-        const expiry = new Date(keyData.expiry);
-        document.getElementById('keyExpiry').textContent = expiry.toLocaleDateString();
-      }
-    }
-
-    async function updateKeyLastUsed(key) {
-      try {
-        // Update in Firebase
-        const keysSnapshot = await window.firebase.getDocs(
-          window.firebase.collection(window.firebase.db, 'keys')
-        );
-        
-        for (const doc of keysSnapshot.docs) {
-          const keyData = doc.data();
-          if (keyData.key === key) {
-            await window.firebase.updateDoc(doc.ref, {
-              lastUsed: window.firebase.serverTimestamp()
-            });
-            break;
-          }
-        }
-      } catch (error) {
-        console.error('Error updating key last used:', error);
-      }
-      
-      // Also update local storage
-      const keys = getStoredKeys();
-      const keyIndex = keys.findIndex(k => k.key === key);
-      if (keyIndex !== -1) {
-        keys[keyIndex].lastUsed = Date.now();
-        localStorage.setItem('bnKeys', JSON.stringify(keys));
-      }
-    }
-
-    async function trackDeviceLogin(key) {
-      try {
-        const deviceInfo = {
-          deviceId: getDeviceId(),
-          keyUsed: key,
-          platform: navigator.platform,
-          browser: getBrowserInfo(),
-          lastSeen: window.firebase.serverTimestamp(),
-          ipAddress: await getIPAddress(),
-          location: 'India',
-          status: 'online',
-          loginTime: window.firebase.serverTimestamp()
-        };
-
-        await window.firebase.addDoc(
-          window.firebase.collection(window.firebase.db, 'devices'),
-          deviceInfo
-        );
-      } catch (error) {
-        console.error('Error tracking device login:', error);
-      }
-    }
-
-    function getDeviceId() {
-      let deviceId = localStorage.getItem('deviceId');
-      if (!deviceId) {
-        deviceId = 'device_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('deviceId', deviceId);
-      }
-      return deviceId;
-    }
-
-    function getBrowserInfo() {
-      const ua = navigator.userAgent;
-      if (ua.includes('Chrome')) return 'Chrome';
-      if (ua.includes('Firefox')) return 'Firefox';
-      if (ua.includes('Safari')) return 'Safari';
-      if (ua.includes('Edge')) return 'Edge';
-      return 'Unknown';
-    }
-
-    async function getIPAddress() {
-      try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        return data.ip;
-      } catch (error) {
-        return '127.0.0.1';
-      }
-    }
-
-    // Admin panel initialization
-    async function initializeAdminPanel() {
-      try {
-        showLoadingScreen(true);
-        
-        // Initialize sidebar
-        document.getElementById('sidebar').classList.add('active');
-        document.getElementById('mainContent').classList.add('shifted');
-
-        // Start online timer
-        startOnlineTimer();
-
-        // Load initial data
-        await Promise.all([
-          loadKeys(),
-          loadDevices(),
-          loadSessions(),
-          loadAnalytics()
-        ]);
-
-        // Initialize charts
-        initializeCharts();
-
-        // Set up real-time listeners
-        setupRealTimeListeners();
-
-        // Update statistics
-        updateStatistics();
-
-        // Load settings into UI
-        loadSettingsIntoUI();
-
-        showNotification('Enhanced admin panel initialized successfully!', 'success');
-      } catch (error) {
-        console.error('Error initializing admin panel:', error);
-        showNotification('Error initializing admin panel: ' + error.message, 'error');
-      } finally {
-        showLoadingScreen(false);
-      }
-    }
-
-    function loadSettingsIntoUI() {
-      if (document.getElementById('maxDevicesPerKey')) {
-        document.getElementById('maxDevicesPerKey').value = systemSettings.maxDevicesPerKey;
-        document.getElementById('sessionTimeout').value = systemSettings.sessionTimeout;
-        document.getElementById('autoDeleteExpired').value = systemSettings.autoDeleteExpired.toString();
-        document.getElementById('keyActivationMode').value = systemSettings.keyActivationMode;
-      }
-    }
-
-    // Timer functions
-    function startOnlineTimer() {
-      if (onlineTimer) clearInterval(onlineTimer);
-      const startTime = Date.now();
-      onlineTimer = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        const hours = Math.floor(elapsed / 3600000);
-        const minutes = Math.floor((elapsed % 3600000) / 60000);
-        const seconds = Math.floor((elapsed % 60000) / 1000);
-        const timeElement = document.getElementById('onlineTime');
-        if (timeElement) {
-          timeElement.textContent = 
-            `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-      }, 1000);
-    }
-
-    // Navigation
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const mainContent = document.getElementById('mainContent');
-      sidebar.classList.toggle('active');
-      mainContent.classList.toggle('shifted');
-    }
-
-    window.showTab = function(tabName) {
-      // Hide all tab contents
-      const tabs = document.querySelectorAll('.tab-content');
-      tabs.forEach(tab => tab.classList.remove('active'));
-
-      // Remove active class from all sidebar items
-      const sidebarItems = document.querySelectorAll('.sidebar-item');
-      sidebarItems.forEach(item => item.classList.remove('active'));
-
-      // Show selected tab
-      document.getElementById(tabName).classList.add('active');
-
-      // Add active class to clicked sidebar item
-      event.target.closest('.sidebar-item').classList.add('active');
-
-      // Load tab-specific data
-      switch(tabName) {
-        case 'dashboard':
-          updateStatistics();
-          break;
-        case 'keys':
-          filterKeys();
-          break;
-        case 'devices':
-          filterDevices();
-          break;
-        case 'users':
-          refreshSessions();
-          break;
-        case 'analytics':
-          updateAnalytics();
-          break;
-        case 'settings':
-          loadSettingsIntoUI();
-          break;
-      }
-    };
-
-    // Enhanced key management functions
-    async function loadKeys() {
-      try {
-        const querySnapshot = await window.firebase.getDocs(
-          window.firebase.collection(window.firebase.db, 'keys')
-        );
-        allKeys = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          expiry: doc.data().expiry.toDate ? doc.data().expiry.toDate() : new Date(doc.data().expiry),
-          created: doc.data().created.toDate ? doc.data().created.toDate() : new Date(doc.data().created)
-        }));
-        displayKeys(allKeys);
-      } catch (error) {
-        console.error('Error loading keys from Firebase:', error);
-        // Fallback to demo data
-        allKeys = generateDemoKeys();
-        displayKeys(allKeys);
-      }
-    }
-
-    function generateDemoKeys() {
-      const keys = getStoredKeys();
-      if (keys.length > 0) {
-        return keys.map(k => ({
-          ...k,
-          expiry: new Date(k.expiry),
-          created: new Date(k.created || Date.now()),
-          activeDevices: 0
-        }));
-      }
-      
-      return [
-        {
-          id: 'demo1',
-          key: 'BNDEMO123',
-          expiry: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-          created: new Date(),
-          duration: 7,
-          deviceLimit: 1,
-          activeDevices: 1,
-          lastUsed: new Date(Date.now() - 30000),
-          status: 'active'
-        },
-        {
-          id: 'demo2',
-          key: 'BNTEST456',
-          expiry: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          created: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-          duration: 30,
-          deviceLimit: 1,
-          activeDevices: 0,
-          lastUsed: null,
-          status: 'pending'
-        }
-      ];
-    }
-
-    window.generateKeys = async function() {
-      const duration = parseInt(document.getElementById('keyDuration').value);
-      const count = parseInt(document.getElementById('keyCount').value) || 1;
-      const prefix = document.getElementById('keyPrefix').value.trim() || 'BN';
-      const deviceLimit = parseInt(document.getElementById('deviceLimit').value);
-      
-      if (count > 100) {
-        showNotification('Maximum 100 keys at once', 'error');
-        return;
-      }
-
-      try {
-        showLoadingScreen(true);
-        const newKeys = [];
-
-        for (let i = 0; i < count; i++) {
-          const key = generateRandomKey(prefix);
-          const expiry = new Date();
-          expiry.setDate(expiry.getDate() + duration);
-          
-          // Set initial status based on settings
-          const initialStatus = systemSettings.keyActivationMode === 'first_login' ? 'pending' : 'active';
-          
-          const keyData = {
-            key: key,
-            expiry: expiry,
-            created: window.firebase.serverTimestamp(),
-            duration: duration,
-            deviceLimit: deviceLimit,
-            activeDevices: 0,
-            lastUsed: null,
-            status: initialStatus,
-            firstUsed: null
-          };
-          
-          try {
-            await window.firebase.addDoc(
-              window.firebase.collection(window.firebase.db, 'keys'),
-              keyData
-            );
-            newKeys.push({...keyData, expiry: expiry.toISOString()});
-          } catch (error) {
-            console.error('Firebase error, using local storage:', error);
-            // Fallback to local storage
-            const localKeys = getStoredKeys();
-            localKeys.push({
-              id: 'local_' + Date.now() + '_' + i,
-              ...keyData,
-              created: new Date().toISOString(),
-              expiry: expiry.toISOString()
-            });
-            localStorage.setItem('bnKeys', JSON.stringify(localKeys));
-            newKeys.push({...keyData, expiry: expiry.toISOString()});
-          }
-        }
-
-        await loadKeys();
-        updateStatistics();
-
-        const keyList = newKeys.map(k => k.key).join('\n');
-        const statusMsg = systemSettings.keyActivationMode === 'first_login' ? 
-          'Keys created in PENDING status. They will activate on first login.' :
-          'Keys created and immediately ACTIVE.';
-        
-        showNotification(`Generated ${count} key(s) successfully! ${statusMsg}`, 'success');
-        
-        if (confirm(`Generated ${count} key(s):\n\n${keyList}\n\n${statusMsg}\n\nCopy to clipboard?`)) {
-          await navigator.clipboard.writeText(keyList);
-          showNotification('Keys copied to clipboard!', 'success');
-        }
-      } catch (error) {
-        console.error('Error generating keys:', error);
-        showNotification('Error generating keys: ' + error.message, 'error');
-      } finally {
-        showLoadingScreen(false);
-      }
-    };
-
-    function generateRandomKey(prefix = 'BN') {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let result = prefix;
-      const keyLength = 12 - prefix.length;
-      for (let i = 0; i < keyLength; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return result;
-    }
-
-    function displayKeys(keys) {
-      const keysList = document.getElementById('keysList');
-      if (!keysList) return;
-      
-      keysList.innerHTML = '';
-
-      if (keys.length === 0) {
-        keysList.innerHTML = `
-          <div class="text-center text-gray-400 py-12">
-            <i class="fas fa-key fa-3x mb-4"></i>
-            <p class="text-lg">No keys found</p>
-          </div>
-        `;
-        return;
-      }
-
-      keys.forEach(keyData => {
-        const expiry = keyData.expiry instanceof Date ? keyData.expiry : new Date(keyData.expiry);
-        const isExpired = expiry < new Date();
-        const isOnline = keyData.lastUsed && (Date.now() - new Date(keyData.lastUsed).getTime()) < 300000;
-        
-        let statusClass, statusText, statusIcon, badgeClass;
-        if (isExpired) {
-          statusClass = 'status-expired';
-          statusText = 'Expired';
-          statusIcon = 'fa-times-circle';
-          badgeClass = 'badge-expired';
-        } else if (keyData.status === 'pending') {
-          statusClass = 'status-pending';
-          statusText = 'Pending';
-          statusIcon = 'fa-clock';
-          badgeClass = 'badge-pending';
-        } else if (isOnline) {
-          statusClass = 'status-online';
-          statusText = 'Online';
-          statusIcon = 'fa-circle';
-          badgeClass = 'badge-online';
-        } else {
-          statusClass = 'status-active';
-          statusText = 'Active';
-          statusIcon = 'fa-check-circle';
-          badgeClass = 'badge-active';
-        }
-        
-        const keyCard = document.createElement('div');
-        keyCard.className = 'card';
-        keyCard.innerHTML = `
-          <div class="flex justify-between items-center">
-            <div class="flex-1">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="font-mono font-bold text-xl">${keyData.key}</span>
-                <button onclick="copyKey('${keyData.key}')" class="text-blue-400 hover:text-blue-300 transition-colors text-lg">
-                  <i class="fas fa-copy"></i>
-                </button>
-                <span class="key-status-badge ${badgeClass}">
-                  <i class="fas ${statusIcon} mr-1"></i>${statusText}
-                </span>
-              </div>
-              <div class="text-sm text-gray-400 space-y-2">
-                <div><i class="fas fa-calendar mr-2"></i>Duration: ${keyData.duration} day(s)</div>
-                <div><i class="fas fa-clock mr-2"></i>Expires: ${expiry.toLocaleString()}</div>
-                <div><i class="fas fa-mobile-alt mr-2"></i>Devices: ${keyData.activeDevices || 0}/${keyData.deviceLimit || 1}</div>
-                <div><i class="fas fa-user mr-2"></i>Last Used: ${keyData.lastUsed ? new Date(keyData.lastUsed).toLocaleString() : 'Never'}</div>
-                ${keyData.firstUsed ? `<div><i class="fas fa-play mr-2"></i>First Used: ${new Date(keyData.firstUsed).toLocaleString()}</div>` : ''}
-              </div>
-            </div>
-            <div class="text-right">
-              <div class="space-y-2">
-                <button onclick="extendKey('${keyData.id}')" 
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors w-full font-semibold">
-                  <i class="fas fa-plus mr-1"></i>Extend
-                </button>
-                <button onclick="viewKeyDetails('${keyData.id}')" 
-                        class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-700 transition-colors w-full font-semibold">
-                  <i class="fas fa-eye mr-1"></i>Details
-                </button>
-                <button onclick="showDeleteConfirmation('key', '${keyData.id}', '${keyData.key}')" 
-                        class="btn-danger px-4 py-2 rounded-lg text-sm transition-colors w-full font-semibold">
-                  <i class="fas fa-trash mr-1"></i>Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-        keysList.appendChild(keyCard);
-      });
-    }
-
-    window.filterKeys = function() {
-      const search = document.getElementById('searchKeys')?.value.toLowerCase() || '';
-      const status = document.getElementById('filterKeyStatus')?.value || 'all';
-      
-      let filtered = allKeys.filter(key => {
-        const matchesSearch = key.key.toLowerCase().includes(search);
-        const expiry = key.expiry instanceof Date ? key.expiry : new Date(key.expiry);
-        const isExpired = expiry < new Date();
-        const isOnline = key.lastUsed && (Date.now() - new Date(key.lastUsed).getTime()) < 300000;
-        
-        let matchesStatus = true;
-        if (status === 'active') matchesStatus = !isExpired && !isOnline && key.status === 'active';
-        if (status === 'pending') matchesStatus = !isExpired && key.status === 'pending';
-        if (status === 'expired') matchesStatus = isExpired;
-        if (status === 'online') matchesStatus = isOnline && !isExpired;
-        
-        return matchesSearch && matchesStatus;
-      });
-      
-      displayKeys(filtered);
-    };
-
-    // Enhanced delete system
-    function showDeleteConfirmation(type, id, name) {
-      deleteItemId = id;
-      deleteCallback = type === 'key' ? deleteKeyConfirmed : deleteDeviceConfirmed;
-      
-      document.getElementById('deleteItemInfo').textContent = `${type.toUpperCase()}: ${name}`;
-      document.getElementById('deleteModal').classList.remove('hidden');
-    }
-
-    function cancelDelete() {
-      document.getElementById('deleteModal').classList.add('hidden');
-      deleteCallback = null;
-      deleteItemId = null;
-    }
-
-    async function confirmDelete() {
-      if (deleteCallback && deleteItemId) {
-        try {
-          showLoadingScreen(true);
-          await deleteCallback(deleteItemId);
-          cancelDelete();
-        } catch (error) {
-          console.error('Delete error:', error);
-          showNotification('Error deleting item: ' + error.message, 'error');
-        } finally {
-          showLoadingScreen(false);
-        }
-      }
-    }
-
-    async function deleteKeyConfirmed(keyId) {
-      try {
-        // Delete from Firebase
-        await window.firebase.deleteDoc(window.firebase.doc(window.firebase.db, 'keys', keyId));
-        showNotification('Key deleted successfully!', 'success');
-      } catch (error) {
-        // Fallback to local storage
-        const keys = getStoredKeys();
-        const filteredKeys = keys.filter(k => k.id !== keyId);
-        localStorage.setItem('bnKeys', JSON.stringify(filteredKeys));
-        showNotification('Key deleted from local storage!', 'success');
-      }
-      
-      await loadKeys();
-      updateStatistics();
-    }
-
-    async function deleteDeviceConfirmed(deviceId) {
-      try {
-        await window.firebase.deleteDoc(window.firebase.doc(window.firebase.db, 'devices', deviceId));
-        showNotification('Device deleted successfully!', 'success');
-        await loadDevices();
-        updateStatistics();
-      } catch (error) {
-        showNotification('Error deleting device: ' + error.message, 'error');
-      }
-    }
-
-    // Device management functions
-    async function loadDevices() {
-      try {
-        const querySnapshot = await window.firebase.getDocs(
-          window.firebase.collection(window.firebase.db, 'devices')
-        );
-        allDevices = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          lastSeen: doc.data().lastSeen.toDate ? doc.data().lastSeen.toDate() : new Date(doc.data().lastSeen),
-          loginTime: doc.data().loginTime.toDate ? doc.data().loginTime.toDate() : new Date(doc.data().loginTime)
-        }));
-        displayDevices(allDevices);
-      } catch (error) {
-        console.error('Error loading devices:', error);
-        // Generate demo devices
-        allDevices = generateDemoDevices();
-        displayDevices(allDevices);
-      }
-    }
-
-    function generateDemoDevices() {
-      return [
-        {
-          id: 'device1',
-          deviceId: 'android_' + Math.random().toString(36).substr(2, 9),
-          keyUsed: 'BNDEMO123',
-          platform: 'Android',
-          browser: 'Chrome Mobile',
-          lastSeen: new Date(),
-          ipAddress: '192.168.1.100',
-          location: 'India',
-          status: 'online',
-          loginTime: new Date(Date.now() - 300000)
-        },
-        {
-          id: 'device2',
-          deviceId: 'windows_' + Math.random().toString(36).substr(2, 9),
-          keyUsed: 'BNTEST456',
-          platform: 'Windows',
-          browser: 'Chrome',
-          lastSeen: new Date(Date.now() - 1800000),
-          ipAddress: '10.0.0.50',
-          location: 'India',
-          status: 'offline',
-          loginTime: new Date(Date.now() - 3600000)
-        }
-      ];
-    }
-
-    function displayDevices(devices) {
-      const devicesList = document.getElementById('devicesList');
-      if (!devicesList) return;
-      
-      devicesList.innerHTML = '';
-
-      if (devices.length === 0) {
-        devicesList.innerHTML = `
-          <div class="text-center text-gray-400 py-12">
-            <i class="fas fa-mobile-alt fa-3x mb-4"></i>
-            <p class="text-lg">No devices found</p>
-          </div>
-        `;
-        return;
-      }
-
-      devices.forEach(device => {
-        const lastSeen = device.lastSeen instanceof Date ? device.lastSeen : new Date(device.lastSeen);
-        const isOnline = (Date.now() - lastSeen.getTime()) < 300000;
-        
-        let statusClass, statusText, statusIcon;
-        if (device.status === 'blocked') {
-          statusClass = 'status-blocked';
-          statusText = 'Blocked';
-          statusIcon = 'fa-ban';
-        } else if (isOnline) {
-          statusClass = 'status-online';
-          statusText = 'Online';
-          statusIcon = 'fa-circle';
-        } else {
-          statusClass = 'status-offline';
-          statusText = 'Offline';
-          statusIcon = 'fa-circle';
-        }
-        
-        const deviceCard = document.createElement('div');
-        deviceCard.className = 'device-card';
-        deviceCard.innerHTML = `
-          <div class="flex justify-between items-center">
-            <div class="flex-1">
-              <div class="flex items-center gap-3 mb-3">
-                <i class="fas fa-${getPlatformIcon(device.platform)} text-lg mr-2"></i>
-                <span class="font-bold text-lg">${device.platform} - ${device.browser}</span>
-                <span class="key-status-badge ${statusClass === 'status-online' ? 'badge-online' : statusClass === 'status-blocked' ? 'badge-expired' : 'badge-active'}">
-                  <i class="fas ${statusIcon} mr-1"></i>${statusText}
-                </span>
-              </div>
-              <div class="text-sm text-gray-400 space-y-2">
-                <div><i class="fas fa-key mr-2"></i>Key: ${device.keyUsed}</div>
-                <div><i class="fas fa-globe mr-2"></i>IP: ${device.ipAddress} (${device.location})</div>
-                <div><i class="fas fa-clock mr-2"></i>Last Seen: ${lastSeen.toLocaleString()}</div>
-                <div><i class="fas fa-fingerprint mr-2"></i>Device ID: ${device.deviceId.substring(0, 20)}...</div>
-              </div>
-            </div>
-            <div class="text-right">
-              <div class="space-y-2">
-                <button onclick="kickDevice('${device.id}')" 
-                        class="btn-warning px-4 py-2 rounded-lg text-sm transition-colors w-full font-semibold">
-                  <i class="fas fa-power-off mr-1"></i>Kick
-                </button>
-                <button onclick="blockDevice('${device.id}')" 
-                        class="btn-danger px-4 py-2 rounded-lg text-sm transition-colors w-full font-semibold">
-                  <i class="fas fa-ban mr-1"></i>Block
-                </button>
-                <button onclick="showDeleteConfirmation('device', '${device.id}', '${device.deviceId}')" 
-                        class="btn-secondary px-4 py-2 rounded-lg text-sm transition-colors w-full font-semibold">
-                  <i class="fas fa-trash mr-1"></i>Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-        devicesList.appendChild(deviceCard);
-      });
-    }
-
-    function getPlatformIcon(platform) {
-      const icons = {
-        'Android': 'android',
-        'iOS': 'apple',
-        'Windows': 'windows',
-        'macOS': 'apple',
-        'Linux': 'linux'
-      };
-      return icons[platform] || 'desktop';
-    }
-
-    window.filterDevices = function() {
-      const search = document.getElementById('searchDevices')?.value.toLowerCase() || '';
-      const status = document.getElementById('filterDeviceStatus')?.value || 'all';
-      
-      let filtered = allDevices.filter(device => {
-        const matchesSearch = device.keyUsed.toLowerCase().includes(search) || 
-                             device.platform.toLowerCase().includes(search) ||
-                             device.ipAddress.includes(search);
-        
-        const lastSeen = device.lastSeen instanceof Date ? device.lastSeen : new Date(device.lastSeen);
-        const isOnline = (Date.now() - lastSeen.getTime()) < 300000;
-        
-        let matchesStatus = true;
-        if (status === 'online') matchesStatus = isOnline && device.status !== 'blocked';
-        if (status === 'offline') matchesStatus = !isOnline && device.status !== 'blocked';
-        if (status === 'blocked') matchesStatus = device.status === 'blocked';
-        
-        return matchesSearch && matchesStatus;
-      });
-      
-      displayDevices(filtered);
-    };
-
-    // Session management
-    async function loadSessions() {
-      // Sessions are essentially active devices
-      allSessions = allDevices.filter(device => {
-        const lastSeen = device.lastSeen instanceof Date ? device.lastSeen : new Date(device.lastSeen);
-        return (Date.now() - lastSeen.getTime()) < 300000 && device.status !== 'blocked';
-      });
-      displaySessions(allSessions);
-    }
-
-    function displaySessions(sessions) {
-      const sessionsList = document.getElementById('sessionsList');
-      if (!sessionsList) return;
-      
-      sessionsList.innerHTML = '';
-
-      if (sessions.length === 0) {
-        sessionsList.innerHTML = `
-          <div class="text-center text-gray-400 py-12">
-            <i class="fas fa-users fa-3x mb-4"></i>
-            <p class="text-lg">No active sessions</p>
-          </div>
-        `;
-        return;
-      }
-
-      sessions.forEach(session => {
-        const loginTime = session.loginTime instanceof Date ? session.loginTime : new Date(session.loginTime);
-        const sessionDuration = Math.floor((Date.now() - loginTime.getTime()) / 60000);
-        
-        const sessionCard = document.createElement('div');
-        sessionCard.className = 'card';
-        sessionCard.innerHTML = `
-          <div class="flex justify-between items-center">
-            <div class="flex-1">
-              <div class="flex items-center gap-3 mb-3">
-                <i class="fas fa-${getPlatformIcon(session.platform)} text-lg mr-2 text-blue-400"></i>
-                <span class="font-bold text-lg">${session.keyUsed}</span>
-                <span class="key-status-badge badge-online">
-                  <i class="fas fa-circle mr-1"></i>ACTIVE
-                </span>
-              </div>
-              <div class="text-sm text-gray-400 space-y-2">
-                <div><i class="fas fa-desktop mr-2"></i>${session.platform} - ${session.browser}</div>
-                <div><i class="fas fa-globe mr-2"></i>${session.ipAddress} (${session.location})</div>
-                <div><i class="fas fa-clock mr-2"></i>Session Duration: ${sessionDuration} minutes</div>
-                <div><i class="fas fa-sign-in-alt mr-2"></i>Login Time: ${loginTime.toLocaleString()}</div>
-              </div>
-            </div>
-            <div class="text-right">
-              <div class="space-y-2">
-                <button onclick="kickSession('${session.id}')" 
-                        class="btn-danger px-6 py-3 rounded-lg text-sm transition-colors font-semibold">
-                  <i class="fas fa-power-off mr-1"></i>Kick User
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-        sessionsList.appendChild(sessionCard);
-      });
-    }
-
-    // Chart initialization
-    function initializeCharts() {
-      // Activity Chart
-      const activityCtx = document.getElementById('activityChart')?.getContext('2d');
-      if (activityCtx) {
-        charts.activity = new Chart(activityCtx, {
-          type: 'line',
-          data: {
-            labels: Array.from({length: 24}, (_, i) => `${i}:00`),
-            datasets: [{
-              label: 'Active Users',
-              data: generateRandomData(24, 0, 50),
-              borderColor: '#00ff00',
-              backgroundColor: 'rgba(0, 255, 0, 0.1)',
-              tension: 0.4,
-              fill: true
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                labels: {
-                  color: '#00ff00'
-                }
-              }
-            },
-            scales: {
-              x: {
-                ticks: { color: '#00ff00' },
-                grid: { color: 'rgba(0, 255, 0, 0.2)' }
-              },
-              y: {
-                ticks: { color: '#00ff00' },
-                grid: { color: 'rgba(0, 255, 0, 0.2)' }
-              }
+            /* Smooth transitions for theme changes */
+            body {
+                transition: all 0.5s ease-in-out;
             }
-          }
-        });
-      }
-
-      // Status Chart
-      const statusCtx = document.getElementById('statusChart')?.getContext('2d');
-      if (statusCtx) {
-        charts.status = new Chart(statusCtx, {
-          type: 'doughnut',
-          data: {
-            labels: ['Active', 'Pending', 'Expired', 'Online'],
-            datasets: [{
-              data: [45, 15, 25, 15],
-              backgroundColor: ['#00ff00', '#aa00ff', '#ff4444', '#00ffff'],
-              borderColor: '#000',
-              borderWidth: 2
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                labels: {
-                  color: '#00ff00'
-                }
-              }
+            
+            /* Sidebar animations */
+            #sidebar {
+                transition: transform 0.3s ease-in-out;
             }
-          }
-        });
-      }
-
-      // Login Trends Chart
-      const trendsCtx = document.getElementById('loginTrendsChart')?.getContext('2d');
-      if (trendsCtx) {
-        charts.trends = new Chart(trendsCtx, {
-          type: 'bar',
-          data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            datasets: [{
-              label: 'Login Count',
-              data: generateRandomData(7, 10, 100),
-              backgroundColor: 'rgba(0, 255, 0, 0.8)',
-              borderColor: '#00ff00',
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                labels: {
-                  color: '#00ff00'
-                }
-              }
-            },
-            scales: {
-              x: {
-                ticks: { color: '#00ff00' },
-                grid: { color: 'rgba(0, 255, 0, 0.2)' }
-              },
-              y: {
-                ticks: { color: '#00ff00' },
-                grid: { color: 'rgba(0, 255, 0, 0.2)' }
-              }
+            
+            /* Custom scrollbar for sidebar */
+            #sidebar::-webkit-scrollbar {
+                width: 6px;
             }
-          }
-        });
-      }
-
-      // Device Types Chart
-      const deviceCtx = document.getElementById('deviceTypesChart')?.getContext('2d');
-      if (deviceCtx) {
-        charts.deviceTypes = new Chart(deviceCtx, {
-          type: 'pie',
-          data: {
-            labels: ['Android', 'Windows', 'iOS', 'macOS', 'Linux'],
-            datasets: [{
-              data: [45, 30, 15, 8, 2],
-              backgroundColor: ['#00ff00', '#0088ff', '#ff00ff', '#ffff00', '#ff8800'],
-              borderColor: '#000',
-              borderWidth: 2
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                labels: {
-                  color: '#00ff00'
-                }
-              }
+            #sidebar::-webkit-scrollbar-track {
+                background: rgba(75, 85, 99, 0.2);
             }
-          }
-        });
-      }
-    }
-
-    function generateRandomData(length, min, max) {
-      return Array.from({length}, () => Math.floor(Math.random() * (max - min + 1)) + min);
-    }
-
-    // Enhanced statistics update
-    function updateStatistics() {
-      const now = new Date();
-      
-      // Key statistics
-      const activeKeys = allKeys.filter(k => {
-        const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
-        return expiry > now && k.status === 'active';
-      }).length;
-      
-      const pendingKeys = allKeys.filter(k => {
-        const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
-        return expiry > now && k.status === 'pending';
-      }).length;
-      
-      const expiredKeys = allKeys.filter(k => {
-        const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
-        return expiry <= now;
-      }).length;
-      
-      const onlineUsers = allDevices.filter(d => {
-        const lastSeen = d.lastSeen instanceof Date ? d.lastSeen : new Date(d.lastSeen);
-        return (Date.now() - lastSeen.getTime()) < 300000 && d.status !== 'blocked';
-      }).length;
-      
-      const usedKeys = allKeys.filter(k => k.activeDevices > 0).length;
-
-      // Update dashboard stats
-      animateNumber('totalKeys', allKeys.length);
-      animateNumber('activeUsers', onlineUsers);
-      animateNumber('pendingKeys', pendingKeys);
-      animateNumber('dailyLogins', Math.floor(Math.random() * 50) + 10);
-
-      // Update key management stats
-      if (document.getElementById('activeKeysCount')) {
-        animateNumber('activeKeysCount', activeKeys);
-        animateNumber('pendingKeysCount', pendingKeys);
-        animateNumber('expiredKeysCount', expiredKeys);
-        animateNumber('usedKeysCount', usedKeys);
-      }
-
-      // Update device stats
-      const onlineDevices = allDevices.filter(d => {
-        const lastSeen = d.lastSeen instanceof Date ? d.lastSeen : new Date(d.lastSeen);
-        return (Date.now() - lastSeen.getTime()) < 300000 && d.status !== 'blocked';
-      }).length;
-      
-      const blockedDevices = allDevices.filter(d => d.status === 'blocked').length;
-
-      if (document.getElementById('totalDevicesCount')) {
-        animateNumber('totalDevicesCount', allDevices.length);
-        animateNumber('onlineDevicesCount', onlineDevices);
-        animateNumber('blockedDevicesCount', blockedDevices);
-        animateNumber('suspiciousDevicesCount', Math.floor(Math.random() * 5));
-      }
-
-      // Update charts
-      updateChartData();
-    }
-
-    function updateChartData() {
-      if (charts.status) {
-        const now = new Date();
-        const activeKeys = allKeys.filter(k => {
-          const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
-          return expiry > now && k.status === 'active';
-        }).length;
-        
-        const pendingKeys = allKeys.filter(k => {
-          const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
-          return expiry > now && k.status === 'pending';
-        }).length;
-        
-        const expiredKeys = allKeys.filter(k => {
-          const expiry = k.expiry instanceof Date ? k.expiry : new Date(k.expiry);
-          return expiry <= now;
-        }).length;
-        
-        const onlineKeys = allKeys.filter(k => {
-          const lastUsed = k.lastUsed ? new Date(k.lastUsed) : null;
-          return lastUsed && (Date.now() - lastUsed.getTime()) < 300000;
-        }).length;
-
-        charts.status.data.datasets[0].data = [activeKeys, pendingKeys, expiredKeys, onlineKeys];
-        charts.status.update();
-      }
-    }
-
-    function animateNumber(elementId, targetValue) {
-      const element = document.getElementById(elementId);
-      if (!element) return;
-      
-      const currentValue = parseInt(element.textContent) || 0;
-      const step = Math.ceil(Math.abs(targetValue - currentValue) / 10) || 1;
-      
-      const animate = () => {
-        const current = parseInt(element.textContent) || 0;
-        if (current < targetValue) {
-          element.textContent = Math.min(current + step, targetValue);
-          if (parseInt(element.textContent) < targetValue) {
-            requestAnimationFrame(animate);
-          }
-        } else if (current > targetValue) {
-          element.textContent = Math.max(current - step, targetValue);
-          if (parseInt(element.textContent) > targetValue) {
-            requestAnimationFrame(animate);
-          }
-        }
-      };
-      
-      animate();
-    }
-
-    // Real-time listeners
-    function setupRealTimeListeners() {
-      // Set up Firebase listeners for real-time updates
-      try {
-        const keysListener = window.firebase.onSnapshot(
-          window.firebase.collection(window.firebase.db, 'keys'),
-          (snapshot) => {
-            allKeys = snapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data(),
-              expiry: doc.data().expiry.toDate ? doc.data().expiry.toDate() : new Date(doc.data().expiry),
-              created: doc.data().created.toDate ? doc.data().created.toDate() : new Date(doc.data().created)
-            }));
-            displayKeys(allKeys);
-            updateStatistics();
-          }
-        );
-        realTimeListeners.push(keysListener);
-
-        const devicesListener = window.firebase.onSnapshot(
-          window.firebase.collection(window.firebase.db, 'devices'),
-          (snapshot) => {
-            allDevices = snapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data(),
-              lastSeen: doc.data().lastSeen.toDate ? doc.data().lastSeen.toDate() : new Date(doc.data().lastSeen),
-              loginTime: doc.data().loginTime.toDate ? doc.data().loginTime.toDate() : new Date(doc.data().loginTime)
-            }));
-            displayDevices(allDevices);
-            loadSessions();
-            updateStatistics();
-          }
-        );
-        realTimeListeners.push(devicesListener);
-      } catch (error) {
-        console.error('Error setting up real-time listeners:', error);
-        // Fallback to periodic updates
-        setInterval(() => {
-          if (isAdmin) {
-            updateStatistics();
-            updateRecentActivity();
-          }
-        }, 30000);
-      }
-    }
-
-    function updateRecentActivity() {
-      const activities = [
-        `New ${Math.random() > 0.5 ? 'Android' : 'Windows'} device login detected`,
-        `Key ${generateRandomKey('BN').substring(0, 8)}... activated on first use`,
-        `User session timeout after ${systemSettings.sessionTimeout} minutes`,
-        `Suspicious login attempt blocked from new location`,
-        `Key ${generateRandomKey('BN').substring(0, 8)}... expired and auto-deleted`,
-        `Device registration from ${Math.random() > 0.5 ? 'India' : 'USA'}`,
-        `Bulk key generation completed: 5 keys created`
-      ];
-      
-      const recentActivity = document.getElementById('recentActivity');
-      if (recentActivity) {
-        const selectedActivities = activities.sort(() => 0.5 - Math.random()).slice(0, 4);
-        recentActivity.innerHTML = selectedActivities.map((activity, index) => 
-          `<div class="text-xs text-gray-400 border-l-2 border-green-500 pl-3 py-1">
-            <span class="text-green-400">[${new Date(Date.now() - index * 60000).toLocaleTimeString()}]</span> ${activity}
-          </div>`
-        ).join('');
-      }
-    }
-
-    // Analytics functions
-    function loadAnalytics() {
-      updatePeakHours();
-      updateTopLocations();
-    }
-
-    function updateAnalytics() {
-      if (charts.trends) {
-        charts.trends.data.datasets[0].data = generateRandomData(7, 10, 100);
-        charts.trends.update();
-      }
-      
-      if (charts.activity) {
-        charts.activity.data.datasets[0].data = generateRandomData(24, 0, 50);
-        charts.activity.update();
-      }
-      
-      updatePeakHours();
-      updateTopLocations();
-    }
-
-    function updatePeakHours() {
-      const peakHours = document.getElementById('peakHours');
-      if (peakHours) {
-        const hours = [
-          { time: '18:00 - 19:00', users: 45, bar: '90%' },
-          { time: '20:00 - 21:00', users: 38, bar: '76%' },
-          { time: '21:00 - 22:00', users: 32, bar: '64%' },
-          { time: '19:00 - 20:00', users: 28, bar: '56%' }
-        ];
-        
-        peakHours.innerHTML = hours.map(hour => `
-          <div class="flex justify-between items-center">
-            <span class="text-sm">${hour.time}</span>
-            <div class="flex items-center gap-2">
-              <div class="w-24 h-3 bg-gray-700 rounded">
-                <div class="h-full bg-green-400 rounded transition-all duration-500" style="width: ${hour.bar}"></div>
-              </div>
-              <span class="text-green-400 text-sm font-bold">${hour.users}</span>
-            </div>
-          </div>
-        `).join('');
-      }
-    }
-
-    function updateTopLocations() {
-      const topLocations = document.getElementById('topLocations');
-      if (topLocations) {
-        const locations = [
-          { country: 'India', users: 156, flag: '🇮🇳' },
-          { country: 'USA', users: 89, flag: '🇺🇸' },
-          { country: 'UK', users: 67, flag: '🇬🇧' },
-          { country: 'Canada', users: 34, flag: '🇨🇦' },
-          { country: 'Australia', users: 23, flag: '🇦🇺' }
-        ];
-        
-        topLocations.innerHTML = locations.map(location => `
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-2">
-              <span class="text-lg">${location.flag}</span>
-              <span class="text-sm">${location.country}</span>
-            </div>
-            <span class="text-green-400 text-sm font-bold">${location.users} users</span>
-          </div>
-        `).join('');
-      }
-    }
-
-    // Utility functions
-    function showLoadingScreen(show) {
-      document.getElementById('loadingScreen').classList.toggle('hidden', !show);
-    }
-
-    function showNotification(message, type = 'info') {
-      const notification = document.getElementById('notification');
-      notification.textContent = message;
-      notification.className = `notification ${type}`;
-      notification.classList.add('show');
-      
-      setTimeout(() => {
-        notification.classList.remove('show');
-      }, 4000);
-    }
-
-    window.copyKey = async function(key) {
-      try {
-        await navigator.clipboard.writeText(key);
-        showNotification('Key copied to clipboard!', 'success');
-      } catch (error) {
-        showNotification('Failed to copy key', 'error');
-      }
-    };
-
-    // Storage helper functions
-    function getStoredKeys() {
-      const keys = localStorage.getItem('bnKeys');
-      return keys ? JSON.parse(keys) : [];
-    }
-
-    // Initialize some demo keys
-    function initializeDemoKeys() {
-      const existingKeys = getStoredKeys();
-      if (existingKeys.length === 0) {
-        const demoKeys = [
-          {
-            id: 'demo1',
-            key: 'BNDEMO123',
-            expiry: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 1 day
-            created: new Date().toISOString(),
-            duration: 1,
-            status: 'active',
-            deviceLimit: 1000,
-            activeDevices: 1000,
-            lastUsed: Date.now() - 60000,
-            firstUsed: Date.now() - 3600000
-          },
-          {
-            id: 'demo2',
-            key: 'BNTEST456',
-            expiry: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
-            created: new Date().toISOString(),
-            duration: 1,
-            status: 'pending',
-            deviceLimit: 10000,
-            activeDevices: 0,
-            lastUsed: null,
-            firstUsed: null
-          },
-          {
-            id: 'demo3',
-            key: 'BNEXPIRED789',
-            expiry: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // expired
-            created: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-            duration: 1000,
-            status: 'active',
-            deviceLimit: 1000,
-            activeDevices: 0,
-            lastUsed: Date.now() - 2 * 24 * 60 * 60 * 1000,
-            firstUsed: Date.now() - 2 * 24 * 60 * 60 * 1000
-          }
-        ];
-        localStorage.setItem('bnKeys', JSON.stringify(demoKeys));
-      }
-    }
-
-    // Quick action functions
-    window.generateSingleKey = function() {
-      const keyCountElement = document.getElementById('keyCount');
-      if (keyCountElement) {
-        keyCountElement.value = 1;
-        generateKeys();
-      }
-    };
-
-    window.refreshAllData = async function() {
-      try {
-        showLoadingScreen(true);
-        await Promise.all([
-          loadKeys(),
-          loadDevices(),
-          loadSessions()
-        ]);
-        updateStatistics();
-        updateRecentActivity();
-        showNotification('All data refreshed successfully!', 'success');
-      } catch (error) {
-        console.error('Error refreshing data:', error);
-        showNotification('Error refreshing data', 'error');
-      } finally {
-        showLoadingScreen(false);
-      }
-    };
-
-    window.refreshSessions = function() {
-      loadSessions();
-    };
-
-    window.refreshDevices = function() {
-      loadDevices();
-    };
-
-    // Action functions
-    window.extendKey = function(keyId) {
-      showNotification(`Extending key ${keyId}... (Feature coming soon)`, 'warning');
-    };
-
-    window.viewKeyDetails = function(keyId) {
-      const key = allKeys.find(k => k.id === keyId);
-      if (key) {
-        const details = `
-Key: ${key.key}
-Status: ${key.status}
-Created: ${key.created instanceof Date ? key.created.toLocaleString() : new Date(key.created).toLocaleString()}
-Expires: ${key.expiry instanceof Date ? key.expiry.toLocaleString() : new Date(key.expiry).toLocaleString()}
-Duration: ${key.duration} days
-Device Limit: ${key.deviceLimit}
-Active Devices: ${key.activeDevices || 0}
-First Used: ${key.firstUsed ? new Date(key.firstUsed).toLocaleString() : 'Never'}
-Last Used: ${key.lastUsed ? new Date(key.lastUsed).toLocaleString() : 'Never'}
+            #sidebar::-webkit-scrollbar-thumb {
+                background: rgba(156, 163, 175, 0.5);
+                border-radius: 3px;
+            }
+            #sidebar::-webkit-scrollbar-thumb:hover {
+                background: rgba(156, 163, 175, 0.7);
+            }
+            
+            /* Glow effects */
+            .glow {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            }
+            
+            /* Enhanced button hover effects */
+            button:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            }
+            
+            /* Encrypted text effect */
+            .encrypted-text {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .encrypted-text::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                animation: scan 2s infinite;
+            }
+            
+            @keyframes scan {
+                0% { left: -100%; }
+                100% { left: 100%; }
+            }
         `;
-        alert(details);
-      }
-    };
-
-    window.kickDevice = function(deviceId) {
-      if (confirm('Are you sure you want to kick this device?')) {
-        showNotification('Device kicked successfully!', 'success');
-        // In a real implementation, you would update the device status
-      }
-    };
-
-    window.blockDevice = function(deviceId) {
-      if (confirm('Are you sure you want to block this device?')) {
-        showNotification('Device blocked successfully!', 'success');
-        // In a real implementation, you would update the device status
-      }
-    };
-
-    window.kickSession = function(sessionId) {
-      if (confirm('Are you sure you want to kick this user?')) {
-        showNotification('User session terminated!', 'success');
-        // In a real implementation, you would terminate the session
-      }
-    };
-
-    window.kickAllUsers = function() {
-      if (confirm('Are you sure you want to kick ALL users? This action cannot be undone.')) {
-        showNotification('All user sessions terminated!', 'warning');
-        // In a real implementation, you would terminate all sessions
-      }
-    };
-
-    window.exportKeys = function() {
-      try {
-        const csvContent = "data:text/csv;charset=utf-8," + 
-          "Key,Status,Created,Expires,Duration,Device Limit,Active Devices,First Used,Last Used\n" +
-          allKeys.map(key => 
-            `${key.key},${key.status},${key.created instanceof Date ? key.created.toISOString() : key.created},${key.expiry instanceof Date ? key.expiry.toISOString() : key.expiry},${key.duration},${key.deviceLimit},${key.activeDevices || 0},${key.firstUsed || ''},${key.lastUsed || ''}`
-          ).join('\n');
-        
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `bn_keys_${new Date().toISOString().split('T')[0]}.csv`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        showNotification('Keys exported successfully!', 'success');
-      } catch (error) {
-        showNotification('Error exporting keys', 'error');
-      }
-    };
-
-    window.exportReport = function() {
-      showNotification('Generating comprehensive report...', 'info');
-      setTimeout(() => {
-        showNotification('Report generated and downloaded!', 'success');
-      }, 2000);
-    };
-
-    window.saveSettings = function() {
-      systemSettings.maxDevicesPerKey = parseInt(document.getElementById('maxDevicesPerKey').value);
-      systemSettings.sessionTimeout = parseInt(document.getElementById('sessionTimeout').value);
-      systemSettings.autoDeleteExpired = document.getElementById('autoDeleteExpired').value === 'true';
-      systemSettings.keyActivationMode = document.getElementById('keyActivationMode').value;
-      
-      saveSettingsToStorage();
-      showNotification('Settings saved successfully!', 'success');
-    };
-
-    window.backupDatabase = function() {
-      showNotification('Database backup initiated...', 'info');
-      setTimeout(() => {
-        showNotification('Database backed up successfully!', 'success');
-      }, 3000);
-    };
-
-    window.cleanupDatabase = function() {
-      if (confirm('This will remove expired keys and old sessions. Continue?')) {
-        showNotification('Database cleanup completed!', 'success');
-        // In a real implementation, you would clean up expired data
-      }
-    };
-
-    window.resetStatistics = function() {
-      if (confirm('This will reset all statistics data. Continue?')) {
-        showNotification('Statistics reset successfully!', 'warning');
-        // In a real implementation, you would reset statistics
-      }
-    };
-
-    window.factoryReset = function() {
-      if (confirm('This will delete ALL data and cannot be undone. Are you absolutely sure?')) {
-        if (confirm('Last warning: This will permanently delete everything!')) {
-          showNotification('Factory reset initiated...', 'error');
-          // In a real implementation, you would perform factory reset
-        }
-      }
-    };
-
-    // Floating menu functions
-    window.emergencyStop = function() {
-      if (confirm('This will immediately kick all users and disable new logins. Continue?')) {
-        showNotification('Emergency stop activated!', 'error');
-        // In a real implementation, you would activate emergency stop
-      }
-    };
-
-    window.quickGenerate = function() {
-      generateSingleKey();
-    };
-
-    window.toggleSystemStatus = function() {
-      showNotification('System status: All systems operational', 'success');
-    };
-
-    window.showBulkActions = function() {
-      showNotification('Bulk actions panel opening...', 'info');
-      // In a real implementation, you would open bulk actions modal
-    };
-
-    function logout() {
-      if (confirm('Are you sure you want to logout?')) {
-        currentUser = null;
-        isAdmin = false;
-        localStorage.removeItem('bnUser');
-        
-        // Clear real-time listeners
-        realTimeListeners.forEach(listener => {
-          if (typeof listener === 'function') {
-            listener();
-          }
-        });
-        realTimeListeners = [];
-        
-        // Clear timer
-        if (onlineTimer) {
-          clearInterval(onlineTimer);
-          onlineTimer = null;
-        }
-        
-        // Reset UI
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.getElementById('mainContent');
-        if (sidebar) sidebar.classList.remove('active');
-        if (mainContent) mainContent.classList.remove('shifted');
-        
-        showPage('loginPage');
-        document.getElementById('accessKey').value = '';
-        document.getElementById('adminPassword').value = '';
-        clearInput();
-        showNotification('Logged out successfully', 'success');
-      }
-    }
-
-    // Enhanced keyboard support
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Enter') {
-        if (!document.getElementById('loginPage').classList.contains('hidden')) {
-          userLogin();
-        } else if (!document.getElementById('adminLoginModal').classList.contains('hidden')) {
-          adminLogin();
-        } else if (!document.getElementById('calculatorPage').classList.contains('hidden')) {
-          checkResult();
-        }
-      }
-      
-      if (event.key === 'Escape') {
-        if (!document.getElementById('adminLoginModal').classList.contains('hidden')) {
-          hideAdminLogin();
-        }
-        if (!document.getElementById('deleteModal').classList.contains('hidden')) {
-          cancelDelete();
-        }
-      }
-    });
-
-    // Initialize demo data and periodic updates
-    setTimeout(() => {
-      updateRecentActivity();
-      setInterval(updateRecentActivity, 60000); // Update every minute
-    }, 2000);
-  </script>
-
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
